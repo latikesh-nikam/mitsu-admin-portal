@@ -1,0 +1,11 @@
+@import "../../styles//variables";
+@import "../../styles//mixins.scss";
+
+.label {
+  font-family: $fontFamilySourceCode;
+  font-size: 1rem;
+  color: $headingColor;
+  font-weight: 800;
+  box-sizing: border-box;
+  padding: 1rem 0 0 0;
+}

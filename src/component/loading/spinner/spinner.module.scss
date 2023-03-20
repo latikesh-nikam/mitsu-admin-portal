@@ -1,0 +1,38 @@
+@import "../../../styles/variables";
+@import "../../../styles/mixins.scss";
+
+.loadingContainer {
+  text-align: center;
+
+  .svg {
+    display: inline;
+    margin-right: 0.5rem;
+    color: #E5E7EB;
+    width: 1rem;
+    height: 1rem;
+    fill: #2563eb;
+    animation: spin 1s linear infinite;
+  }
+
+  .text {
+    position: absolute;
+    width: toRem(1);
+    height: toRem(1);
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

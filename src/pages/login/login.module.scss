@@ -1,0 +1,88 @@
+@import "../../styles/variables";
+@import "../../styles/mixins.scss";
+
+.login {
+  background-color: $white;
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 1;
+  font-family: Roboto;
+  height: 100vh;
+  -webkit-font-smoothing: antialiased;
+
+  .sectionLeft,
+  .sectionRight {
+    display: flex;
+    flex: 1 1;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .sectionRight {
+    background-color: $mitsuColorYellowPrimary;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .imgLogo {
+      background-size: cover;
+      background-repeat: no-repeat;
+      height: toRem(300);
+      width: toRem(300);
+    }
+  }
+
+  .sectionLeft {
+    .loginContainer {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      width: 50%;
+
+      .formElements {
+        display: flex;
+        flex-direction: column;
+
+        .fieldWrapper {
+          @include fieldWrapper();
+          width: 100% !important;
+
+          .errorVisibility {
+            visibility: hidden;
+          }
+        }
+      }
+
+      .heading {
+        @include heading();
+        text-align: left;
+      }
+
+      .heading1 {
+        @include heading();
+        text-align: left;
+        font-size: toRem(30);
+        color: $mitsuColorBlueSecondary !important;
+      }
+
+      .error {
+        font-family: $fontFamilySourceCode;
+        font-size: 0.8rem;
+        color: #eb0000;
+        font-weight: 200;
+        line-height: 150%;
+      }
+
+      .submitBtn {
+        @include button();
+        font-size: toRem(15);
+        background-color: $mitsuColorBlueSecondary !important;
+
+        svg {
+          font-size: toRem(5) !important;
+        }
+      }
+    }
+  }
+}

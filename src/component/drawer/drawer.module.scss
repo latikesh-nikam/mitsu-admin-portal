@@ -1,0 +1,26 @@
+@import "../../styles/variables";
+@import "../../styles/mixins.scss";
+
+.box {
+  display: flex;
+
+  .appBar {
+    position: fixed;
+  }
+
+  .sidebarText span {
+    @include heading();
+    font-size: toRem(15);
+  }
+
+  .boxContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .links {
+    text-decoration: none;
+  }
+}

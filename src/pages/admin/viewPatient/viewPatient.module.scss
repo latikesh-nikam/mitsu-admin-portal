@@ -1,0 +1,10 @@
+@import "../../../styles/variables";
+@import "../../../styles/mixins.scss";
+
+.container {
+  height: 80vh;
+
+  .heading {
+    @include heading();
+  }
+}

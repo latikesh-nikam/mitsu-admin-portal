@@ -1,0 +1,20 @@
+@import "../../styles/variables";
+@import "../../styles/mixins.scss";
+
+.input {
+  border: 0.1rem solid #d0d5dd;
+  padding: 0.6rem;
+  background-color: $white;
+  border-radius: .5rem;
+  font-family: "Roboto Mono", monospace;
+  font-size: toRem(15);
+  margin-top: 0.5rem;
+
+  &:hover {
+    outline: toRem(1) solid black;
+  }
+
+  &:focus {
+    outline: toRem(2.5) solid #39a1f6;
+  }
+}
