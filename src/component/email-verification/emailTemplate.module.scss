@@ -22,22 +22,36 @@
       position: relative;
       padding: 1rem;
 
-      .logo svg {
-        position: absolute;
-        height: toRem(50);
-        width: toRem(50);
+      .logo {
+        height: toRem(60);
+        width: toRem(60);
+        border-radius: 100%;
+        background-color: $mistuSuccessColor;
         inset: 9rem 0 0 8rem;
-        color: darkgreen;
+        position: absolute;
         animation: bounce 2s infinite;
+        @include flexRow;
+
+        svg {
+          font-size: toRem(30);
+          color: white;
+        }
       }
 
-      .logoRed svg {
-        position: absolute;
+      .logoRed {
+        height: toRem(60);
+        width: toRem(60);
+        border-radius: 100%;
+        background-color: $mistuFailedColor;
         inset: 9rem 0 0 8rem;
-        height: toRem(50);
-        width: toRem(50);
-        color: darkred;
+        position: absolute;
         animation: bounce 2s infinite;
+        @include flexRow;
+
+        svg {
+          font-size: toRem(30);
+          color: white;
+        }
       }
 
       .imgLogo {

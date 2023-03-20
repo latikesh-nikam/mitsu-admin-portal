@@ -1,0 +1,24 @@
+@import "../../styles/variables";
+@import "../../styles/mixins.scss";
+
+.login {
+
+  .errorVisibility {
+    visibility: hidden;
+  }
+
+  .error {
+    font-family: $fontFamilySourceCode;
+    font-size: toRem(13);
+    color: #eb0000;
+    font-weight: 200;
+    line-height: 150%;
+  }
+
+  .heading {
+    @include heading();
+    font-size: toRem(30);
+    color: white !important;
+    margin-top: 1rem;
+  }
+}

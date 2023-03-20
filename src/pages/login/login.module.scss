@@ -20,7 +20,7 @@
   }
 
   .sectionRight {
-    background-color: $mitsuColorYellowPrimary;
+    background-color: $mitsuColorBlueSecondary;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -77,7 +77,7 @@
       .submitBtn {
         @include button();
         font-size: toRem(15);
-        background-color: $mitsuColorBlueSecondary !important;
+        background-color: #2196F3 !important;
 
         svg {
           font-size: toRem(5) !important;

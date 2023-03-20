@@ -3,18 +3,21 @@ import { NavLink } from 'react-router-dom'
 import {
   CContainer,
   CHeader,
-  CHeaderDivider,
   CHeaderNav,
   CNavLink,
   CNavItem,
+  CDropdown,
+  CDropdownItem,
+  CDropdownMenu,
+  CDropdownToggle
 } from '@coreui/react'
 
 import { AppHeaderDropdown } from './header/index'
+import ViewPatient from '../../pages/admin/viewPatient'
 
 const AppHeader = () => {
-
   return (
-    <CHeader position="sticky" className="mb-4">
+    <CHeader position="sticky" className="mb-2">
       <CContainer fluid>
         <CHeaderNav className="d-none d-md-flex me-auto">
           <CNavItem>
@@ -23,37 +26,23 @@ const AppHeader = () => {
             </CNavLink>
           </CNavItem>
           <CNavItem>
-            <CNavLink href="#">Patient</CNavLink>
+            <CNavLink to="/dashboard/view-patients" component={NavLink}>Patient</CNavLink>
           </CNavItem>
           <CNavItem>
             <CNavLink href="#">Therapist</CNavLink>
           </CNavItem>
-          <CNavItem>
-            <CNavLink href="#">Questionare</CNavLink>
-          </CNavItem>
+          <CDropdown variant="nav-item">
+            <CDropdownToggle color="secondary">Questionnaire</CDropdownToggle>
+            <CDropdownMenu>
+              <CDropdownItem href="/dashboard/question">Pre-Onboard</CDropdownItem>
+              <CDropdownItem href="#">Post-Onboard</CDropdownItem>
+            </CDropdownMenu>
+          </CDropdown>
         </CHeaderNav>
-        {/*<CHeaderNav>
-          <CNavItem>
-            <CNavLink href="#">
-              <CIcon icon={cilBell} size="lg" />
-            </CNavLink>
-          </CNavItem>
-          <CNavItem>
-            <CNavLink href="#">
-              <CIcon icon={cilList} size="lg" />
-            </CNavLink>
-          </CNavItem>
-          <CNavItem>
-            <CNavLink href="#">
-              <CIcon icon={cilEnvelopeOpen} size="lg" />
-            </CNavLink>
-          </CNavItem>
-        </CHeaderNav>*/}
         <CHeaderNav className="ms-3">
           <AppHeaderDropdown />
         </CHeaderNav>
       </CContainer>
-      <CHeaderDivider />
     </CHeader>
   )
 }

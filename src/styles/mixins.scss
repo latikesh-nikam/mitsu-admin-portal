@@ -3,15 +3,14 @@
 @mixin fieldWrapper {
   display: flex;
   flex-direction: column;
-};
+}
 
 @mixin inputContainer {
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 1rem;
-};
-
+}
 
 @mixin container {
   display: flex;
@@ -20,8 +19,7 @@
   height: 100vh;
   width: 100vw;
   -webkit-font-smoothing: antialiased;
-};
-
+}
 
 @mixin formContainer {
   display: flex;
@@ -30,25 +28,24 @@
   width: 50%;
   box-shadow: 0 0.0625rem 0.1875rem $boxShadow-color1, 0 0.0625rem 0.125rem $boxShadow-color2;
   padding: 0 2rem 0 2rem;
-};
+}
 
 @mixin heading {
   font-size: 1rem;
   color: #1d2939 !important;
-  font-family: $fontFamilySourceCode, monospace;
+  font-family: $fontFamilySourceCode;
   font-weight: 600;
   line-height: 120%;
   text-align: center;
-};
+}
 
 @mixin span {
   font-size: 1rem;
-  font-family: "Roboto Mono", monospace;
+  font-family: $fontFamilySourceCode;
   font-weight: 200;
   line-height: 120%;
   text-align: center;
-};
-
+}
 
 @mixin button {
   color: $white !important;
@@ -59,23 +56,22 @@
   padding: 0.7rem !important;
   width: 100%;
   border-radius: .5rem !important;
-  font-family: $fontFamilySourceCode, monospace;
+  font-family: $fontFamilySourceCode;
   margin: 1rem 0 1rem 0;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
-};
+}
 
 @mixin flexRow {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-};
-
+}
 
 @function toRem($val) {
   $remval : ($val/16) + rem;
   @return $remval
-};
+}

@@ -12,38 +12,16 @@
   background-color: white;
   color: #0b0a0a;
 
-  img {
-    width: 12%;
-  }
-
-  .mainbox {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .err,
-  .err1,
-  .err2 {
-    color: #0b0a0a;
-    font-family: inherit;
-    font-size: 8rem;
-    font-weight: bolder;
-  }
-
-  .error {
-    font-family: inherit;
-    color: red;
-    text-align: center;
-    word-spacing: 2px;
-  }
-
-  .err1 {
-    color: $mitsuColorBlueSecondary;
+  .img {
+    height: toRem(450);
+    width: auto;
+    background-position: center;
+    background-size: cover;
   }
 
   .msg {
     text-transform: uppercase;
+    font-size: toRem(20);
 
     .link_text {
       color: black;
@@ -52,8 +30,8 @@
 
     .link {
       text-decoration: none;
-      color: $mitsuColorBlueSecondary;
-      font-weight: 700;
+      color: $mistuFailedColor;
+      font-weight: 900;
       cursor: pointer;
     }
 

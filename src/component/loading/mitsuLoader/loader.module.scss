@@ -1,0 +1,88 @@
+@import "../../../styles/variables";
+@import "../../../styles/mixins.scss";
+
+.loader {
+  @include flexRow();
+  height: 80vh;
+  flex-direction: column;
+  background-color: $white;
+
+  .logo {
+    height: toRem(200);
+    width: auto;
+    animation: animateLogo 1s cubic-bezier(0.68, -0.6, 0.32, 1.6) infinite;
+    opacity: 0.8;
+  }
+
+  .heading {
+    @include heading();
+    margin-top: 1rem;
+    font-size: toRem(20);
+
+    &:after {
+      content: '..';
+      left: 0;
+
+      -webkit-animation-name: opacity;
+      -webkit-animation-duration: 2s;
+      -webkit-animation-iteration-count: infinite;
+      animation-name: opacity;
+      animation-duration: 2s;
+      animation-iteration-count: infinite;
+    }
+  }
+}
+
+@keyframes animateLogo {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes opacity {
+
+  0%,
+  100% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@-o-keyframes opacity {
+
+  0%,
+  100% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes opacity {
+
+  0%,
+  100% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes opacity {
+
+  0%,
+  100% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}

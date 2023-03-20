@@ -8,7 +8,7 @@ import CheckIcon from '@mui/icons-material/Check';
 
 const EmailTemplate: React.FC = () => {
   const [token, setToken] = useState<string | null>("");
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);;
   const [response, setResponse] = useState<{ status: number, message: string }>({
     status: 200,
     message: ""
@@ -18,7 +18,6 @@ const EmailTemplate: React.FC = () => {
     setLoading(true);
     try {
       const data = await http.patch(`users/verify/email?token=${token}`, {});
-
       if (data.statusCode === 200) {
         setResponse({ status: data.statusCode, message: data.message });
       }
