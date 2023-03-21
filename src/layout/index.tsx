@@ -11,11 +11,8 @@ const Layout: React.FC = () => {
 
   return (
     <div className={styles.LayoutContainer} data-theme={theme}>
-      <>
-        <RoutesComp />
-      </>
-
-      <><Toaster /></>
+      <RoutesComp />
+      <Toaster />
     </div>
   )
 }

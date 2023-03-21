@@ -1,7 +1,7 @@
-import React from 'react'
-import { CFooter } from '@coreui/react'
+import React from 'react';
+import { CFooter } from '@coreui/react';
 
-const AppFooter = () => {
+const AppFooter: React.FC = () => {
   return (
     <CFooter>
       <div>

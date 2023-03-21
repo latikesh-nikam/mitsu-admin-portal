@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { CNav, CNavItem, CNavLink, CTabContent, CTabPane } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilCode, cilMediaPlay } from '@coreui/icons'
+import { cilCode, cilMediaPlay } from '@coreui/icons';
 
 const DocsExample = (props: any) => {
   const { children, href } = props

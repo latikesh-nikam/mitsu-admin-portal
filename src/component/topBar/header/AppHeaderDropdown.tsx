@@ -11,11 +11,20 @@ import {
   cilLockLocked,
   cilUser,
 } from '@coreui/icons'
-import CIcon from '@coreui/icons-react'
-
+import CIcon from '@coreui/icons-react';
+import { useNavigate } from 'react-router-dom';
 import profileImg from '../../../assets/images/profile_icon.png'
+import { clearStore } from '../../../services/module.service';
+import { toast } from 'react-hot-toast';
 
 const AppHeaderDropdown = () => {
+  const nav = useNavigate();
+  const logout = () => {
+    toast.success("Logged Out!")
+    clearStore("access_token");
+    nav("/");
+  }
+
   return (
     <CDropdown variant="nav-item">
       <CDropdownToggle className="py-0" caret={false}>
@@ -27,7 +36,7 @@ const AppHeaderDropdown = () => {
           <CIcon icon={cilUser} className="me-2" />
           Profile
         </CDropdownItem>
-        <CDropdownItem href="#">
+        <CDropdownItem href="#" onClick={logout}>
           <CIcon icon={cilLockLocked} className="me-2" />
           Log Out
         </CDropdownItem>

@@ -114,7 +114,7 @@ export const depressionQuestions = [
   {
     id: 9,
     title: "Thoughts that you would be better off dead, or of hurting yourself in some way?",
-    description:  "Over the last two weeks, how often have you been bothered by any of the following problems?",
+    description: "Over the last two weeks, how often have you been bothered by any of the following problems?",
     category: "Depression",
     heading: "Self Check-In"
   }
@@ -124,49 +124,49 @@ export const anxietyQuestions = [
   {
     id: 1,
     title: "Feeling nervous, anxious or on edge?",
-    description:  "Over the last two weeks, how often have you been bothered by any of the following problems?",
+    description: "Over the last two weeks, how often have you been bothered by any of the following problems?",
     category: "Anxiety",
     heading: "Self Check-In",
   },
   {
     id: 2,
     title: "Not being able to stop or control worrying?",
-    description:  "Over the last two weeks, how often have you been bothered by any of the following problems?",
+    description: "Over the last two weeks, how often have you been bothered by any of the following problems?",
     category: "Anxiety",
     heading: "Self Check-In",
   },
   {
     id: 3,
     title: "Worrying too much about different things?",
-    description:  "Over the last two weeks, how often have you been bothered by any of the following problems?",
+    description: "Over the last two weeks, how often have you been bothered by any of the following problems?",
     category: "Anxiety",
     heading: "Self Check-In"
   },
   {
     id: 4,
     title: "Trouble relaxing?",
-    description:  "Over the last two weeks, how often have you been bothered by any of the following problems?",
+    description: "Over the last two weeks, how often have you been bothered by any of the following problems?",
     category: "Anxiety",
     heading: "Self Check-In"
   },
   {
     id: 5,
     title: "Being so restless that it is hard to sit still?",
-    description:  "Over the last two weeks, how often have you been bothered by any of the following problems?",
+    description: "Over the last two weeks, how often have you been bothered by any of the following problems?",
     category: "Anxiety",
     heading: "Self Check-In"
   },
   {
     id: 6,
     title: "Becoming easily annoyed or irritable?",
-    description:  "Over the last two weeks, how often have you been bothered by any of the following problems?",
+    description: "Over the last two weeks, how often have you been bothered by any of the following problems?",
     category: "Anxiety",
     heading: "Self Check-In"
   },
   {
     id: 7,
     title: "Feeling afraid as if something awful might happen?",
-    description:  "Over the last two weeks, how often have you been bothered by any of the following problems?",
+    description: "Over the last two weeks, how often have you been bothered by any of the following problems?",
     category: "Anxiety",
     heading: "Self Check-In"
   }

@@ -1,11 +1,9 @@
-import React, { useState } from "react";
-import QuestionTable from "./questionTable"
-import QuestionHeader from "./questionHeader";
+import { useState } from "react";
 import { AppHeader } from '../../component/topBar/index';
-import QuestionFormModal from "./questionFormModal";
-import QuestionPreviewModal from "./questionPreviewModal";
-import DeleteQuestionConfirmation from "./deleteConfirmationModal";
 import { depressionQuestions, anxietyQuestions, otherQuestions } from "./questionSet";
+import {
+  QuestionFormModal, QuestionPreviewModal, DeleteQuestionConfirmation, QuestionHeader, QuestionTable
+} from "./question.data";
 
 const Question = () => {
   const [showQuestionForm, setQuestionForm] = useState(false);
@@ -17,11 +15,11 @@ const Question = () => {
 
   const handleValue = (val: string) => {
     setQuestionType(val)
-    if(val === 'Anxiety'){
+    if (val === 'Anxiety') {
       setQuestionSet(anxietyQuestions)
-    } else if(val === 'Depression'){
+    } else if (val === 'Depression') {
       setQuestionSet(depressionQuestions)
-    } else if(val === 'Other') {
+    } else if (val === 'Other') {
       setQuestionSet(otherQuestions)
     } else {
       setQuestionSet(depressionQuestions.concat(anxietyQuestions, otherQuestions))

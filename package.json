@@ -78,6 +78,7 @@
     "prettier": "2.7.1",
     "react-scripts": "5.0.1",
     "sass": "^1.54.4",
+    "terser-webpack-plugin": "^5.3.7",
     "web-vitals": "^2.1.4",
     "webpack-bundle-analyzer": "^4.8.0"
   }

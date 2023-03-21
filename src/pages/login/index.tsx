@@ -14,7 +14,6 @@ const Login: React.FC = () => {
   const { handleFormChange, showError, handleFormSubmit } = useFormValidation();
 
   const [email, setEmail] = useState("");
-
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState<boolean>(false);
 

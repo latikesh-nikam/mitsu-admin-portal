@@ -1,4 +1,3 @@
-import React from "react";
 import { CButton, CModal, CModalHeader, CModalBody, CModalFooter, CModalTitle } from '@coreui/react';
 import QuestionPreview from "./questionPreview";
 

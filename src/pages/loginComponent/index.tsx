@@ -1,27 +1,14 @@
 import React, { useContext, useState } from 'react';
-import logo from "../../assets/images/Group.png";
-import {
-  CButton,
-  CCard,
-  CCardBody,
-  CCardGroup,
-  CCol,
-  CContainer,
-  CForm,
-  CFormInput,
-  CInputGroup,
-  CInputGroupText,
-  CRow,
-} from '@coreui/react';
-import CIcon from '@coreui/icons-react'
-import { cilLockLocked, cilUser } from '@coreui/icons';
 import { toast } from 'react-hot-toast';
 import { AppContext } from '../../context/AppContext';
 import http, { setStore } from '../../services/module.service';
 import { getFormData } from '../../utils/formData';
-import useFormValidation from '../../utils/useFormValidation';
-import Spinner from "../../component/loading/spinner/index";
 import styles from "./loginComponent.module.scss";
+import {
+  CButton, CCard, CCardGroup, CCardBody, CCol, CContainer, CForm, CInputGroup, CFormInput, CInputGroupText, CRow, CIcon, cilLockLocked, cilUser, logo, Spinner, useFormValidation
+} from "./logincomponent.data";
+import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 
 const LoginComponent: React.FC = () => {
   const { appDispatch, navigate } = useContext(AppContext);
@@ -29,10 +16,7 @@ const LoginComponent: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState<boolean>(false);
-
-  const [isPasswordBlur, setPasswordBlur] = useState(false);
-
-  console.log(isPasswordBlur);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -44,7 +28,7 @@ const LoginComponent: React.FC = () => {
       setLoading(true);
       const res = await http.post("users/auth/login", formdata);
       if (res.statusCode !== 404) {
-        setStore("access_token", res.access_token);
+        setStore("access_token", res.data.access_token);
         setLoading(false);
         appDispatch({ type: "setLoginData", payload: { isLogin: true } });
         navigate("/dashboard");
@@ -65,7 +49,7 @@ const LoginComponent: React.FC = () => {
   }
 
   const handleInputEmailChange = (e: React.FocusEvent<HTMLInputElement>) => {
-    // setEmail(e.target.value)
+    setEmail(e.target.value)
     handleFormChange(e);
   }
 
@@ -83,45 +67,49 @@ const LoginComponent: React.FC = () => {
               <CCard className="p-4">
                 <CCardBody>
                   <CForm onSubmit={handleSubmit}>
-                    <h1>Login</h1>
-                    <p className="text-medium-emphasis">Sign In to your account</p>
-                    <div className='mb-3'>
-                      <CInputGroup>
-                        <CInputGroupText>
-                          <CIcon icon={cilUser} />
-                        </CInputGroupText>
-                        <CFormInput
-                          name="email"
-                          value={email}
-                          placeholder="Email"
-                          onChange={e => setEmail(e.target.value)}
-                          onBlur={handleInputEmailChange}
-                          // onChange={handleInputEmailChange}
-                          autoComplete="current-email"
-                        />
-                      </CInputGroup>
+                    <div className={styles.formContainer}>
+                      <h1>Login</h1>
+                      <p className="text-medium-emphasis">Sign In to your account</p>
+                      <div className='mb-3'>
+                        <CInputGroup className={styles.formElements}>
+                          <CInputGroupText>
+                            <CIcon icon={cilUser} />
+                          </CInputGroupText>
+                          <CFormInput
+                            name="email"
+                            value={email}
+                            placeholder="Email"
+                            onChange={handleInputEmailChange}
+                            autoComplete="current-email"
+                          />
+                        </CInputGroup>
 
-                      <span className={[styles.error, !showError.email && styles.errorVisibility].join(" ")}>{showError.email || <>&nbsp;</>}</span>
-                    </div>
+                        <span className={[styles.error, !showError.email && styles.errorVisibility].join(" ")}>{showError.email || <>&nbsp;</>}</span>
+                      </div>
 
-                    <div className='mb-4'>
-                      <CInputGroup>
-                        <CInputGroupText>
-                          <CIcon icon={cilLockLocked} />
-                        </CInputGroupText>
-                        <CFormInput
-                          name="password"
-                          value={password}
-                          type="password"
-                          placeholder="Password"
-                          onChange={handleInputPasswordChange}
-                          onBlur={e => setPasswordBlur(true)}
-                          autoComplete="current-password"
-                        />
-                      </CInputGroup>
-                      {
+                      <div className='mb-4'>
+                        <CInputGroup className={styles.formElements}>
+                          <CInputGroupText>
+                            <CIcon icon={cilLockLocked} />
+                          </CInputGroupText>
+                          <div className={styles.inputLabel}>
+                            <CFormInput
+                              name="password"
+                              value={password}
+                              type={showPassword ? "text" : "password"}
+                              placeholder="Password"
+                              onChange={handleInputPasswordChange}
+                              autoComplete="current-password"
+                              className={styles.input}
+                            />
+                            <div onClick={() => setShowPassword(!showPassword)} className={styles.passwordShow}>
+                              {showPassword ? <RemoveRedEyeIcon /> : <RemoveRedEyeOutlinedIcon />}
+                            </div>
+                          </div>
+                        </CInputGroup>
+
                         <span className={[styles.error, !showError.password && styles.errorVisibility].join(" ")}>{showError.password || <>&nbsp;</>}</span>
-                      }
+                      </div>
                     </div>
 
                     <CRow>
@@ -137,7 +125,7 @@ const LoginComponent: React.FC = () => {
                   </CForm>
                 </CCardBody>
               </CCard>
-              <CCard className="text-white bg-primary py-5" style={{ width: '44%' }}>
+              <CCard className="text-white bg-primary py-5" style={{ width: '100%' }}>
                 <CCardBody className="d-flex flex-column align-items-center justify-content-center">
                   <img src={logo} className={styles.logo} alt="mitsuLogo" />
                   <h1 className={styles.heading}>MITSU CARE</h1>

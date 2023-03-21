@@ -7,7 +7,8 @@ const LoginComponent = React.lazy(() => import('../pages/loginComponent'));
 const ViewPatient = React.lazy(() => import('../pages/admin/viewPatient'));
 const EmailTemplate = React.lazy(() => import('../component/email-verification'));
 const NotFound = React.lazy(() => import('../component/not-found'));
-
+const Question = React.lazy(() => import('../pages/question'));
+const ViewPatients = React.lazy(() => import('../pages/dashboard/view-patient'));
 
 export {
   Login,
@@ -16,5 +17,7 @@ export {
   LoginComponent,
   ViewPatient,
   EmailTemplate,
-  NotFound
+  NotFound,
+  Question,
+  ViewPatients
 }

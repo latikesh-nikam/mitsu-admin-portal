@@ -32,7 +32,7 @@ const ViewPatients: React.FC = () => {
       toast.error(`${error}`);
     }
     fetchDemoData();
-  };
+  }
 
   useEffect(() => {
     fetchDemoData()

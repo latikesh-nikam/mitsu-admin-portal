@@ -72,6 +72,6 @@
 }
 
 @function toRem($val) {
-  $remval : ($val/16) + rem;
+  $remval : calc($val / 16) + rem;
   @return $remval
 }

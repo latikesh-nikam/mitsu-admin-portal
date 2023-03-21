@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import Datagrid from "../../../component/data-grid/index";
 import http from '../../../services/module.service';
 import styles from "./viewPatient.module.scss";
 import { toast } from 'react-hot-toast';
 import { IListDataProps } from '../../../interface';
+const Datagrid = React.lazy(() => import("../../../component/data-grid/index"));
 
 const ViewPatient: React.FC = () => {
 

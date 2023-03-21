@@ -1,52 +1,21 @@
-import React from "react";
 import {
-  CCol,
-  CRow,
   CTable,
   CTableBody,
   CTableDataCell,
   CTableHead,
   CTableHeaderCell,
   CTableRow,
-  CProgress,
-  CAvatar,
   CPagination,
   CPaginationItem,
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
 import style from './questionTable.module.scss';
-
-import {
-  cibCcAmex,
-  cibCcApplePay,
-  cibCcMastercard,
-  cibCcPaypal,
-  cibCcStripe,
-  cibCcVisa,
-  cibGoogle,
-  cibFacebook,
-  cibLinkedin,
-  cifBr,
-  cifEs,
-  cifFr,
-  cifIn,
-  cifPl,
-  cifUs,
-  cibTwitter,
-  cilCloudDownload,
-  cilPeople,
-  cilUser,
-  cilUserFemale,
-} from '@coreui/icons'
-
 import Delete from "@mui/icons-material/Delete";
 import Edit from "@mui/icons-material/Edit";
 import Visibility from "@mui/icons-material/Visibility";
 import Tooltip from '@mui/material/Tooltip';
-import { depressionQuestions, anxietyQuestions, otherQuestions } from "./questionSet";
 
 const QuestionTable = (props: any) => {
-  const { questionSet, questionPreview, setQuestionPreview, handlePreviewIcon, handleDeleteAction } = props;
+  const { questionSet, handlePreviewIcon, handleDeleteAction } = props;
 
   return (
     <div className="wrapper d-flex flex-column min-vh-100 bg-light">

@@ -1,6 +1,5 @@
 class Http {
-  baseURL = "https://dev-backend.mitsu.care/";
-  // baseURL = "http://192.168.102.146:3000/";
+  baseURL = process.env.REACT_APP_BASE_URL;
   async send(url: string, option = {}) {
     const response = await fetch(`${this.baseURL}${url}`, option);
     const data = await response.json();
@@ -79,5 +78,7 @@ export const getStore = (key: string) => {
   const token = localStorage.getItem(key);
   return `Bearer ${token}`;
 }
-
+export const clearStore = (key: string) => {
+  localStorage.removeItem(key);
+}
 export default http;

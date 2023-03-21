@@ -21,4 +21,36 @@
     color: white !important;
     margin-top: 1rem;
   }
+
+  .formContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .formElements {
+      display: flex;
+      flex-wrap: nowrap;
+
+      .inputLabel {
+        display: flex;
+        align-items: center;
+        position: relative;
+        width: 100%;
+
+        .passwordShow {
+          position: absolute;
+          content: "";
+          top: 0;
+          right: 0;
+          font-size: toRem(25);
+          padding: 0 0.5rem;
+        }
+
+        .input {
+          border-top-left-radius: 0;
+          border-bottom-left-radius: 0;
+        }
+      }
+    }
+  }
 }

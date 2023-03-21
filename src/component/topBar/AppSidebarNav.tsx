@@ -1,8 +1,7 @@
-import React from 'react'
-import { NavLink, useLocation } from 'react-router-dom'
-import PropTypes from 'prop-types'
-
-import { CBadge } from '@coreui/react'
+import React from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { CBadge } from '@coreui/react';
 
 export const AppSidebarNav = ({ items }: any) => {
   const location = useLocation()
@@ -27,8 +26,8 @@ export const AppSidebarNav = ({ items }: any) => {
       <Component
         {...(rest.to &&
           !rest.items && {
-            component: NavLink,
-          })}
+          component: NavLink,
+        })}
         key={index}
         {...rest}
       >
@@ -36,6 +35,7 @@ export const AppSidebarNav = ({ items }: any) => {
       </Component>
     )
   }
+
   const navGroup = (item: any, index: number) => {
     const { component, name, icon, to, ...rest } = item
     const Component = component

@@ -1,7 +1,6 @@
 import React from 'react';
-import DrawerLeft from '../../component/drawer';
-import Header from '../../component/header';
 import styles from "./admin.module.scss";
+import { Header, DrawerLeft } from "./admin.data";
 
 const Admin: React.FC = () => {
 

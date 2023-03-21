@@ -13,9 +13,8 @@ import {
 } from '@coreui/react'
 
 import { AppHeaderDropdown } from './header/index'
-import ViewPatient from '../../pages/admin/viewPatient'
 
-const AppHeader = () => {
+const AppHeader: React.FC = () => {
   return (
     <CHeader position="sticky" className="mb-2">
       <CContainer fluid>
