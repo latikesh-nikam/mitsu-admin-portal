@@ -47,7 +47,7 @@ const LoginComponent: React.FC = () => {
         setStore("access_token", res.access_token);
         setLoading(false);
         appDispatch({ type: "setLoginData", payload: { isLogin: true } });
-        navigate("/admin");
+        navigate("/dashboard");
         toast.success("Logged In!");
         return formdata;
       }

@@ -1,5 +1,5 @@
 class Http {
-  baseURL = "http://192.168.102.84:5000/";
+  baseURL = "https://dev-backend.mitsu.care/";
   // baseURL = "http://192.168.102.146:3000/";
   async send(url: string, option = {}) {
     const response = await fetch(`${this.baseURL}${url}`, option);
