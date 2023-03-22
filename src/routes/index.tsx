@@ -15,9 +15,8 @@ const RoutesComp: React.FC = () => {
         <Route path="/" element={<LoginComponent />} />
         {isLogin &&
           <>
-            <Route path="/dashboard" element={<AdminDashboard />} />
             <Route path="/dashboard/view-patients" element={<ViewPatients />} />
-
+            <Route path="/dashboard" element={<AdminDashboard />} />
           </>
         }
         <Route path="/dashboard/question" element={<Question />} />

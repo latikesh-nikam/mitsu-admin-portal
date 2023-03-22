@@ -15,7 +15,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import Tooltip from '@mui/material/Tooltip';
 
 const QuestionTable = (props: any) => {
-  const { questionSet, handlePreviewIcon, handleDeleteAction } = props;
+  const { questionSet, handlePreviewIcon, handleDeleteAction, handleEditIcon } = props;
 
   return (
     <div className="wrapper d-flex flex-column min-vh-100 bg-light">
@@ -33,7 +33,7 @@ const QuestionTable = (props: any) => {
             {questionSet?.map((item: any, index: number) => (
               <CTableRow v-for="item in tableItems" key={index} color="light">
                 <CTableDataCell className="text-center">
-                  <div>{item.id}</div>
+                  <div>{item.index}</div>
                 </CTableDataCell>
                 <CTableDataCell className="text-left" style={{ width: "30rem" }}>
                   <div>{item.title}</div>
@@ -46,7 +46,7 @@ const QuestionTable = (props: any) => {
                     <Visibility className="m-1" color="action" onClick={() => handlePreviewIcon(item)} />
                   </Tooltip>
                   <Tooltip title="Edit">
-                    <Edit color="action" />
+                    <Edit color="action" onClick={() => handleEditIcon(item)}/>
                   </Tooltip>
                   <Tooltip title="Delete">
                     <Delete color="action" onClick={() => handleDeleteAction(item)} />

@@ -27,7 +27,7 @@ const LoginComponent: React.FC = () => {
     try {
       setLoading(true);
       const res = await http.post("users/auth/login", formdata);
-      if (res.statusCode !== 201) {
+      if (res.statusCode === 201) {
         setStore("access_token", res.data.access_token);
         setLoading(false);
         appDispatch({ type: "setLoginData", payload: { isLogin: true } });

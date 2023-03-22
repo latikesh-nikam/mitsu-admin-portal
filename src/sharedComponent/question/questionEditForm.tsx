@@ -8,7 +8,8 @@ import OptionsTable from "./optionsTable";
 
 type optionType = { text: string, score: string };
 
-const QuestionForm = () => {
+const QuestionEditForm = (props: any) => {
+  const { editFormDetails, setEditFormDetails } = props;
   const { register } = useForm();
   const [question, setQuestion] = useState({
     heading: "",
@@ -54,11 +55,12 @@ const QuestionForm = () => {
             placeholder="Enter heading"
             fullWidth={true}
             required={true}
+            value={editFormDetails?.heading}
             {...register("heading", {
               required: "This is required field",
-              onChange: (event: SelectChangeEvent) => setQuestion(
+              onChange: (event: SelectChangeEvent) => setEditFormDetails(
                 {
-                  ...question,
+                  ...editFormDetails,
                   heading: event.target.value as string
                 }
               )
@@ -70,11 +72,12 @@ const QuestionForm = () => {
           <TextareaAutosize
             minRows={4}
             className={style.textField}
+            value={editFormDetails?.description}
             {...register("description", {
               required: "This is required field",
-              onChange: (event: SelectChangeEvent) => setQuestion(
+              onChange: (event: SelectChangeEvent) => setEditFormDetails(
                 {
-                  ...question,
+                  ...editFormDetails,
                   description: event.target.value as string
                 }
               )
@@ -88,11 +91,12 @@ const QuestionForm = () => {
             placeholder="Enter title"
             fullWidth={true}
             required={true}
+            value={editFormDetails?.title}
             {...register("title", {
               required: "This is required field",
-              onChange: (event: SelectChangeEvent) => setQuestion(
+              onChange: (event: SelectChangeEvent) => setEditFormDetails(
                 {
-                  ...question,
+                  ...editFormDetails,
                   title: event.target.value as string
                 }
               )
@@ -102,32 +106,32 @@ const QuestionForm = () => {
         <div className={style.fieldWrapper}>
           <InputLabel>Type</InputLabel>
           <select
-            value={question.type}
+            value={editFormDetails?.type}
             className={style.selectWrapper}
             {...register("type", {
               required: "This is required field",
-              onChange: (event: SelectChangeEvent) => setQuestion(
+              onChange: (event: SelectChangeEvent) => setEditFormDetails(
                 {
-                  ...question,
+                  ...editFormDetails,
                   type: event.target.value as string
                 }
               )
             })}
           >
-            <option value={'PreOnboard'}>Pre-Onboard</option>
-            <option value={'PostOnboard'}>Post-Onboard</option>
+            <option value={'PreOnboard'}>PreOnboard</option>
+            <option value={'PostOnboard'}>PostOnboard</option>
           </select>
         </div>
         <div className={style.fieldWrapper}>
           <InputLabel>Category</InputLabel>
           <select
-            value={question.category}
+            value={editFormDetails?.category}
             className={style.selectWrapper}
             {...register("category", {
               required: "This is required field",
-              onChange: (event: SelectChangeEvent) => setQuestion(
+              onChange: (event: SelectChangeEvent) => setEditFormDetails(
                 {
-                  ...question,
+                  ...editFormDetails,
                   category: event.target.value as string
                 }
               )
@@ -140,14 +144,14 @@ const QuestionForm = () => {
         <div className={style.fieldWrapper}>
           <InputLabel>Option Type</InputLabel>
           <select
-            value={question.optionType}
+            value={editFormDetails?.options_type}
             className={style.selectWrapper}
             {...register("optionType", {
               required: "This is required field",
-              onChange: (event: SelectChangeEvent) => setQuestion(
+              onChange: (event: SelectChangeEvent) => setEditFormDetails(
                 {
-                  ...question,
-                  optionType: event.target.value as string
+                  ...editFormDetails,
+                  options_type: event.target.value as string
                 }
               )
             })}
@@ -199,4 +203,4 @@ const QuestionForm = () => {
   )
 };
 
-export default QuestionForm;
+export default QuestionEditForm;

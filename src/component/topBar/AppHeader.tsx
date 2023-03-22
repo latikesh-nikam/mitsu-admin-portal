@@ -7,7 +7,6 @@ import {
   CNavLink,
   CNavItem,
   CDropdown,
-  CDropdownItem,
   CDropdownMenu,
   CDropdownToggle
 } from '@coreui/react'
@@ -33,8 +32,8 @@ const AppHeader: React.FC = () => {
           <CDropdown variant="nav-item">
             <CDropdownToggle color="secondary">Questionnaire</CDropdownToggle>
             <CDropdownMenu>
-              <CDropdownItem href="/dashboard/question">Pre-Onboard</CDropdownItem>
-              <CDropdownItem href="#">Post-Onboard</CDropdownItem>
+              <CNavLink to="/dashboard/question" component={NavLink}>Pre-Onboard</CNavLink>
+              <CNavLink to="" component={NavLink}>Post-Onboard</CNavLink>
             </CDropdownMenu>
           </CDropdown>
         </CHeaderNav>

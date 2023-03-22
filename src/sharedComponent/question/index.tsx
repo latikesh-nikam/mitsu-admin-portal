@@ -1,29 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AppHeader } from '../../component/topBar/index';
-import { depressionQuestions, anxietyQuestions, otherQuestions } from "./questionSet";
 import {
   QuestionFormModal, QuestionPreviewModal, DeleteQuestionConfirmation, QuestionHeader, QuestionTable
 } from "./question.data";
+import { getQuestionDetails } from "../../service/user.service";
+import QuestionEditModal from "./questionEditModal";
 
 const Question = () => {
-  const [showQuestionForm, setQuestionForm] = useState(false);
-  const [questionPreview, setQuestionPreview] = useState(false);
-  const [questionDelete, setQuestionDelete] = useState(false);
-  const [questionDetails, setQuestionDetails] = useState({});
-  const [questionSet, setQuestionSet] = useState(depressionQuestions.concat(anxietyQuestions, otherQuestions));
-  const [questionType, setQuestionType] = useState('All Questions')
+  const [showQuestionForm, setQuestionForm] = useState<boolean>(false);
+  const [questionPreview, setQuestionPreview] = useState<boolean>(false);
+  const [questionDelete, setQuestionDelete] = useState<boolean>(false);
+  const [questionEdit, setQuestionEdit] = useState<boolean>(false);
+  const [questionDetails, setQuestionDetails] = useState<any>({});
+  const [questionType, setQuestionType] = useState<string>('All Questions')
+  const [questions, setQuestions] = useState<any>([])
+  const [editFormDetails, setEditFormDetails] = useState<any>({})
 
   const handleValue = (val: string) => {
     setQuestionType(val)
-    if (val === 'Anxiety') {
-      setQuestionSet(anxietyQuestions)
-    } else if (val === 'Depression') {
-      setQuestionSet(depressionQuestions)
-    } else if (val === 'Other') {
-      setQuestionSet(otherQuestions)
-    } else {
-      setQuestionSet(depressionQuestions.concat(anxietyQuestions, otherQuestions))
-    }
+    getQuestions(val)
   }
 
   const handlePreviewIcon = (item: any) => {
@@ -34,6 +29,20 @@ const Question = () => {
   const handleDeleteAction = (item: any) => {
     setQuestionDelete(!questionDelete)
   }
+
+  const handleEditIcon = (item:any) => {
+    setQuestionEdit(!questionEdit)
+    setEditFormDetails(item)
+  }
+
+  const getQuestions = async (category: string) => {
+    const response = await getQuestionDetails(category);
+    setQuestions( response?.data?.data)
+  }
+
+  useEffect( () => {
+    getQuestions('')
+  },[])
 
   return (
     <>
@@ -64,12 +73,21 @@ const Question = () => {
           setQuestionDelete={setQuestionDelete}
         />
       )}
+      {questionEdit && (
+        <QuestionEditModal
+          questionEdit={questionEdit}
+          setQuestionEdit={setQuestionEdit}
+          editFormDetails={editFormDetails}
+          setEditFormDetails={setEditFormDetails}
+        />
+      )}
       <QuestionTable
-        questionSet={questionSet}
+        questionSet={questions}
         questionPreview={questionPreview}
         setQuestionPreview={setQuestionPreview}
         handlePreviewIcon={handlePreviewIcon}
         handleDeleteAction={handleDeleteAction}
+        handleEditIcon={handleEditIcon}
       />
     </>
   )

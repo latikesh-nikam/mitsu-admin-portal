@@ -1,5 +1,21 @@
-.quesTypeWrapper {
+.textField {
+  width: -webkit-fill-available;
+}
+
+.fieldWrapper {
+  margin: 1.25rem 0 1.25rem 0; 
+}
+
+.selectWrapper {
+  width: -webkit-fill-available;
+  height: 2.5rem;
+}
+
+.optionWrapper {
+  flex-grow: 2;
+}
+
+.optionsWrapper {
   display: flex;
   justify-content: space-between;
-  margin: 0.5rem 2rem 1rem 0rem;
 }
