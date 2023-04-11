@@ -5,23 +5,28 @@ import { SelectChangeEvent } from '@mui/material/Select';
 import style from './questionForm.module.scss';
 import Button from "@mui/material/Button";
 import OptionsTable from "./optionsTable";
+import QuillComp from "../../component/quill";
+import { CButton } from "@coreui/react";
+import { addQuestionDetails } from "../../service/user.service";
+import { toast } from 'react-hot-toast';
 
-type optionType = { text: string, score: string };
+type options_type = { text: string, score: string };
 
-const QuestionForm = () => {
-  const { register } = useForm();
+const QuestionForm = (props: any) => {
+  const { setQuestionForm } = props;
+  const { register, handleSubmit, formState: { errors } } = useForm({ mode: "onChange" });
   const [question, setQuestion] = useState({
     heading: "",
     description: "",
     title: "",
     type: "",
     category: "",
-    optionType: "",
-    option: "",
+    options_type: "text",
+    options: {},
     explanation: "",
   });
 
-  let [optionArr, setOptionArr] = useState<optionType[]>([]);
+  let [optionArr, setOptionArr] = useState<options_type[]>([]);
 
   const [optionVal, setOptionVal] = useState({
     text: "",
@@ -44,9 +49,26 @@ const QuestionForm = () => {
     setOptionArr(optionArr)
   }
 
+  const onSubmit = async () => {
+    let data = {
+      ...question,
+      asset_links: {
+        video_link: "",
+        audio_link: "",
+        image_link: "",
+      }
+    }
+    const res = await addQuestionDetails(data)
+    if(res){
+      toast.success("Question Added Successfully")
+    } else {
+      toast.error("Something went wrong!")
+    }
+  }
+
   return (
     <>
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className={style.fieldWrapper}>
           <InputLabel>Heading</InputLabel>
           <Input
@@ -65,23 +87,11 @@ const QuestionForm = () => {
             })}
           />
         </div>
-        <div className={style.fieldWrapper}>
+        <div>
           <InputLabel>Description</InputLabel>
-          <TextareaAutosize
-            minRows={4}
-            className={style.textField}
-            {...register("description", {
-              required: "This is required field",
-              onChange: (event: SelectChangeEvent) => setQuestion(
-                {
-                  ...question,
-                  description: event.target.value as string
-                }
-              )
-            })}
-          />
+          <QuillComp question={question} setQuestion={setQuestion} />
         </div>
-        <div className={style.fieldWrapper}>
+        <div className={style.fieldExtraWrapper}>
           <InputLabel>Title</InputLabel>
           <Input
             type="text"
@@ -135,19 +145,20 @@ const QuestionForm = () => {
           >
             <option value={'Anxiety'}>Anxiety</option>
             <option value={'Depression'}>Depression</option>
+            <option value={'Other'}>Other</option>
           </select>
         </div>
         <div className={style.fieldWrapper}>
           <InputLabel>Option Type</InputLabel>
           <select
-            value={question.optionType}
+            value={question.options_type}
             className={style.selectWrapper}
-            {...register("optionType", {
+            {...register("options_type", {
               required: "This is required field",
               onChange: (event: SelectChangeEvent) => setQuestion(
                 {
                   ...question,
-                  optionType: event.target.value as string
+                  options_type: event.target.value as string
                 }
               )
             })}
@@ -157,9 +168,8 @@ const QuestionForm = () => {
             <option value={'Multiple'}>Multiple</option>
           </select>
         </div>
-      </form>
-      <div>
-      {((question.optionType !== 'text') && (question.optionType !== "")) && (
+        <div>
+      {((question.options_type !== 'text') && (question.options_type !== "")) && (
         <div> 
           <InputLabel>Enter Options</InputLabel>
           {optionArr.length > 0 && (
@@ -195,6 +205,13 @@ const QuestionForm = () => {
         </div>
       )}
       </div>
+        <div className={style.buttons}>
+            <CButton color="dark" className="m-1" onClick={() => setQuestionForm(false)}>
+                Close
+            </CButton>
+            <CButton color="primary" type="submit" className="m-1">Submit</CButton>
+        </div>
+      </form>
     </>
   )
 };

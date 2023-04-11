@@ -8,6 +8,7 @@ import "./assets/fonts/SourceCodePro-Regular.ttf";
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
 root.render(
   <>
     <App />

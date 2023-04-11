@@ -10,7 +10,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import styles from "./drawer.module.scss";
 import { sideBarData } from './drawer.data';
-import { Link, Outlet } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const drawerWidth = 200;
 
@@ -61,7 +61,6 @@ export default function DrawerLeft() {
         component="main"
         sx={{ flexGrow: 1, bgcolor: 'background.default', p: 5 }}
       >
-        <Outlet />
       </Box>
     </Box>
   );

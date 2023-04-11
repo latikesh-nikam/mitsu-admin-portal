@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { SyntheticEvent, useContext, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import Input from '../../component/input';
 import Label from '../../component/label';
@@ -51,6 +51,11 @@ const Login: React.FC = () => {
     handleFormChange(e);
   }
 
+  const onErrorImage = ({ currentTarget }: SyntheticEvent<HTMLImageElement, Event>): void => {
+    currentTarget.onerror = null;
+    currentTarget.src = "https://mitsu-assets.s3.ap-south-1.amazonaws.com/mitsu-text-logo.png";
+  };
+
   return (
     <section className={styles.login}>
       <div className={styles.sectionLeft}>
@@ -85,7 +90,7 @@ const Login: React.FC = () => {
       </div>
 
       <div className={styles.sectionRight}>
-        <img src="https://mitsu.care/wp-content/uploads/2022/10/Symbol_Blue_PNG.png" alt="mitsuLogo" className={styles.imgLogo} />
+        <img src="https://mitsu.care/wp-content/uploads/2022/10/Symbol_Blue_PNG.png" alt="mitsuLogo" className={styles.imgLogo} onError={onErrorImage} />
       </div>
     </section>
   )

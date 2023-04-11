@@ -1,5 +1,7 @@
 class Http {
   baseURL = process.env.REACT_APP_BASE_URL;
+  // baseURL = "http://192.168.101.59:3000/";
+
   async send(url: string, option = {}) {
     const response = await fetch(`${this.baseURL}${url}`, option);
     const data = await response.json();
@@ -80,5 +82,6 @@ export const getStore = (key: string) => {
 }
 export const clearStore = (key: string) => {
   localStorage.removeItem(key);
+  sessionStorage.removeItem(key);
 }
 export default http;

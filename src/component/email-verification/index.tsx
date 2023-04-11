@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { SyntheticEvent, useEffect, useState } from 'react';
 import http from '../../services/module.service';
 import Spinner from '../loading/spinner';
 import styles from "./emailTemplate.module.scss";
@@ -32,6 +32,11 @@ const EmailTemplate: React.FC = () => {
     setLoading(false);
   };
 
+  const onErrorImage = ({ currentTarget }: SyntheticEvent<HTMLImageElement, Event>): void => {
+    currentTarget.onerror = null;
+    currentTarget.src = "https://mitsu-assets.s3.ap-south-1.amazonaws.com/mitsu-text-logo.png";
+  };
+
   useEffect(() => {
     const queryParameters = new URLSearchParams(window.location.search)
     const type = queryParameters.get("token");
@@ -51,7 +56,8 @@ const EmailTemplate: React.FC = () => {
             <div className={styles.emailElements}>
 
               <div className={styles.img}>
-                <img src="https://mitsu.care/wp-content/uploads/2022/10/Symbol_Blue_PNG.png" alt="mitsuLogo" className={styles.imgLogo} />
+                <img src="https://mitsu.care/wp-content/uploads/2022/10/Symbol_Blue_PNG.png" alt="mitsuLogo" className={styles.imgLogo}
+                  onError={onErrorImage} />
 
                 <div className={response.status === 200 ? styles.logo : styles.logoRed}>
                   {

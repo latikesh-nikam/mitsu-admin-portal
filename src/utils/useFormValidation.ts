@@ -6,7 +6,7 @@ import { omit } from 'lodash';
 const useFormValidation = () => {
 
   const specialCharRegex = /^[A-Za-z0-9 ]+$/;
-  const passwordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/;
+  // const passwordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/;
   const emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
   const [values, setValues] = useState({});
   const [showError, setShowError] = useState<any>({});

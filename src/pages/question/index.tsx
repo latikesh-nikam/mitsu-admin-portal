@@ -1,7 +1,7 @@
 import React from "react";
 import Question from "../../sharedComponent/question";
 
-const QuestionLayout = () => {
+const QuestionLayout: React.FC = () => {
   return (
     <Question />
   )

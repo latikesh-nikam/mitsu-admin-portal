@@ -1,0 +1,24 @@
+@import "../../styles/variables";
+@import "../../styles/mixins.scss";
+
+.chip {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: toRem(10);
+  width: toRem(50);
+  height: toRem(67);
+  background: #FFFFFF;
+  box-shadow: 0px 13.7866px 45.5376px rgba(6, 139, 170, 0.079074), 0px 7.37098px 24.3466px rgba(6, 139, 170, 0.0655718), 0px 4.13211px 13.6485px rgba(6, 139, 170, 0.055), 0px 2.19453px 7.24861px rgba(6, 139, 170, 0.0444282), 0px 0.913195px 3.01631px rgba(6, 139, 170, 0.030926);
+  border-radius: 10px;
+
+  span {
+    font-family: $fontFamilySourceCode;
+    font-weight: 500;
+    font-size: toRem(15);
+    line-height: 140%;
+    color: #515561;
+    text-transform: capitalize;
+  }
+}

@@ -6,7 +6,7 @@ type ILoginForm = {
 
 export const getFormData = (event: BaseSyntheticEvent) => {
   const responseBody: ILoginForm = {}
-  const formData = new FormData(event.currentTarget as HTMLFormElement)
+  const formData = new FormData(event.currentTarget as any)
   formData.forEach((value, property: string) => responseBody[property] = value);
   return responseBody
 }

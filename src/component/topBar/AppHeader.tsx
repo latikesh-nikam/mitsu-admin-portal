@@ -1,5 +1,6 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import { AppHeaderDropdown } from './header/index';
 import {
   CContainer,
   CHeader,
@@ -8,10 +9,9 @@ import {
   CNavItem,
   CDropdown,
   CDropdownMenu,
-  CDropdownToggle
-} from '@coreui/react'
-
-import { AppHeaderDropdown } from './header/index'
+  CDropdownToggle,
+  CDropdownItem
+} from '@coreui/react';
 
 const AppHeader: React.FC = () => {
   return (
@@ -24,24 +24,35 @@ const AppHeader: React.FC = () => {
             </CNavLink>
           </CNavItem>
           <CNavItem>
-            <CNavLink to="/dashboard/view-patients" component={NavLink}>Patient</CNavLink>
+            <CNavLink to="view-patients" component={NavLink}>Patient</CNavLink>
           </CNavItem>
           <CNavItem>
-            <CNavLink href="#">Therapist</CNavLink>
+            <CNavLink to="therapist" component={NavLink}>Therapist</CNavLink>
           </CNavItem>
-          <CDropdown variant="nav-item">
+
+          <CDropdown variant="nav-item" direction="center">
             <CDropdownToggle color="secondary">Questionnaire</CDropdownToggle>
+
             <CDropdownMenu>
-              <CNavLink to="/dashboard/question" component={NavLink}>Pre-Onboard</CNavLink>
-              <CNavLink to="" component={NavLink}>Post-Onboard</CNavLink>
+
+              <CDropdownItem href="/dashboard/question">Pre-Onboard</CDropdownItem>
+              <CDropdownItem href="#">Post-Onboard</CDropdownItem>
+
             </CDropdownMenu>
           </CDropdown>
+
+          <CNavItem>
+            <CNavLink to="modules/all" component={NavLink}>
+              Modules
+            </CNavLink>
+          </CNavItem>
+
         </CHeaderNav>
         <CHeaderNav className="ms-3">
           <AppHeaderDropdown />
         </CHeaderNav>
       </CContainer>
-    </CHeader>
+    </CHeader >
   )
 }
 

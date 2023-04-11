@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import PatientsList from '../../../component/patient-list'
-import { AppHeader } from '../../../component/topBar'
 import { IListDataProps } from '../../../interface';
 import http from '../../../services/module.service';
 import { toast } from 'react-hot-toast';
@@ -40,7 +39,6 @@ const ViewPatients: React.FC = () => {
 
   return (
     <>
-      <AppHeader />
       <div>
         {questionDelete && (
           <DeleteQuestionConfirmation

@@ -1,0 +1,9 @@
+@import "../../../styles/variables";
+@import "../../../styles/mixins.scss";
+
+.container {
+  .spinner svg {
+    height: toRem(50);
+    width: toRem(50);
+  }
+}

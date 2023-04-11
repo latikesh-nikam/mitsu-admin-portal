@@ -1,0 +1,35 @@
+@import "../../styles/variables";
+@import "../../styles/mixins.scss";
+
+.container {
+  width: 100%;
+  padding: 1rem;
+  // box-shadow: 0 0.0625rem 0.1875rem $boxShadow-color1, 0 0.0625rem 0.125rem $boxShadow-color2;
+  border-bottom: .0625rem solid lightgrey;
+  // border-bottom: 1px solid black;
+
+  .requiredField {
+    color: red;
+    font-size: large;
+    margin-left: 0.1rem;
+  }
+
+  .subContainer {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    .deleteContainer {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 1rem;
+    }
+
+    .deleteBtn {
+      cursor: pointer;
+    }
+  }
+}

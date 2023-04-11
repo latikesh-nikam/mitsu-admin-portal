@@ -1,5 +1,4 @@
-import AudioPlayer from 'react-h5-audio-player';
-import 'react-h5-audio-player/src/styles.scss';
+import DOMPurify from 'dompurify';
 
 const QuestionPreview = (props: any) => {
   const { questionDetails } = props
@@ -7,10 +6,10 @@ const QuestionPreview = (props: any) => {
   const displayOptions = (obj: any) => {
     let val;
     let options = []
-    for(val in obj){
+    for (val in obj) {
       options.push(val)
     }
-    return(
+    return (
       <ul>
         {options?.map((item, index) => (
           <li key={index}>{item}</li>
@@ -20,7 +19,7 @@ const QuestionPreview = (props: any) => {
   }
   return (
     <>
-      <p >{questionDetails?.description}</p>
+      <p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(`${questionDetails?.description}`) }}></p>
       <p className="h6">{questionDetails?.title}</p>
       {/*questionDetails?.imageLink ? (
         <img src={questionDetails.imageLink} style={{
@@ -41,7 +40,7 @@ const QuestionPreview = (props: any) => {
           <AudioPlayer
             autoPlay
             src={questionDetails?.audioLink}
-            onPlay={e => console.log("onPlay")}
+            onPlay={return}
           // other props here
           />
         </>
@@ -51,7 +50,7 @@ const QuestionPreview = (props: any) => {
           <p className="h6">Options</p>
           {displayOptions(questionDetails?.options)}
         </>
-            ) : null}
+      ) : null}
     </>
   )
 };

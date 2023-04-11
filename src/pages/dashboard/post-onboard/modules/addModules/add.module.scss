@@ -1,0 +1,64 @@
+@import "../../../../../styles/variables";
+@import "../../../../../styles/mixins.scss";
+
+.personelForm {
+  @include container();
+  height: auto !important;
+
+  .formContainer {
+    @include formContainer();
+    background-color: white;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    width: 50rem;
+
+
+    .heading {
+      font-size: 1rem;
+    }
+
+    .formElements {
+      @include fieldWrapper();
+
+      .errorVisibility {
+        visibility: hidden;
+      }
+
+      .textarea {
+        border: 1px solid darkgrey;
+        border-radius: 5px;
+        padding: 5px;
+        background-color: rgba(255, 255, 255, 0.05);
+        color: black;
+        font-size: toRem(15);
+      }
+
+      .error {
+        font-family: var(--fontFamily);
+        font-size: 1rem;
+        color: #eb0000;
+        font-weight: 200;
+        line-height: 150%;
+      }
+
+      .inputContainer {
+        @include inputContainer();
+
+      }
+
+      .specificElements {
+        flex: 1;
+
+        .requiredField {
+          color: red;
+          font-size: large;
+          margin-left: 0.1rem;
+        }
+      }
+    }
+
+    .submitBtn {
+      @include button();
+    }
+  }
+}

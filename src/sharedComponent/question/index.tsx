@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { AppHeader } from '../../component/topBar/index';
 import {
   QuestionFormModal, QuestionPreviewModal, DeleteQuestionConfirmation, QuestionHeader, QuestionTable
 } from "./question.data";
@@ -30,23 +29,23 @@ const Question = () => {
     setQuestionDelete(!questionDelete)
   }
 
-  const handleEditIcon = (item:any) => {
+  const handleEditIcon = (item: any, e: any) => {
     setQuestionEdit(!questionEdit)
     setEditFormDetails(item)
   }
 
   const getQuestions = async (category: string) => {
     const response = await getQuestionDetails(category);
-    setQuestions( response?.data?.data)
+    setQuestions(response?.data?.data)
   }
 
-  useEffect( () => {
+  useEffect(() => {
     getQuestions('')
-  },[])
+  }, [])
+
 
   return (
     <>
-      <AppHeader />
       <QuestionHeader
         showQuestionForm={showQuestionForm}
         setQuestionForm={setQuestionForm}

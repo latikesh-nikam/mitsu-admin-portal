@@ -25,8 +25,8 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
-  width: 50%;
-  box-shadow: 0 0.0625rem 0.1875rem $boxShadow-color1, 0 0.0625rem 0.125rem $boxShadow-color2;
+  width: 70%;
+  // box-shadow: 0 0.0625rem 0.1875rem $boxShadow-color1, 0 0.0625rem 0.125rem $boxShadow-color2;
   padding: 0 2rem 0 2rem;
 }
 
@@ -74,4 +74,15 @@
 @function toRem($val) {
   $remval : calc($val / 16) + rem;
   @return $remval
+}
+
+;
+
+@mixin textStyling($fontFamily: null, $fontStyle: null, $fontWeight: null, $fontSize: null, $lineHeight: null, $color: null) {
+  font-family: $fontFamily;
+  font-style: $fontStyle;
+  font-weight: $fontWeight;
+  font-size: $fontSize;
+  line-height: $lineHeight;
+  color: $color;
 }

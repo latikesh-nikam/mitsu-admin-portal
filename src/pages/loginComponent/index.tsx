@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { SyntheticEvent, useContext, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { AppContext } from '../../context/AppContext';
 import http, { setStore } from '../../services/module.service';
@@ -21,17 +21,23 @@ const LoginComponent: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formdata = getFormData(e);
+    const loginFormData = { ...formdata, systemId: "00:1B:44:11:3A:B7" }
     handleFormSubmit(e);
     setEmail("");
     setPassword("");
     try {
       setLoading(true);
-      const res = await http.post("users/auth/login", formdata);
+      const res = await http.post("users/auth/login", loginFormData);
       if (res.statusCode === 201) {
         setStore("access_token", res.data.access_token);
+        sessionStorage.setItem("role", res.data.role);
         setLoading(false);
-        appDispatch({ type: "setLoginData", payload: { isLogin: true } });
-        navigate("/dashboard");
+        appDispatch({ type: "setLoginData", payload: { isLogin: true, role: res?.data?.role } });
+        if (res?.data?.role === 'Admin') {
+          navigate("/dashboard");
+        } else {
+          navigate("/therapist-dashboard")
+        }
         toast.success("Logged In!");
         return formdata;
       }
@@ -57,6 +63,11 @@ const LoginComponent: React.FC = () => {
     setPassword(e.target.value)
     handleFormChange(e);
   }
+
+  const onErrorImage = ({ currentTarget }: SyntheticEvent<HTMLImageElement, Event>): void => {
+    currentTarget.onerror = null;
+    currentTarget.src = "https://mitsu-assets.s3.ap-south-1.amazonaws.com/mitsu-text-logo.png";
+  };
 
   return (
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
@@ -127,7 +138,7 @@ const LoginComponent: React.FC = () => {
               </CCard>
               <CCard className="text-white bg-primary py-5" style={{ width: '100%' }}>
                 <CCardBody className="d-flex flex-column align-items-center justify-content-center">
-                  <img src={logo} className={styles.logo} alt="mitsuLogo" />
+                  <img src={logo} className={styles.logo} alt="mitsuLogo" onError={onErrorImage} />
                   <h1 className={styles.heading}>MITSU CARE</h1>
                 </CCardBody>
               </CCard>

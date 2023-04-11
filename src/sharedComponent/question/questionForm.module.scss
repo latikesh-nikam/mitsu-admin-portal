@@ -6,6 +6,10 @@
   margin: 1.25rem 0 1.25rem 0; 
 }
 
+.fieldExtraWrapper {
+  margin-top: 5.5rem;
+}
+
 .selectWrapper {
   width: -webkit-fill-available;
   height: 2.5rem;
@@ -18,4 +22,10 @@
 .optionsWrapper {
   display: flex;
   justify-content: space-between;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
 }

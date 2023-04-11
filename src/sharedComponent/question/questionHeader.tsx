@@ -6,7 +6,10 @@ const QuestionHeader = (props: any) => {
 
   return (
     <div className={styles.questionHeaderWrapper}>
-      <CButton color="primary" variant="outline" onClick={() => setQuestionForm(!showQuestionForm)}>Add Question</CButton>
+      <CButton color="primary" variant="outline" onClick={(e: any) => {
+        e.stopPropagation()
+        setQuestionForm(!showQuestionForm)
+      }}>Add Question</CButton>
       <CDropdown style={{ marginLeft: "0.35rem" }}  >
         <CDropdownToggle href="#" variant="outline" color="primary">{questionType}</CDropdownToggle>
         <CDropdownMenu>

@@ -5,8 +5,6 @@ import {
   CTableHead,
   CTableHeaderCell,
   CTableRow,
-  CPagination,
-  CPaginationItem,
 } from '@coreui/react'
 import style from './questionTable.module.scss';
 import Delete from "@mui/icons-material/Delete";
@@ -43,26 +41,28 @@ const QuestionTable = (props: any) => {
                 </CTableDataCell>
                 <CTableDataCell className="text-center">
                   <Tooltip title="Preview">
-                    <Visibility className="m-1" color="action" onClick={() => handlePreviewIcon(item)} />
+                    <Visibility className="m-1" color="action" onClick={(e:any) => {
+                      e.stopPropagation()
+                      handlePreviewIcon(item)
+                    }}/>
                   </Tooltip>
                   <Tooltip title="Edit">
-                    <Edit color="action" onClick={() => handleEditIcon(item)}/>
+                    <Edit color="action" onClick={(e:any) => {
+                      e.stopPropagation()
+                      handleEditIcon(item)
+                    }}/>
                   </Tooltip>
                   <Tooltip title="Delete">
-                    <Delete color="action" onClick={() => handleDeleteAction(item)} />
+                    <Delete color="action" onClick={(e:any) => {
+                      e.stopPropagation()
+                      handleDeleteAction(item)
+                    }}/>
                   </Tooltip>
                 </CTableDataCell>
               </CTableRow>
             ))}
           </CTableBody>
         </CTable>
-        <CPagination size="sm" aria-label="Page navigation example" className={style.paginationWrapper}>
-          <CPaginationItem>Previous</CPaginationItem>
-          <CPaginationItem>1</CPaginationItem>
-          <CPaginationItem>2</CPaginationItem>
-          <CPaginationItem>3</CPaginationItem>
-          <CPaginationItem>Next</CPaginationItem>
-        </CPagination>
       </div>
     </div>
   )

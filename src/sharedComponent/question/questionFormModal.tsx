@@ -10,14 +10,8 @@ const QuestionFormModal = (props: any) => {
           <CModalTitle>Add Question</CModalTitle>
         </CModalHeader>
         <CModalBody>
-          <QuestionForm />
+          <QuestionForm setQuestionForm={setQuestionForm}/>
         </CModalBody>
-        <CModalFooter>
-          <CButton color="dark" onClick={() => setQuestionForm(false)}>
-            Close
-          </CButton>
-          <CButton color="primary">Submit</CButton>
-        </CModalFooter>
       </CModal>
     </>
   )

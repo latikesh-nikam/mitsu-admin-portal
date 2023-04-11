@@ -1,0 +1,14 @@
+.container {
+  margin: 1rem;
+
+  .links {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 1rem;
+
+    a {
+      text-decoration: none;
+    }
+  }
+}

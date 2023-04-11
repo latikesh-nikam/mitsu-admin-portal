@@ -1,0 +1,23 @@
+@import "../../styles/variables";
+@import "../../styles/mixins.scss";
+
+.container {
+  padding-bottom: 2rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+
+  .dayContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 1rem;
+    box-shadow: 0 0.0625rem 0.1875rem $boxShadow-color1, 0 0.0625rem 0.125rem $boxShadow-color2;
+
+    .buttonWrapper {
+      display: flex;
+      justify-content: space-around;
+      width: -webkit-fill-available;
+    }
+  }
+}

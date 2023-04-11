@@ -24,6 +24,7 @@ const AppHeaderDropdown = () => {
     await userLogOut();
     toast.success("Logged Out!")
     clearStore("access_token");
+    clearStore("role");
     nav("/");
   }
 

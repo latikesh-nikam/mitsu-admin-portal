@@ -30,7 +30,8 @@ export const appReducer = (state: IState, action: IAction) => {
       return {
         ...state,
         loginData: {
-          isLogin: payload.isLogin
+          isLogin: payload.isLogin,
+          role: payload.role
         }
       };
     }

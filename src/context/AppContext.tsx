@@ -14,7 +14,8 @@ const AppContextProvider: React.FC<IAppContextProps> = (props) => {
       theme: "light"
     },
     loginData: {
-      isLogin: false
+      isLogin: false,
+      role: ""
     }
   }
 
