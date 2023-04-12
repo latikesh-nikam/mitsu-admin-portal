@@ -4,11 +4,11 @@ import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
 import Input from '@mui/joy/Input';
 import Stack from '@mui/joy/Stack';
-import { ITextInputProps } from './text-input.types';
+import { IEmotionIntensityProps } from './emotion-intensity.types';
 import { Textarea } from '@mui/joy';
-import styles from "./text-input.module.scss";
+import styles from "./emotion-intensity.module.scss";
 
-const TextInput: React.FC<ITextInputProps> = ({ handleSubmit, setContent, setHeading, heading, content, setOpen }) => {
+const EmotionIntensity: React.FC<IEmotionIntensityProps> = ({ handleSubmit, setContent, setHeading, heading, content, setOpen }) => {
   return (
     <form onSubmit={handleSubmit} className={styles.optionContainer}>
       <Stack spacing={2}>
@@ -27,4 +27,4 @@ const TextInput: React.FC<ITextInputProps> = ({ handleSubmit, setContent, setHea
   )
 }
 
-export default TextInput
+export default EmotionIntensity;

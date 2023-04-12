@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { IAddModuleProps } from './addModule.types';
 import Input from '../../../../../component/input';
 import styles from "./add.module.scss";
@@ -17,6 +17,7 @@ import { Button } from '@mui/material';
 import QuillActivityInput from '../../../../../component/activityQuillInput';
 import { addModules } from '../../../../../service/module.service';
 import { any } from 'prop-types';
+import { getPostOnBoardingQuestions } from '../../../../../service/user.service';
 
 
 const AddModules: React.FC<IAddModuleProps> = () => {
@@ -38,14 +39,29 @@ const AddModules: React.FC<IAddModuleProps> = () => {
   const [moduleDesc, setModuleDesc] = useState<any>("");
 
   const [textIntroFormData, setTextIntroFormData] = useState({});
-  const [textInputFormData, setTextInputFormData] = useState({});
-  const [activityAudioFormData, setActivityAudioFormData] = useState({});
-  const [activityVideoFormData, setActivityVideoFormData] = useState({});
-  const [quizFormData, setQuizFormData] = useState({});
+  const [textInputFormData, setTextInputFormData] = useState<any>({});
+  const [activityAudioFormData, setActivityAudioFormData] = useState<any>({});
+  const [activityVideoFormData, setActivityVideoFormData] = useState<any>({});
+  const [quizFormData, setQuizFormData] = useState<any>({});
+  const [emtionIntensity, setEmotionIntensityFormData] = useState<any>({});
+  const [thinkingTrapsData, setThinkingTrapFormData] = useState<any>({});
+  const [fearLadderData, setFearLadderFormData] = useState<any>({});
+  const [subjectiveQuizData, setSubjectiveQuizFormData] = useState<any>({});
+  const [swipeTextData, setSwipeTextFormData] = useState<any>({})
 
   const [activitiesArr, setActivitiesArr] = useState([]);
   const [screenArr, setScreenArray] = useState<any>([]);
   const [activityFieldCount, setActivityFieldCount] = useState(1);
+  const [postOnboardingQuestions, setPostOnboardingQuestions] = useState([])
+
+  const postOnBoardingQuestions = async () => {
+    let res = await getPostOnBoardingQuestions()
+    setPostOnboardingQuestions(res?.data?.data)
+  }
+
+  useEffect(() => {
+    postOnBoardingQuestions()
+  },[])
 
   const handleDateChange = (e: any) => {
     const data = e.map((option: any, index: number) => {
@@ -65,7 +81,7 @@ const AddModules: React.FC<IAddModuleProps> = () => {
   const handleSelectChange = (e: any, actionMeta: any, activityCount: number, dayCount: number, ) => {
     let data = [...selectedOptions];
     setSelectedOptions(data);
-    setScreenArray((screenArr: any) => [...screenArr, { dayCount: dayCount, activityCount: activityCount, type: e.value, name: "Mood Log"}])
+    setScreenArray((screenArr: any) => [...screenArr, { dayCount: dayCount, activityCount: activityCount, type: e.value, name: 'Mood_Log'}])
     const modalComponent = e
     if (modalComponent) {
       actionMeta.action === "remove-value" ? setOpen(false) : setOpen(true)
@@ -107,13 +123,135 @@ const AddModules: React.FC<IAddModuleProps> = () => {
     return uploadData
   };
 
+  const resetDetails = () => {
+    setSelectDate([])
+    setSelectedOptions([])
+    setSelectWeek([])
+    setModalData([])
+    setDuration(0)
+    setActivityName("")
+    setModuleHeading("")
+    setModuleDesc("")
+    setTextIntroFormData({})
+    setTextInputFormData({})
+    setActivityAudioFormData({})
+    setActivityVideoFormData({})
+    setQuizFormData({})
+    setEmotionIntensityFormData({})
+    setThinkingTrapFormData({})
+    setFearLadderFormData({})
+    setSubjectiveQuizFormData({})
+    setSwipeTextFormData({})
+    setActivitiesArr([])
+    setScreenArray([])
+    setActivityFieldCount(1)
+  }
+
+  const handleSelections = (options: any) => {
+    let selectionOption = options?.map((item: any) => {
+      return {
+        selection: Object.values(item)[0],
+        description: Object.values(item)[1]
+      }
+    })
+    return selectionOption;
+  }
+
+  const handleSubjectiveQuizSelections = (options: any) => {
+    let selectionOption = options?.map((item: any) => {
+      return {
+        selection: Object.values(item)[0]
+      }
+    })
+    return selectionOption;
+  }
+
+  const getScreenDataAsPerType = (singleScreen: any) => {
+    if(singleScreen?.type === 'Mood_Log'){
+      return {
+        name: 'Mood Log',
+        type: singleScreen?.type
+      }
+    } else if(singleScreen?.type === 'Text_Block'){
+      return {
+        name: 'Text Block',
+        type: singleScreen?.type,
+        content_heading: textInputFormData.pageHeading,
+        content_text: textInputFormData.content
+      }
+    } else if(singleScreen?.type === 'Audio') {
+      return {
+        name: "Audio",
+        type: singleScreen?.type,
+        content_heading: activityAudioFormData?.heading,
+        content_text: activityAudioFormData?.content,
+        external_link: activityAudioFormData.key
+      }
+    } else if(singleScreen?.type === 'Video') {
+      return {
+        name: "Video",
+        type: singleScreen?.type,
+        content_heading: activityVideoFormData?.heading,
+        content_text: activityVideoFormData?.content,
+        external_link: activityVideoFormData.key
+      }
+    } else if (singleScreen?.type === 'Emotion_Intensity'){
+      return {
+        name: 'Emotion Intensity',
+        type: singleScreen?.type,
+        content_heading: emtionIntensity?.pageHeading,
+        content_text: emtionIntensity?.content
+      }
+    } else if(singleScreen?.type === 'Thinking_Traps'){
+      return {
+        name: 'Thinking Traps',
+        type: singleScreen?.type,
+        content_heading: thinkingTrapsData?.heading,
+        content_text: thinkingTrapsData?.questionText,
+        selections: handleSelections(thinkingTrapsData?.options)
+      }
+    } else if(singleScreen?.type === 'Fear_Ladder'){
+      return {
+        name: "Fear Ladder",
+        type: singleScreen?.type,
+        content_heading: fearLadderData?.pageHeading,
+        completionTime: Number(fearLadderData?.completionTime),
+        content_text: fearLadderData?.content
+      }
+    } else if(singleScreen?.type === 'Subjective_Quiz'){
+      return {
+        name: "Subjective Quiz",
+        type: singleScreen?.type,
+        heading: subjectiveQuizData?.heading,
+        content_text: subjectiveQuizData?.contentText,
+        selections: handleSubjectiveQuizSelections(subjectiveQuizData?.options)
+      }
+    } else if(singleScreen?.type === 'Swipe_Text') {
+      return {
+        name: 'Swipe Text',
+        type: singleScreen?.type,
+        heading: swipeTextData?.heading,
+        selections: handleSelections(swipeTextData?.options)
+      }
+    } else if(singleScreen?.type === "Quiz"){
+      return {
+        name: 'Quiz',
+        type: singleScreen?.type,
+        content_heading: quizFormData?.contentHeading,
+        question_ids: quizFormData?.questionIds
+      }
+    } else {
+      return {
+        name: singleScreen?.name,
+        type: singleScreen?.type
+      }
+    }
+  }
+
   const getScreenAsperActivitiesAndDay= (item: any) => {
     let scrn = screenArr.map((singleScreen: any, index: number) => {
       if((item.dayCount === singleScreen.dayCount) && (item.activityCount === singleScreen.activityCount)){
-        return {
-          name: singleScreen?.name,
-          type: singleScreen?.type
-        }
+        return getScreenDataAsPerType(singleScreen)
       }
     })
 
@@ -155,7 +293,7 @@ const AddModules: React.FC<IAddModuleProps> = () => {
    let updatedActivities = removeDuplicate(val)
 
     return updatedActivities
-    
+
   }
 
   const submitModule = async () => {
@@ -175,6 +313,7 @@ const AddModules: React.FC<IAddModuleProps> = () => {
     const res = await addModules(moduleDetails);
     if(res){
       toast.success("Module Added Successfully")
+      resetDetails()
     } else {
       toast.error("Something Went Wrong!!")
     }
@@ -311,6 +450,12 @@ const AddModules: React.FC<IAddModuleProps> = () => {
             setActivityAudioFormData={setActivityAudioFormData}
             setActivityVideoFormData={setActivityVideoFormData}
             setQuizFormData={setQuizFormData}
+            setEmotionIntensityFormData={setEmotionIntensityFormData}
+            setThinkingTrapFormData={setThinkingTrapFormData}
+            setFearLadderFormData={setFearLadderFormData}
+            setSubjectiveQuizFormData={setSubjectiveQuizFormData}
+            setSwipeTextFormData={setSwipeTextFormData}
+            postOnboardingQuestions={postOnboardingQuestions}
           />
         </form>
       </div>

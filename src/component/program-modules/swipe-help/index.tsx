@@ -10,7 +10,7 @@ import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import { Textarea } from '@mui/joy';
 import { ISwipeHelpProps } from './swipe-help.types';
 
-const SwipeHelp: React.FC<ISwipeHelpProps> = ({ handleSubmit, setOptions, options, handleInputChange, setOpen }) => {
+const SwipeHelp: React.FC<ISwipeHelpProps> = ({ handleSubmit, setOptions, options, handleInputChange, setOpen, pageHeading, setPageHeading }) => {
 
   const handleAddOption = () => {
     const values = [...options];
@@ -38,6 +38,11 @@ const SwipeHelp: React.FC<ISwipeHelpProps> = ({ handleSubmit, setOptions, option
       </Button>
       <form onSubmit={handleSubmit}>
         <Stack spacing={2}>
+          <FormControl>
+            <FormLabel>Heading</FormLabel>
+            <Input name="page-heading" required onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPageHeading(e.target.value)} />
+          </FormControl>
+
           {
             options.map((val: any, index: number) => {
               return (

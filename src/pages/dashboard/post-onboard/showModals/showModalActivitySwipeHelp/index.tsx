@@ -7,9 +7,10 @@ import { getFormData } from '../../../../../utils/formData';
 interface Props {
   open: boolean
   setOpen: (open: boolean) => void
+  setSwipeTextFormData: (e: any) => void
 }
 
-const ShowModalCheckboxList: React.FC<Props> = ({ open, setOpen }) => {
+const ShowModalCheckboxList: React.FC<Props> = ({ open, setOpen, setSwipeTextFormData }) => {
   const [pageHeading, setPageHeading] = useState<any>("");
   const [content, setContent] = useState<any>("");
   const [options, setOptions] = useState<any>([{}]);
@@ -17,6 +18,10 @@ const ShowModalCheckboxList: React.FC<Props> = ({ open, setOpen }) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = getFormData(event);
+    setSwipeTextFormData({
+      heading: pageHeading,
+      options: options
+    })
     toast.success("Submitted Successfully!");
     setOpen(false);
   };

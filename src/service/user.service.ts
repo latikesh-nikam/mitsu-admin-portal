@@ -60,3 +60,12 @@ export const userDelete = async (data: any) => {
     console.error(error)
   }
 }
+
+export const getPostOnBoardingQuestions = async () => {
+  try {
+    const res = await axiosInstance.get('/questions?type=PostOnboard')
+    return res
+  } catch (e) {
+    console.error(e)
+  }
+}
