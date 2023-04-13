@@ -58,6 +58,7 @@ const Therapist: React.FC = () => {
           <TherapistAddModal
             addTherapist={addTherapist}
             setTherapist={setTherapist}
+            setData={setData}
           />
         )}
         {therapistDelete && (

@@ -12,13 +12,11 @@ import axiosInstance from '../../../../../service/axiosfileUpload.instance';
 import CustomSelect from '../../../../../component/select';
 import { weekData } from './addModule.data';
 import Stack from '@mui/joy/Stack';
-import { Controller, useFieldArray, useForm } from 'react-hook-form';
+import { useFieldArray, useForm } from 'react-hook-form';
 import { Button } from '@mui/material';
 import QuillActivityInput from '../../../../../component/activityQuillInput';
 import { addModules } from '../../../../../service/module.service';
-import { any } from 'prop-types';
 import { getPostOnBoardingQuestions } from '../../../../../service/user.service';
-
 
 const AddModules: React.FC<IAddModuleProps> = () => {
 
@@ -61,7 +59,7 @@ const AddModules: React.FC<IAddModuleProps> = () => {
 
   useEffect(() => {
     postOnBoardingQuestions()
-  },[])
+  }, [])
 
   const handleDateChange = (e: any) => {
     const data = e.map((option: any, index: number) => {
@@ -78,7 +76,7 @@ const AddModules: React.FC<IAddModuleProps> = () => {
     setSelectWeek(params);
   }
 
-  const handleSelectChange = (e: any, actionMeta: any, activityCount: number, dayCount: number, ) => {
+  const handleSelectChange = (e: any, actionMeta: any, activityCount: number, dayCount: number,) => {
     let data = [...selectedOptions];
     setSelectedOptions(data);
     setScreenArray((screenArr: any) => [...screenArr, { dayCount: dayCount, activityCount: activityCount, type: e.value, name: 'Mood_Log'}])
@@ -167,19 +165,19 @@ const AddModules: React.FC<IAddModuleProps> = () => {
   }
 
   const getScreenDataAsPerType = (singleScreen: any) => {
-    if(singleScreen?.type === 'Mood_Log'){
+    if (singleScreen?.type === 'Mood_Log') {
       return {
         name: 'Mood Log',
         type: singleScreen?.type
       }
-    } else if(singleScreen?.type === 'Text_Block'){
+    } else if (singleScreen?.type === 'Text_Block') {
       return {
         name: 'Text Block',
         type: singleScreen?.type,
         content_heading: textInputFormData.pageHeading,
         content_text: textInputFormData.content
       }
-    } else if(singleScreen?.type === 'Audio') {
+    } else if (singleScreen?.type === 'Audio') {
       return {
         name: "Audio",
         type: singleScreen?.type,
@@ -187,7 +185,7 @@ const AddModules: React.FC<IAddModuleProps> = () => {
         content_text: activityAudioFormData?.content,
         external_link: activityAudioFormData.key
       }
-    } else if(singleScreen?.type === 'Video') {
+    } else if (singleScreen?.type === 'Video') {
       return {
         name: "Video",
         type: singleScreen?.type,
@@ -195,14 +193,14 @@ const AddModules: React.FC<IAddModuleProps> = () => {
         content_text: activityVideoFormData?.content,
         external_link: activityVideoFormData.key
       }
-    } else if (singleScreen?.type === 'Emotion_Intensity'){
+    } else if (singleScreen?.type === 'Emotion_Intensity') {
       return {
         name: 'Emotion Intensity',
         type: singleScreen?.type,
         content_heading: emtionIntensity?.pageHeading,
         content_text: emtionIntensity?.content
       }
-    } else if(singleScreen?.type === 'Thinking_Traps'){
+    } else if (singleScreen?.type === 'Thinking_Traps') {
       return {
         name: 'Thinking Traps',
         type: singleScreen?.type,
@@ -210,7 +208,7 @@ const AddModules: React.FC<IAddModuleProps> = () => {
         content_text: thinkingTrapsData?.questionText,
         selections: handleSelections(thinkingTrapsData?.options)
       }
-    } else if(singleScreen?.type === 'Fear_Ladder'){
+    } else if (singleScreen?.type === 'Fear_Ladder') {
       return {
         name: "Fear Ladder",
         type: singleScreen?.type,
@@ -218,7 +216,7 @@ const AddModules: React.FC<IAddModuleProps> = () => {
         completionTime: Number(fearLadderData?.completionTime),
         content_text: fearLadderData?.content
       }
-    } else if(singleScreen?.type === 'Subjective_Quiz'){
+    } else if (singleScreen?.type === 'Subjective_Quiz') {
       return {
         name: "Subjective Quiz",
         type: singleScreen?.type,
@@ -226,14 +224,14 @@ const AddModules: React.FC<IAddModuleProps> = () => {
         content_text: subjectiveQuizData?.contentText,
         selections: handleSubjectiveQuizSelections(subjectiveQuizData?.options)
       }
-    } else if(singleScreen?.type === 'Swipe_Text') {
+    } else if (singleScreen?.type === 'Swipe_Text') {
       return {
         name: 'Swipe Text',
         type: singleScreen?.type,
         heading: swipeTextData?.heading,
         selections: handleSelections(swipeTextData?.options)
       }
-    } else if(singleScreen?.type === "Quiz"){
+    } else if (singleScreen?.type === "Quiz") {
       return {
         name: 'Quiz',
         type: singleScreen?.type,
@@ -248,14 +246,14 @@ const AddModules: React.FC<IAddModuleProps> = () => {
     }
   }
 
-  const getScreenAsperActivitiesAndDay= (item: any) => {
+  const getScreenAsperActivitiesAndDay = (item: any) => {
     let scrn = screenArr.map((singleScreen: any, index: number) => {
-      if((item.dayCount === singleScreen.dayCount) && (item.activityCount === singleScreen.activityCount)){
+      if ((item.dayCount === singleScreen.dayCount) && (item.activityCount === singleScreen.activityCount)) {
         return getScreenDataAsPerType(singleScreen)
       }
     })
 
-    scrn = scrn.filter(function(element: any) {
+    scrn = scrn.filter(function (element: any) {
       return element !== undefined
     })
 
@@ -270,14 +268,14 @@ const AddModules: React.FC<IAddModuleProps> = () => {
       uniqueObject[objTitle] = val[i];
     }
     for (const i in uniqueObject) {
-        newArray.push(uniqueObject[i]);
+      newArray.push(uniqueObject[i]);
     }
     return newArray;
   }
 
   const getActivitiesListAsPerDay = (day: number, activitiesList: any) => {
     let val = activitiesList.map((item: any, index: number) => {
-      if(item.dayCount === day){
+      if (item.dayCount === day) {
         return {
           name: item.name,
           durationMin: Number(item.durationMin),
@@ -286,11 +284,11 @@ const AddModules: React.FC<IAddModuleProps> = () => {
       }
     })
 
-    val = val.filter(function( element: any ) {
+    val = val.filter(function (element: any) {
       return element !== undefined;
-   });
+    });
 
-   let updatedActivities = removeDuplicate(val)
+    let updatedActivities = removeDuplicate(val)
 
     return updatedActivities
 
@@ -311,7 +309,7 @@ const AddModules: React.FC<IAddModuleProps> = () => {
       sub_modules: subModules
     }
     const res = await addModules(moduleDetails);
-    if(res){
+    if (res) {
       toast.success("Module Added Successfully")
       resetDetails()
     } else {
@@ -354,7 +352,7 @@ const AddModules: React.FC<IAddModuleProps> = () => {
       <div className={styles.formContainer}>
         <h1 className={styles.heading}>Enter Module Details</h1>
         <form onSubmit={handleForm}>
-        <Button onClick={() => submitModule()} variant="contained" style={{margin: '0.5rem'}}>Add Module</Button>
+          <Button onClick={() => submitModule()} variant="contained" style={{ margin: '0.5rem' }}>Add Module</Button>
 
           <div className={styles.formElements}>
             <div className={styles.inputContainer}>
@@ -362,16 +360,14 @@ const AddModules: React.FC<IAddModuleProps> = () => {
                 <Stack spacing={2}>
                   <FormControl>
                     <FormLabel>Module Heading<span className={styles.requiredField}>*</span></FormLabel>
-                    <QuillActivityInput value={moduleHeading} setValue={setModuleHeading}/>
-                    {/* <Input name="moduleHeading" required value={moduleHeading} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setModuleHeading(e.target.value)} /> */}
+                    <QuillActivityInput value={moduleHeading} setValue={setModuleHeading} />
                   </FormControl>
-                  <br/><br/>
+                  <br /><br />
                   <FormControl>
                     <FormLabel>Module Description<span className={styles.requiredField}>*</span></FormLabel>
-                    <QuillActivityInput value={moduleDesc} setValue={setModuleDesc}/>
-                    {/* <Input name="moduleHeading" required value={moduleDesc} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setModuleDesc(e.target.value)} /> */}
+                    <QuillActivityInput value={moduleDesc} setValue={setModuleDesc} />
                   </FormControl>
-                  <br/><br/>
+                  <br /><br />
                   <FormControl>
                     <FormLabel>Week<span className={styles.requiredField}>*</span></FormLabel>
                     <CustomSelect
@@ -461,7 +457,6 @@ const AddModules: React.FC<IAddModuleProps> = () => {
       </div>
     </div>
   )
-
 }
 
 export default AddModules

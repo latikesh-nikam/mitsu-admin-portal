@@ -43,11 +43,9 @@ const AddScreens: React.FC<IAddScreenProps> = ({ activityFieldCount, dayCount, h
               name="program-activities"
               isMulti={false}
               dropdownOptions={screensDropdown}
-
-              handleChangeSelect={(e: any, actionMeta: any,  activityFieldCount: number, dayCount: number) => handleChangeSelect(e, actionMeta, activityFieldCount, dayCount)}
+              handleChangeSelect={(e: any, actionMeta: any, activityFieldCount: number, dayCount: number) => handleChangeSelect(e, actionMeta, activityFieldCount, dayCount)}
               isAutoFocus={false}
               isSearchable={false}
-              // selectedOptions={}
               menuPlacement="bottom"
               hideSelectedOptions={true}
               activityFieldCount={activityFieldCount}

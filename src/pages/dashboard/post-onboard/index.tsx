@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { ShowModalActivitySwipeHelp, ShowModalActivityVideo, ShowModalActivityAudio, ShowModalTextIntro, ShowModalTextInput, ShowModalQuiz, ShowModalCheckboxList, ShowModalEmotionIntensity, ShowModalFearLadder, ShowQuizQuesModal } from './showModals';
+import React from 'react';
+import { ShowModalActivityVideo, ShowModalActivityAudio, ShowModalTextIntro, ShowModalTextInput, ShowModalQuiz, ShowModalCheckboxList } from './showModals';
+import { ShowModalActivitySwipeHelp, ShowModalEmotionIntensity, ShowModalFearLadder } from './showModals';
 import ShowModalThinkingTraps from './showModals/showModalThinkingTraps';
-
+import ShowModalGroundingExercise from './showModals/showModalGroundingExercise';
 
 interface IPostOnboardScreenProps {
   // OpenModalData: ({ open, setOpen }: any) => JSX.Element
@@ -14,10 +15,10 @@ interface IPostOnboardScreenProps {
   setActivityVideoFormData: (e: any) => void
   setQuizFormData: (e: any) => void
   setEmotionIntensityFormData: (e: any) => void
-  setThinkingTrapFormData: (e:any) => void
+  setThinkingTrapFormData: (e: any) => void
   setFearLadderFormData: (e: any) => void
   setSubjectiveQuizFormData: (e: any) => void
-  setSwipeTextFormData: (e:any) => void
+  setSwipeTextFormData: (e: any) => void
   postOnboardingQuestions: any
 };
 
@@ -32,14 +33,19 @@ const PostOnboardingScreen: React.FC<IPostOnboardScreenProps> = ({ OpenModalData
 
       {OpenModalData?.label === "Video" ? <ShowModalActivityVideo open={open} setOpen={setOpen} setActivityVideoFormData={setActivityVideoFormData} /> : <></>}
 
-      {OpenModalData?.label === "Swipe Text" ? <ShowModalActivitySwipeHelp open={open} setOpen={setOpen} setSwipeTextFormData={setSwipeTextFormData}/> : <></>}
+      {OpenModalData?.label === "Swipe Text" ? <ShowModalActivitySwipeHelp open={open} setOpen={setOpen} setSwipeTextFormData={setSwipeTextFormData} /> : <></>}
 
-      {OpenModalData?.label === "Quiz" ? <ShowQuizQuesModal open={open} setOpen={setOpen} setQuizFormData={setQuizFormData} postOnboardingQuestions={postOnboardingQuestions}/> : <></>}
+      {OpenModalData?.label === "Quiz" ? <ShowModalQuiz open={open} setOpen={setOpen} setQuizFormData={setQuizFormData} /> : <></>}
+
       {OpenModalData?.label === "Subjective Quiz" ? <ShowModalCheckboxList open={open} setOpen={setOpen} setSubjectiveQuizFormData={setSubjectiveQuizFormData} /> : <></>}
+
       {OpenModalData?.label === "Emotion Intensity" ? <ShowModalEmotionIntensity open={open} setOpen={setOpen} setEmotionIntensityFormData={setEmotionIntensityFormData} /> : <></>}
 
-      {OpenModalData?.label === "Thinking Traps" ? <ShowModalThinkingTraps open={open} setOpen={setOpen} setThinkingTrapFormData={setThinkingTrapFormData}/> : <></>}
-      {OpenModalData?.label === "Fear Ladder" ? <ShowModalFearLadder open={open} setOpen={setOpen} setFearLadderFormData={setFearLadderFormData}/> : <></>}
+      {OpenModalData?.label === "Thinking Traps" ? <ShowModalThinkingTraps open={open} setOpen={setOpen} setThinkingTrapFormData={setThinkingTrapFormData} /> : <></>}
+
+      {OpenModalData?.label === "Fear Ladder" ? <ShowModalFearLadder open={open} setOpen={setOpen} setFearLadderFormData={setFearLadderFormData} /> : <></>}
+
+      {OpenModalData?.label === "Grounding Exercise" ? <ShowModalGroundingExercise open={open} setOpen={setOpen} /> : <></>}
 
     </>
   )

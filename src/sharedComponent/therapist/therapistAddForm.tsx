@@ -4,11 +4,11 @@ import { InputLabel, Input, TextareaAutosize } from '@mui/material';
 import style from './therapistAddForm.module.scss';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { CButton } from '@coreui/react';
-import { addTherapistUser } from "../../service/therapist.service";
+import { addTherapistUser, getTherapistDetails } from "../../service/therapist.service";
 import { toast } from 'react-hot-toast';
 
 const TherapistAddForm = (props: any) => {
-    const { setTherapist}  = props;
+    const { setTherapist, setData}  = props;
     const [therapistDetails, settherapistDetails] = useState<any>({
         name: "",
         email: "",
@@ -19,7 +19,15 @@ const TherapistAddForm = (props: any) => {
     })
     const { register, handleSubmit, formState: { errors } } = useForm({ mode: "onChange" });
     const onSubmit = async () => {
-        const res = addTherapistUser(therapistDetails)
+        const res = await addTherapistUser(therapistDetails)
+        if(res){
+            setTherapist(false)
+            toast.success(res?.data?.message)
+            const response = await getTherapistDetails();
+            setData(response?.data?.data)
+        } else {
+            toast.error("Something went Wrong!!!")
+        }
     }
 
     return (
@@ -31,7 +39,6 @@ const TherapistAddForm = (props: any) => {
                         type="text"
                         placeholder="Enter name"
                         fullWidth={true}
-                        required={true}
                         value={therapistDetails.name}
                         {...register("name", {
                         required: "This is required field",
@@ -40,14 +47,24 @@ const TherapistAddForm = (props: any) => {
                             ...therapistDetails,
                             name: event.target.value as string
                             }
-                        )
+                        ),
+                        pattern: {
+                            value:
+                            /^[^-\s][a-zA-Z0-9_\s-]+$/,
+                            message: 'Enter valid name',
+                        },
                         })}
                     />
                     {errors.name ? (
                         <>
                         {errors.name.type === "required" && (
                             <p className={style.errMsg}>
-                            {errors.name.message as string}
+                            {errors?.name?.message as string}
+                            </p>
+                        )}
+                        {errors.name.type === "pattern" && (
+                            <p className={style.errMsg}>
+                            {errors?.name?.message as string}
                             </p>
                         )}
                         </>
@@ -59,7 +76,6 @@ const TherapistAddForm = (props: any) => {
                         type="email"
                         placeholder="Enter Email"
                         fullWidth={true}
-                        required={true}
                         value={therapistDetails.email}
                         {...register("email", {
                             required: 'This is required field',
@@ -97,7 +113,6 @@ const TherapistAddForm = (props: any) => {
                         type="text"
                         placeholder="Enter phone number"
                         fullWidth={true}
-                        required={true}
                         value={therapistDetails.mobile}
                         {...register("mobile", {
                         required: "This is required field",
@@ -110,7 +125,7 @@ const TherapistAddForm = (props: any) => {
                         pattern: {
                             value: /^(\+\d{1,3}[- ]?)?\d{10}$/,
                             message: "Please enter valid phone number",
-                          },
+                            },
                         })}
                     />
                     {errors.mobile ? (
@@ -134,7 +149,6 @@ const TherapistAddForm = (props: any) => {
                         type="text"
                         placeholder="Enter Education/Designation"
                         fullWidth={true}
-                        required={true}
                         value={therapistDetails.education}
                         {...register("education", {
                         required: "This is required field",
@@ -143,12 +157,22 @@ const TherapistAddForm = (props: any) => {
                             ...therapistDetails,
                             education: event.target.value as string
                             }
-                        )
+                        ),
+                        pattern: {
+                            value:
+                            /^[^-\s][a-zA-Z0-9_\s-]+$/,
+                            message: 'Enter valid education details',
+                        },
                         })}
                     />
                     {errors.education ? (
                         <>
                         {errors.education.type === "required" && (
+                            <p className={style.errMsg}>
+                            {errors.education.message as string}
+                            </p>
+                        )}
+                        {errors.education.type === "pattern" && (
                             <p className={style.errMsg}>
                             {errors.education.message as string}
                             </p>
@@ -169,12 +193,22 @@ const TherapistAddForm = (props: any) => {
                             ...therapistDetails,
                             introduction: event.target.value as string
                             }
-                        )
+                        ),
+                        pattern: {
+                            value:
+                            /^[^-\s][a-zA-Z0-9_\s-]+$/,
+                            message: 'Enter valid details',
+                        },
                         })}
                     />
                     {errors.introduction ? (
                         <>
                         {errors.introduction.type === "required" && (
+                            <p className={style.errMsg}>
+                            {errors.introduction.message as string}
+                            </p>
+                        )}
+                        {errors.introduction.type === "pattern" && (
                             <p className={style.errMsg}>
                             {errors.introduction.message as string}
                             </p>
