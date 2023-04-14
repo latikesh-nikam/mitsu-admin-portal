@@ -1,4 +1,4 @@
 export interface IColumnGridProps {
   gridData: { title: string }[]
-  handleCardClick: (val: any, index: number) => void
+  handleCardClick: (val: React.MouseEvent<HTMLDivElement, MouseEvent>, index: number) => void
 }

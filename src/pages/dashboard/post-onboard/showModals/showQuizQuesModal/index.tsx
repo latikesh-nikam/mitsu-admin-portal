@@ -8,13 +8,16 @@ import ModalDialog from '@mui/joy/ModalDialog';
 import Typography from '@mui/joy/Typography';
 
 interface Props {
-    open: boolean
-    setOpen: (open: boolean) => void
-    setQuizFormData: (e: any) => void
-    postOnboardingQuestions: any
+  open: boolean
+  setOpen: (open: boolean) => void
+  setQuizFormData: (e: any) => void
+  postOnboardingQuestions: any
+  activity: string
+  quizArr: any
+  setQuizArr: (e:any) => void
 }
 
-const ShowQuizQuesModal: React.FC<Props> = ({ open, setOpen, setQuizFormData, postOnboardingQuestions }) => {
+const ShowQuizQuesModal: React.FC<Props> = ({ open, setOpen, setQuizFormData, postOnboardingQuestions, activity, quizArr, setQuizArr }) => {
   const [questionIds, setQuestionIds] = useState([])
   const [heading, setHeading] = useState<string>("")
   const submitQuestionDetails = () => {
@@ -22,6 +25,9 @@ const ShowQuizQuesModal: React.FC<Props> = ({ open, setOpen, setQuizFormData, po
       contentHeading: heading,
       questionIds: questionIds
     })
+    if(activity === 'GroundingExercise'){
+      setQuizArr((quizArr: any) => [...quizArr, {name: "Quiz", type: "Quiz", content_heading: heading, questionIds: questionIds, isSubType: true}])
+    }
     setHeading("")
     setQuestionIds([])
     setOpen(false)
@@ -32,9 +38,9 @@ const ShowQuizQuesModal: React.FC<Props> = ({ open, setOpen, setQuizFormData, po
     <>
       <Modal open={open} onClose={() => setOpen(false)}>
         <ModalDialog
-            aria-labelledby="basic-modal-dialog-title"
-            aria-describedby="basic-modal-dialog-description"
-            sx={{ width: 800, height: "fit-content" }}
+          aria-labelledby="basic-modal-dialog-title"
+          aria-describedby="basic-modal-dialog-description"
+          sx={{ width: 800, height: "fit-content" }}
         >
           <Typography id="basic-modal-dialog-title" component="h2">
             Quiz
@@ -50,14 +56,14 @@ const ShowQuizQuesModal: React.FC<Props> = ({ open, setOpen, setQuizFormData, po
           </Stack>
           <FormLabel>Questions</FormLabel>
           {postOnboardingQuestions?.map((item: any, index: number) => (
-            <div style={{display: 'flex'}}>
+            <div style={{ display: 'flex' }}>
               <ControlledCheckbox
-                  moduleDetails={item}
-                  moduleIds={questionIds} 
-                  setModuleIds={setQuestionIds}
+                moduleDetails={item}
+                moduleIds={questionIds}
+                setModuleIds={setQuestionIds}
               />
-              &nbsp;<div style={{paddingTop: '0.5rem'}}>{item.heading}</div>
-            </div> 
+              &nbsp;<div style={{ paddingTop: '0.5rem' }}>{item.heading}</div>
+            </div>
           ))}
           <CButton color="primary" onClick={() => submitQuestionDetails()}>
             Add Questions

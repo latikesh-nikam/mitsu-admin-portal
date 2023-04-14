@@ -22,14 +22,10 @@ const ShowModalQuiz: React.FC<Props> = ({ open, setOpen, setQuizFormData }) => {
     const formData = getFormData(event);
     const postData = { ...formData, quizType: quizOptions?.value }
     setQuizFormData(postData);
-
     toast.success("Submitted Successfully!");
-
     setHeading("");
     setQuestionText("");
     setSelectedOptions("");
-
-
     setOpen(false);
   };
 

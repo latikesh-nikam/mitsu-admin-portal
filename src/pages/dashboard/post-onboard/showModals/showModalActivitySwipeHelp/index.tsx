@@ -26,7 +26,7 @@ const ShowModalCheckboxList: React.FC<Props> = ({ open, setOpen, setSwipeTextFor
     setOpen(false);
   };
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, index: number) => {
     let data = [...options];
     data[index][event.target.name] = event.target.value;
     setOptions(data);

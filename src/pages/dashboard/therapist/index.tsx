@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import TherapistList from '../../../component/therapistList';
 import { AppHeader } from '../../../component/topBar'
 import { IListDataProps } from '../../../interface';
-import { getTherapistDetails } from '../../../service/therapist.service';
-import { userDelete } from '../../../service/user.service';
+import { getTherapistDetails } from '../../../services/service/therapist.service';
+import { userDelete } from '../../../services/service/user.service';
 import TherapistAddModal from '../../../sharedComponent/therapist/therapistAddModal';
 import TherapistDeleteModal from '../../../sharedComponent/therapist/therapistDeleteModal';
 import TherapistHeader from '../../../sharedComponent/therapist/therapistHeader';
@@ -58,7 +58,6 @@ const Therapist: React.FC = () => {
           <TherapistAddModal
             addTherapist={addTherapist}
             setTherapist={setTherapist}
-            setData={setData}
           />
         )}
         {therapistDelete && (

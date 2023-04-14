@@ -1,17 +1,20 @@
+import { ActionMeta, MultiValue, SingleValue } from "react-select";
+import { IOptionProps, ISelectOptionsProps } from "../../interface";
 export interface IAddDayProps {
-  handleDateChange: (e: any) => void
+  handleDateChange: (newValue: MultiValue<ISelectOptionsProps> | SingleValue<ISelectOptionsProps>, actionMeta: ActionMeta<ISelectOptionsProps>) => void
   selectDate: { id: number, label: string, value: string }[]
   selectWeek?: { id: number, label: string, value: string }[]
-  handleChangeSelect: (params: any, actionMeta: any, activityFieldCount: number, dayCount: number) => void
-  selectedOptions: any
+  selectedOptions: IOptionProps[]
   setDuration: (event: React.ChangeEvent<HTMLInputElement> | number) => void
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>, index: number) => void
   activityName: string
   setActivityName: (event: React.ChangeEvent<HTMLInputElement> | string) => void
+  handleChangeSelect: (newValue: MultiValue<ISelectOptionsProps> | SingleValue<ISelectOptionsProps>, actionMeta: ActionMeta<ISelectOptionsProps>, activityFieldCount: number, dayCount: number) => void
+
   duration: number
   setSelectedOptions: (e: any) => void
   activitiesArr: any
   setActivitiesArr: (e: any) => void
   activityFieldCount: number
-  setActivityFieldCount: (e:any) => void
+  setActivityFieldCount: (e: any) => void
 }

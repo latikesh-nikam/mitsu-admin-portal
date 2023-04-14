@@ -10,7 +10,6 @@ import {
   CDropdown,
   CDropdownMenu,
   CDropdownToggle,
-  CDropdownItem
 } from '@coreui/react';
 
 const AppHeader: React.FC = () => {
@@ -35,8 +34,8 @@ const AppHeader: React.FC = () => {
 
             <CDropdownMenu>
 
-              <CDropdownItem href="/dashboard/question">Pre-Onboard</CDropdownItem>
-              <CDropdownItem href="#">Post-Onboard</CDropdownItem>
+              <CNavLink to="question/pre-onboard" component={NavLink}>Pre-Onboard</CNavLink>
+              <CNavLink to="question/post-onboard" component={NavLink}>Post-Onboard</CNavLink>
 
             </CDropdownMenu>
           </CDropdown>

@@ -4,9 +4,13 @@
 .container {
   width: 100%;
   padding: 1rem;
-  // box-shadow: 0 0.0625rem 0.1875rem $boxShadow-color1, 0 0.0625rem 0.125rem $boxShadow-color2;
   border-bottom: .0625rem solid lightgrey;
-  // border-bottom: 1px solid black;
+
+  .formLabels {
+    font-family: $fontFamilySourceCode;
+    font-weight: 600;
+    font-size: toRem(17);
+  }
 
   .requiredField {
     color: red;
@@ -15,11 +19,6 @@
   }
 
   .subContainer {
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-
     .deleteContainer {
       width: 100%;
       display: flex;

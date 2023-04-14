@@ -4,19 +4,13 @@ import {
   CTableBody,
   CTableDataCell,
   CTableHead,
-  CTableHeaderCell,
   CTableRow,
-  CPagination,
-  CPaginationItem,
 } from '@coreui/react'
-import style from './patient-list.module.scss';
 import Delete from "@mui/icons-material/Delete";
 import Tooltip from '@mui/material/Tooltip';
 import { IListProps } from "./therapist.types";
-// import { IListDataProps } from "../../interface";
 
 const TherapistList: React.FC<IListProps> = ({ therapistList, handleClick }) => {
-
   return (
     <div className="wrapper d-flex flex-column min-vh-100 bg-light">
       <div className="body flex-grow-1 px-3">
@@ -24,10 +18,11 @@ const TherapistList: React.FC<IListProps> = ({ therapistList, handleClick }) => 
         <CTable align="middle" className="mb-0 border" hover responsive>
           <CTableHead color="dark">
             <CTableRow>
-              <CTableHeaderCell className="text-center">Sr No</CTableHeaderCell>
-              <CTableHeaderCell className="text-left">Title</CTableHeaderCell>
-              <CTableHeaderCell className="text-center">Category</CTableHeaderCell>
-              <CTableHeaderCell className="text-center">Actions</CTableHeaderCell>
+              {/* {
+                columns?.map((c: Record<string | number, string | number>) => {
+                  return <CTableHeaderCell key={c.id} className="text-center">{c.displayName}</CTableHeaderCell>
+                })
+              } */}
             </CTableRow>
           </CTableHead>
           <CTableBody>
@@ -55,18 +50,30 @@ const TherapistList: React.FC<IListProps> = ({ therapistList, handleClick }) => 
               ))
             }
 
+            {/* {
+              rowData?.map((s: Record<string, string>) => {
+                return (
+                  <CTableHeaderCell key={s.id}>
+                    {
+                      columns?.map((c: Record<string, string>, index: number) => {
+                        return (
+                          <CTableRow v-for="item in tableItems" key={index} color="light">
+                            <CTableDataCell className="text-center">
+                              <div>{s[c.id]}</div>
+                            </CTableDataCell>
+                          </CTableRow>
+                        )
+                      })
+                    }
+                  </CTableHeaderCell>
+                )
+              })
+            } */}
+
           </CTableBody>
         </CTable>
-
-        <CPagination size="sm" aria-label="Page navigation example" className={style.paginationWrapper}>
-          <CPaginationItem>Previous</CPaginationItem>
-          <CPaginationItem>1</CPaginationItem>
-          <CPaginationItem>2</CPaginationItem>
-          <CPaginationItem>3</CPaginationItem>
-          <CPaginationItem>Next</CPaginationItem>
-        </CPagination>
       </div>
-    </div>
+    </div >
   )
 };
 

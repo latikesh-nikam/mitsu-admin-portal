@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import ModuleList from '../../../../../component/modules-list';
-import { getAllModules } from '../../../../../service/module.service';
-import PreviewModal from '../../../../../sharedComponent/modules/previewModule';
+import { getAllModules } from '../../../../../services/service/module.service';
+import Canvas from '../../../../../component/canvas';
+import Accordion from '../../../../../component/accordion';
 
-const AllModules: React.FC = () => {
+const AllModules: React.FC<any> = () => {
 
   const [modules, setModules] = useState([]);
   const [showPreview, setPreview] = useState(false);
+  const [subModulesData, setSubModulesData] = useState<any>([]);
+  const [activitiesData, setActivitiesData] = useState<any>([]);
+  const [screensData, setScreensData] = useState<any>([]);
+  const [modulesData, setModulesData] = useState<any>({});
 
   const getModules = async () => {
     const res = await getAllModules()
@@ -14,19 +19,41 @@ const AllModules: React.FC = () => {
   }
 
   useEffect(() => {
-    getModules()
-  },[])
+    getModules();
+  }, []);
+
+  const sendPreviewData = (item: any) => {
+
+    const modulesdata = { ...item }
+    setModulesData(modulesdata);
+    setSubModulesData(item.sub_modules);
+
+    const activitesdata = item?.sub_modules?.map((val: any) => val?.activities)
+    setActivitiesData(activitesdata)
+
+    const screensdata = activitesdata[0]?.map((values: any) => values?.screens)
+    setScreensData(screensdata);
+
+  }
 
   return (
-    <>
-      <div >
-        {showPreview && (
-          <PreviewModal showPreview={showPreview} setPreview={setPreview} modules={modules}/>
-        )}
-        
-        <ModuleList modulesList={modules} setPreview={setPreview} />
-      </div>
-    </>
+    <div >
+      {showPreview && (
+        <Canvas
+          setVisible={setPreview}
+          visible={showPreview}
+          children={
+            <Accordion
+              subModulesData={subModulesData}
+              activitiesData={activitiesData}
+              screensData={screensData}
+              modulesData={modulesData}
+            />
+          }
+        />
+      )}
+      <ModuleList modulesList={modules} setPreview={setPreview} previewData={(item) => sendPreviewData(item)} />
+    </div>
   )
 }
 

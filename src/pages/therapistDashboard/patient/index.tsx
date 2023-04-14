@@ -3,7 +3,7 @@ import PatientsList from '../../../component/patient-list'
 import { AppHeader } from '../../../component/topBar'
 import { IListDataProps } from '../../../interface';
 import PatientDeleteModal from '../../../sharedComponent/patient/patientDeleteModal';
-import { getPatientDetails } from '../../../service/patient.service';
+import { getPatientDetails } from '../../../services/service/patient.service';
 
 const Patient: React.FC = () => {
   const [data, setData] = useState<any>([]);

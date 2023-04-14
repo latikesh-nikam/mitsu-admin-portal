@@ -1,9 +1,9 @@
 import React from "react";
-import Question from "../../sharedComponent/question";
+import PreQuestion from "../../sharedComponent/question/PreOnboard";
 
 const QuestionLayout: React.FC = () => {
   return (
-    <Question />
+    <PreQuestion />
   )
 };
 

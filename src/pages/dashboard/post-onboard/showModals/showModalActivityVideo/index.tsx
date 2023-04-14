@@ -2,34 +2,50 @@ import React, { useState } from 'react';
 import BasicModalDialog from '../../../../../component/modal';
 import ActivityVideo from '../../../../../component/program-modules/activity-video';
 import { getFormData } from '../../../../../utils/formData';
-import LinearProgress from '@mui/joy/LinearProgress';
-import Typography from '@mui/joy/Typography';
-import axiosInstance from "../../../../../service/axiosfileUpload.instance";
-import { uploadFilesToS3 } from '../../../../../constants/urls';
+import axiosInstance from "../../../../../services/service/axiosfileUpload.instance";
+import { uploadFilesToS3 } from '../../../../../utils/constants/urls';
 import { toast } from "react-hot-toast";
-
+import Canvas from '../../../../../component/canvas';
 interface Props {
   open: boolean
   setOpen: (open: boolean) => void
   setActivityVideoFormData: any
+  type: 'canvas' | 'modal'
+  setVisible: (visible: boolean) => void
+  visible: boolean
+  activity: string
+  videoArr: any
+  setVideoArr: (e: any) => void
 }
 
-const ShowModalActivityVideo: React.FC<Props> = ({ open, setOpen, setActivityVideoFormData }) => {
+const ShowModalActivityVideo: React.FC<Props> = ({ open, setOpen, setActivityVideoFormData, type, setVisible, visible, activity, videoArr, setVideoArr }) => {
   const [heading, setHeading] = useState<any>("");
   const [content, setContent] = useState<any>("");
   const [videos, setVideos] = useState<any>([]);
   const [uploaded, setUploaded] = useState<any>(null);
   const [showProgress, setShowProgress] = useState<boolean>(false);
   const [s3Key, setS3Key] = useState("");
+  const [autocompleteOptions, setAutocompleteOptions] = useState<{ id: number, label: string, value: string }>({
+    id: 0,
+    label: "",
+    value: ""
+  });
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = getFormData(event);
-    const postData = { ...formData, key: s3Key }
+    const postData = { ...formData, key: s3Key, content: content.description }
     setActivityVideoFormData(postData);
+    if(activity === 'GroundingExercise'){
+      setVideoArr((videoArr: any) => [...videoArr, {name: "Video", type: "Video", content_heading: heading, content_text: content, external_link: s3Key, isSubType: true}])
+    }
     setHeading("");
     setContent("");
     setOpen(false);
+  };
+
+  const handleAutoCompleteChange = (params: any) => {
+    setAutocompleteOptions(params);
   };
 
   const config = {
@@ -69,41 +85,28 @@ const ShowModalActivityVideo: React.FC<Props> = ({ open, setOpen, setActivityVid
 
   return (
     <>
-      <BasicModalDialog
-        children={
-          <>
-            <ActivityVideo handleSubmit={handleSubmit} setContent={setContent} setHeading={setHeading} heading={heading} content={content} handleFileChange={handleFileChange} setOpen={setOpen} />
-            {showProgress &&
-              <LinearProgress
-                determinate
-                variant="soft"
-                color="primary"
-                size="lg"
-                thickness={32}
-                value={uploaded}
-                sx={{
-                  '--LinearProgress-radius': '0px',
-                  '--LinearProgress-progressThickness': '24px',
-                  boxShadow: 'sm',
-                  borderColor: 'neutral.500',
-                }}
-              >
-                <Typography
-                  level="body3"
-                  fontWeight="xl"
-                  textColor="common.black"
-                  sx={{ mixBlendMode: 'difference' }}
-                >
-                  Uploading {`${uploaded}%...`}
-                </Typography>
-              </LinearProgress>
-            }
-          </>
-        }
-        open={open}
-        setOpen={setOpen}
-        title="Activity Video"
-      />
+      {type === "modal" &&
+        <BasicModalDialog
+          children={
+            <>
+              <ActivityVideo handleSubmit={handleSubmit} setContent={setContent} setHeading={setHeading} heading={heading} content={content} handleFileChange={handleFileChange} setOpen={setOpen} handleAutoCompleteChange={handleAutoCompleteChange} autocompleteOptions={autocompleteOptions} uploaded={uploaded} showProgress={showProgress} />
+            </>
+          }
+          open={open}
+          setOpen={setOpen}
+          title="Activity Video"
+        />
+      }
+      {
+        type === "canvas" &&
+        <Canvas
+          setVisible={setVisible}
+          visible={visible}
+          children={
+            <ActivityVideo handleSubmit={handleSubmit} setContent={setContent} setHeading={setHeading} heading={heading} content={content} handleFileChange={handleFileChange} setOpen={setOpen} handleAutoCompleteChange={handleAutoCompleteChange} autocompleteOptions={autocompleteOptions} uploaded={uploaded} showProgress={showProgress} />
+          }
+        />
+      }
     </>
   )
 }

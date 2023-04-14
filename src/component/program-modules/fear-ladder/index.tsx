@@ -5,8 +5,8 @@ import FormLabel from '@mui/joy/FormLabel';
 import Input from '@mui/joy/Input';
 import Stack from '@mui/joy/Stack';
 import { IFearLadderProps } from './fear-ladder.types';
-import { Textarea } from '@mui/joy';
 import styles from "./fear-ladder.module.scss";
+import QuillComp from '../../quill';
 
 const FearLadder: React.FC<IFearLadderProps> = ({ handleSubmit, setContent, setHeading, heading, content, setOpen, completionTime, setCompletionTime }) => {
   return (
@@ -22,10 +22,8 @@ const FearLadder: React.FC<IFearLadderProps> = ({ handleSubmit, setContent, setH
         </FormControl>
         <FormControl>
           <FormLabel>Content</FormLabel>
-          <Textarea size="lg" variant="soft" name="content" required onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setContent(e.target.value)} />
+          <QuillComp question={content} setQuestion={setContent} />
         </FormControl>
-
-
         <Button type="submit" disabled={!heading || !content}>Submit</Button>
       </Stack>
     </form >

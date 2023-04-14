@@ -13,13 +13,12 @@ const ShowModalTextIntro: React.FC<Props> = ({ open, setOpen, setTextIntroFormDa
   const [pageHeading, setPageHeading] = useState<any>("");
   const [contentHeading, setContentHeading] = useState<any>("");
   const [contentIntro, setContentIntro] = useState<any>("");
-  // const [textareaValue, setTextareaValue] = useState<any>("<div contenteditable='false'>Hector oscar Pacheco</div>");
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-
     event.preventDefault();
     const formData = getFormData(event);
-    setTextIntroFormData(formData);
+    const postFormData = { name: formData.name, content_heading: formData.contentHeading, content_text: contentIntro.description }
+    setTextIntroFormData(postFormData);
     toast.success("Submitted Successfully!");
     setPageHeading("");
     setContentHeading("");

@@ -1,8 +1,10 @@
 import React from "react";
 import Login from '../pages/login';
-import Admin from '../pages/admin';
 import Anxiety from "../pages/dashboard/post-onboard/modules/anxiety";
 import Depression from "../pages/dashboard/post-onboard/modules/depression";
+
+const PreQuestion = React.lazy(() => import("../sharedComponent/question/PreOnboard"));
+const PostQuestion = React.lazy(() => import("../sharedComponent/question/PostOnboard"));
 const AddModules = React.lazy(() => import("../pages/dashboard/post-onboard/modules/addModules"));
 const AllModules = React.lazy(() => import("../pages/dashboard/post-onboard/modules/all"));
 const Modules = React.lazy(() => import("../pages/dashboard/post-onboard/modules"));
@@ -12,7 +14,7 @@ const PostOnboardingScreen = React.lazy(() => import("../pages/dashboard/post-on
 const LoginComponent = React.lazy(() => import('../pages/loginComponent'));
 const EmailTemplate = React.lazy(() => import('../component/email-verification'));
 const NotFound = React.lazy(() => import('../component/not-found'));
-const Question = React.lazy(() => import('../pages/question'));
+const Question = React.lazy(() => import('../pages/question/PreOnboardQues'));
 const Patient = React.lazy(() => import('../pages/dashboard/patient'));
 const Therapist = React.lazy(() => import("../pages/dashboard/therapist"));
 
@@ -35,8 +37,12 @@ export const PROTECTED_ROUTES_MAP: any = {
           element: Therapist,
         },
         {
-          path: "question",
-          element: Question,
+          path: "question/pre-onboard",
+          element: PreQuestion,
+        },
+        {
+          path: "question/post-onboard",
+          element: PostQuestion,
         },
         {
           path: "post-onboard",
@@ -64,7 +70,6 @@ export const PROTECTED_ROUTES_MAP: any = {
             }
           ]
         },
-
       ]
     }
   ]
@@ -73,7 +78,6 @@ export const PROTECTED_ROUTES_MAP: any = {
 export {
   Login,
   AdminDashboard,
-  Admin,
   LoginComponent,
   EmailTemplate,
   NotFound,

@@ -10,6 +10,7 @@ import styles from "./quiz.module.scss";
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import CustomSelect from '../../select';
 import { quizDropdown } from './quiz.data';
+import QuillComp from '../../quill';
 
 const Quiz: React.FC<IMultipleQuizProps> = ({ handleSubmit, setHeading, setQuestionText, questionText, heading, selectedOptions, setSelectedOptions, handleCorrectAnswerSelect, options, setOptions, handleInputChange, setOpen, handleQuizTypeSelect, quizOptions }) => {
 
@@ -22,7 +23,7 @@ const Quiz: React.FC<IMultipleQuizProps> = ({ handleSubmit, setHeading, setQuest
   const handleRemoveItems = (index: number) => {
     const values = [...options];
     for (let i = index + 1; i < values.length; i++) {
-      values[i] = { id: values[i].id - 1, label: "Option-" + (values[i].id), value: "option" + (values[i].id) }
+      values[i] = { id: values[i]?.id - 1, label: "Option-" + (values[i].id), value: "option" + (values[i].id) }
     }
     values.splice(index, 1);
     setOptions(values);
@@ -42,11 +43,16 @@ const Quiz: React.FC<IMultipleQuizProps> = ({ handleSubmit, setHeading, setQuest
         Add option
       </Button>
       <form onSubmit={handleSubmit}>
-        <Stack spacing={2}>
+        <Stack spacing={10}>
 
           <FormControl>
             <FormLabel>Page Heading</FormLabel>
-            <Input name="page-heading" autoFocus required value={heading} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setHeading(e.target.value)} />
+            <QuillComp question={heading} setQuestion={setHeading} />
+          </FormControl>
+
+          <FormControl>
+            <FormLabel>Question Text</FormLabel>
+            <QuillComp question={questionText} setQuestion={setQuestionText} />
           </FormControl>
 
           <FormControl>
@@ -58,33 +64,28 @@ const Quiz: React.FC<IMultipleQuizProps> = ({ handleSubmit, setHeading, setQuest
               isAutoFocus={false}
               isSearchable={false}
               selectedOptions={quizOptions}
+              menuPlacement={"bottom"}
             />
           </FormControl>
+        </Stack>
 
-          <FormControl>
-            <FormLabel>Question Text</FormLabel>
-            <Input name="questionText" required value={questionText} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuestionText(e.target.value)} />
-          </FormControl>
-
-          <div>
-            {
-              options.map((val: any, index: number) => {
-                return (
-                  <div className={styles.optionList} key={index}>
-                    <FormControl className={styles.options}>
-                      <FormLabel>Option-{index + 1}</FormLabel>
-                      <Input name={`option${index + 1}`} value={val[`option${index + 1}`]} required onChange={e => handleInputChange(e, index)} />
-                    </FormControl>
-                    <div onClick={() => {
-                      handleRemoveItems(index);
-                    }} className={styles.deleteBtn}>
-                      <DeleteRoundedIcon /></div>
-                  </div>
-                )
-              })
-            }
-          </div>
-
+        <Stack spacing={2}>
+          {
+            options.map((val: Record<string, string>, index: number) => {
+              return (
+                <div className={styles.optionList} key={index}>
+                  <FormControl className={styles.options}>
+                    <FormLabel>Option-{index + 1}</FormLabel>
+                    <Input name={`option${index + 1}`} value={val[`option${index + 1}`]} required onChange={e => handleInputChange(e, index)} />
+                  </FormControl>
+                  <div onClick={() => {
+                    handleRemoveItems(index);
+                  }} className={styles.deleteBtn}>
+                    <DeleteRoundedIcon /></div>
+                </div>
+              )
+            })
+          }
           <FormControl>
             <FormLabel>Correct Answer</FormLabel>
             <CustomSelect
@@ -96,7 +97,6 @@ const Quiz: React.FC<IMultipleQuizProps> = ({ handleSubmit, setHeading, setQuest
               selectedOptions={selectedOptions}
             />
           </FormControl>
-
           <Button type="submit">Submit</Button>
         </Stack>
       </form>

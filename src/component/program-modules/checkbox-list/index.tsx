@@ -47,24 +47,22 @@ const CheckboxList: React.FC<ICheckboxListProps> = ({ handleSubmit, setContent, 
             <Textarea size="lg" variant="soft" name="content" required value={content} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setContent(e.target.value)} />
           </FormControl>
 
-          <div>
-            {
-              options.map((val: any, index: number) => {
-                return (
-                  <div className={styles.optionList} key={index}>
-                    <FormControl className={styles.options}>
-                      <FormLabel>Option-{index + 1}</FormLabel>
-                      <Input name={`option${index + 1}`} value={val[`option${index + 1}`]} required onChange={e => handleInputChange(e, index)} />
-                    </FormControl>
-                    <div onClick={() => {
-                      handleRemoveItems(index);
-                    }} className={styles.deleteBtn}>
-                      <DeleteRoundedIcon /></div>
-                  </div>
-                )
-              })
-            }
-          </div>
+          {
+            options.map((val: Record<string, string>, index: number) => {
+              return (
+                <div className={styles.optionList} key={index}>
+                  <FormControl className={styles.options}>
+                    <FormLabel>Option-{index + 1}</FormLabel>
+                    <Input name={`option${index + 1}`} value={val[`option${index + 1}`]} required onChange={e => handleInputChange(e, index)} />
+                  </FormControl>
+                  <div onClick={() => {
+                    handleRemoveItems(index);
+                  }} className={styles.deleteBtn}>
+                    <DeleteRoundedIcon /></div>
+                </div>
+              )
+            })
+          }
 
           <Button type="submit">Submit</Button>
         </Stack>

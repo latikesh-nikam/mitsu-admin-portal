@@ -1,5 +1,5 @@
 import axiosInstance from "./axios.instance";
-import { addTherapist } from "../constants/urls";
+import { addTherapist } from "../../utils/constants/urls";
 
 export const getTherapistDetails = async () => {
     try {

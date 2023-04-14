@@ -1,15 +1,19 @@
+import React from "react";
+import { ActionMeta, MultiValue, SingleValue } from "react-select";
+import { IModuleProps, ISelectOptionsProps } from "../../interface";
+
 export interface IAddActivityProps {
-  handleChangeSelect: (params: any, actionMeta: any, activityFieldCount: number, dayCount: number) => void
-  selectedOptions: any
+  handleChangeSelect: (newValue: MultiValue<ISelectOptionsProps> | SingleValue<ISelectOptionsProps>, actionMeta: ActionMeta<ISelectOptionsProps>, activityFieldCount: number, dayCount: number) => void
+  selectedOptions: Partial<IModuleProps[]> | undefined
   setDuration: (event: React.ChangeEvent<HTMLInputElement> | number) => void
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>, index: number) => void
   activityName: string
   setActivityName: (event: React.ChangeEvent<HTMLInputElement> | string) => void
   duration: number
-  screensData: any[]
-  handleAddScreen: any
-  handleDeleteScreen: any
+  screensData: never[] | undefined
+  handleAddScreen: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void
+  handleDeleteScreen: (index: number) => void
   activityFieldCount: number
-  setActivityFieldCount: (e:any) => void
+  setActivityFieldCount: (e: number) => void
   dayCount: number
 }

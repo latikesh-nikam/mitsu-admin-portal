@@ -9,7 +9,8 @@ import { dayData } from './addDay.data';
 import AddActivityForm from '../add-activity';
 import { Button } from '@mui/joy';
 import { Add } from '@mui/icons-material';
-import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+import { IActivitiesProps, IActivityProps, IOptionProps } from '../../interface';
+import toast from 'react-hot-toast';
 
 const AddDays: React.FC<IAddDayProps> = ({ handleDateChange, selectDate, activityName, duration, handleChangeSelect, handleInputChange, selectedOptions, setActivityName, setDuration, setSelectedOptions, activitiesArr, setActivitiesArr, activityFieldCount, setActivityFieldCount }) => {
 
@@ -65,7 +66,6 @@ const AddDays: React.FC<IAddDayProps> = ({ handleDateChange, selectDate, activit
 
   return (
     <div className={styles.container}>
-
       <Stack spacing={2}>
         <FormControl>
           <FormLabel>Select Days-</FormLabel>
@@ -83,11 +83,11 @@ const AddDays: React.FC<IAddDayProps> = ({ handleDateChange, selectDate, activit
         </FormControl>
 
         {
-          selectedOptions?.map((option: any, index: number) => {
+          selectedOptions?.map((option: IOptionProps, index: number) => {
             return (
               <div className={styles.dayContainer} key={index}>
-                <div className={styles.buttonWrapper}>
-                  <FormLabel><h4>DAY {option.id}</h4></FormLabel>
+                <FormLabel className={styles.dayNumber}>DAY-{option.id}</FormLabel>
+                <div className={styles.addActivityBtn}>
                   <Button
                     variant="outlined"
                     color="neutral"
@@ -96,47 +96,49 @@ const AddDays: React.FC<IAddDayProps> = ({ handleDateChange, selectDate, activit
                     type="button"
                     className={styles.addBtn}
                   >
-                    Add Activities for Day {option?.id}
-                  </Button>
-                </div>
-                {option?.activities?.map((val: any, activityIndex:number) => {
-                  return (
-                    <>
-                      <Button
-                        variant="outlined"
-                        color="neutral"
-                        startDecorator={<Add />}
-                        onClick={() => handleDeleteActivity(activityIndex, option)}
-                        type="button"
-                        className={styles.addBtn}
-                      >
-                        Delete Activity
-                      </Button>
-
-                      <AddActivityForm
-                        handleChangeSelect={handleChangeSelect}
-                        selectedOptions={selectedOptions}
-                        setDuration={setDuration}
-                        handleInputChange={handleInputChange}
-                        activityName={activityName}
-                        setActivityName={setActivityName}
-                        duration={duration}
-                        screensData={val.screens}
-                        handleAddScreen={() => handleAddScreens(option, val)}
-                        handleDeleteScreen={handleDeleteScreen(val, option)}
-                        activityFieldCount={activityFieldCount}
-                        setActivityFieldCount={setActivityFieldCount}
-                        dayCount={option.value}
-                      />
-                    </>
-                  )
-                })}
-              </div>
+                    Add Activities
+                  </Button >
+                </div >
+                {
+                  option?.activities?.map((val: IActivityProps, activityIndex: number) => {
+                    return (
+                      <div className={styles.activityWrapper} key={activityIndex}>
+                        <div className={styles.delActivityBtn}>
+                          <Button
+                            variant="outlined"
+                            color="neutral"
+                            startDecorator={<Add />}
+                            onClick={() => handleDeleteActivity(activityIndex, option)}
+                            type="button"
+                            className={styles.addBtn}
+                          >
+                            Delete Activity
+                          </Button>
+                        </div>
+                        <AddActivityForm
+                          handleChangeSelect={handleChangeSelect}
+                          selectedOptions={selectedOptions}
+                          setDuration={setDuration}
+                          handleInputChange={handleInputChange}
+                          activityName={activityName}
+                          setActivityName={setActivityName}
+                          duration={duration}
+                          screensData={val?.screens}
+                          handleAddScreen={() => handleAddScreens(option, val)}
+                          handleDeleteScreen={handleDeleteScreen(val, option)}
+                          activityFieldCount={activityFieldCount}
+                          setActivityFieldCount={setActivityFieldCount}
+                          dayCount={Number(option.value)}
+                        />
+                      </div>
+                    )
+                  })}
+              </div >
             )
           })
         }
-      </Stack>
-    </div>
+      </Stack >
+    </div >
   )
 }
 

@@ -7,7 +7,7 @@ const ColumnGrid: React.FC<IColumnGridProps> = ({ gridData, handleCardClick }) =
   return (
     <div className={styles.gridContainer}>
       {
-        gridData?.map((val: any, index: number) => {
+        gridData?.map((val: Record<string, string>, index: number) => {
           return (
             <div className={styles.grids} key={index}>
               <CardComp

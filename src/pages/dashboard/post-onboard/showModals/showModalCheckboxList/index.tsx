@@ -25,7 +25,6 @@ const ShowModalCheckboxList: React.FC<Props> = ({ open, setOpen, setSubjectiveQu
     })
     toast.success("Submitted Successfully!");
     setOpen(false);
-
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {

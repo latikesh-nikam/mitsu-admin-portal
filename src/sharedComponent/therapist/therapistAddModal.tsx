@@ -1,9 +1,8 @@
-import { useState } from "react";
-import { CButton, CModal, CModalHeader, CModalBody, CModalFooter, CModalTitle } from '@coreui/react';
+import { CModal, CModalHeader, CModalBody, CModalTitle } from '@coreui/react';
 import TherapistAddForm from './therapistAddForm';
 
 const TherapistAddModal = (props: any) => {
-  const { addTherapist, setTherapist, setData } = props;
+  const { addTherapist, setTherapist } = props;
   return (
     <>
       <CModal scrollable visible={addTherapist} onClose={() => setTherapist(false)}>
@@ -11,7 +10,7 @@ const TherapistAddModal = (props: any) => {
           <CModalTitle>Add Therapist</CModalTitle>
         </CModalHeader>
         <CModalBody>
-          <TherapistAddForm setTherapist={setTherapist} setData={setData} />
+          <TherapistAddForm setTherapist={setTherapist} />
         </CModalBody>
       </CModal>
     </>

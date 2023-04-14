@@ -1,6 +1,6 @@
 import React from 'react';
 import { AppHeader } from '../../component/topBar';
-import WidgetsDropdown from '../widgets/WidgetsDropdown';
+import WidgetsDropdown from '../../component/widgets/WidgetsDropdown';
 
 const TherapistDashboard: React.FC = () => {
   return (

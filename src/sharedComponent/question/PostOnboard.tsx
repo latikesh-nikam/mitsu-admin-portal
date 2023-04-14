@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, BaseSyntheticEvent } from "react";
 import {
   QuestionFormModal, QuestionPreviewModal, DeleteQuestionConfirmation, QuestionHeader, QuestionTable
 } from "./question.data";
-import { getQuestionDetails } from "../../service/user.service";
+import { getQuestionDetails } from "../../services/service/user.service";
 import QuestionEditModal from "./questionEditModal";
 
-const Question = () => {
+const PostQuestion = () => {
   const [showQuestionForm, setQuestionForm] = useState<boolean>(false);
   const [questionPreview, setQuestionPreview] = useState<boolean>(false);
   const [questionDelete, setQuestionDelete] = useState<boolean>(false);
@@ -18,31 +18,31 @@ const Question = () => {
   const handleValue = (val: string) => {
     setQuestionType(val)
     getQuestions(val)
-  }
+  };
 
   const handlePreviewIcon = (item: any) => {
     setQuestionPreview(!questionPreview)
     setQuestionDetails(item)
-  }
+  };
 
   const handleDeleteAction = (item: any) => {
     setQuestionDelete(!questionDelete)
-  }
+  };
 
-  const handleEditIcon = (item: any, e: any) => {
+  const handleEditIcon = (item: any, e: BaseSyntheticEvent) => {
+    e.stopPropagation();
     setQuestionEdit(!questionEdit)
     setEditFormDetails(item)
-  }
+  };
 
-  const getQuestions = async (category: string) => {
-    const response = await getQuestionDetails(category);
+  const getQuestions = async (category: string, type: string = 'PostOnboard') => {
+    const response = await getQuestionDetails(category, type);
     setQuestions(response?.data?.data)
-  }
+  };
 
   useEffect(() => {
-    getQuestions('')
-  }, [])
-
+    getQuestions('', 'PostOnboard')
+  }, []);
 
   return (
     <>
@@ -92,4 +92,4 @@ const Question = () => {
   )
 };
 
-export default Question;
+export default PostQuestion;

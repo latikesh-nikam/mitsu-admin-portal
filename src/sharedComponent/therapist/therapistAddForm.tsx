@@ -4,30 +4,32 @@ import { InputLabel, Input, TextareaAutosize } from '@mui/material';
 import style from './therapistAddForm.module.scss';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { CButton } from '@coreui/react';
-import { addTherapistUser, getTherapistDetails } from "../../service/therapist.service";
-import { toast } from 'react-hot-toast';
+import { addTherapistUser } from "../../services/service/therapist.service";
+
+interface ITherapistDetails {
+    name: string
+    email: string,
+    mobile: string
+    education: string
+    introduction: string
+    picture: string
+}
 
 const TherapistAddForm = (props: any) => {
-    const { setTherapist, setData}  = props;
-    const [therapistDetails, settherapistDetails] = useState<any>({
+    const { setTherapist } = props;
+    const [therapistDetails, settherapistDetails] = useState<ITherapistDetails>({
         name: "",
         email: "",
         mobile: "",
         education: "",
         introduction: "",
         picture: "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
-    })
+    });
+
     const { register, handleSubmit, formState: { errors } } = useForm({ mode: "onChange" });
     const onSubmit = async () => {
-        const res = await addTherapistUser(therapistDetails)
-        if(res){
-            setTherapist(false)
-            toast.success(res?.data?.message)
-            const response = await getTherapistDetails();
-            setData(response?.data?.data)
-        } else {
-            toast.error("Something went Wrong!!!")
-        }
+        const res = addTherapistUser(therapistDetails)
+        return res;
     }
 
     return (
@@ -39,34 +41,25 @@ const TherapistAddForm = (props: any) => {
                         type="text"
                         placeholder="Enter name"
                         fullWidth={true}
+                        required={true}
                         value={therapistDetails.name}
                         {...register("name", {
-                        required: "This is required field",
-                        onChange: (event: SelectChangeEvent) => settherapistDetails(
-                            {
-                            ...therapistDetails,
-                            name: event.target.value as string
-                            }
-                        ),
-                        pattern: {
-                            value:
-                            /^[^-\s][a-zA-Z0-9_\s-]+$/,
-                            message: 'Enter valid name',
-                        },
+                            required: "This is required field",
+                            onChange: (event: SelectChangeEvent) => settherapistDetails(
+                                {
+                                    ...therapistDetails,
+                                    name: event.target.value as string
+                                }
+                            )
                         })}
                     />
                     {errors.name ? (
                         <>
-                        {errors.name.type === "required" && (
-                            <p className={style.errMsg}>
-                            {errors?.name?.message as string}
-                            </p>
-                        )}
-                        {errors.name.type === "pattern" && (
-                            <p className={style.errMsg}>
-                            {errors?.name?.message as string}
-                            </p>
-                        )}
+                            {errors.name.type === "required" && (
+                                <p className={style.errMsg}>
+                                    {errors.name.message as string}
+                                </p>
+                            )}
                         </>
                     ) : null}
                 </div>
@@ -76,34 +69,35 @@ const TherapistAddForm = (props: any) => {
                         type="email"
                         placeholder="Enter Email"
                         fullWidth={true}
+                        required={true}
                         value={therapistDetails.email}
                         {...register("email", {
                             required: 'This is required field',
                             onChange: (event: SelectChangeEvent) => settherapistDetails(
                                 {
-                                ...therapistDetails,
-                                email: event.target.value as string
+                                    ...therapistDetails,
+                                    email: event.target.value as string
                                 }
                             ),
                             pattern: {
                                 value:
-                                /^[a-zA-Z0-9]+(?:[._-][a-zA-Z0-9]+)*@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/gm,
+                                    /^[a-zA-Z0-9]+(?:[._-][a-zA-Z0-9]+)*@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/gm,
                                 message: 'Enter valid email',
                             },
                         })}
                     />
                     {errors.email ? (
                         <>
-                        {errors.email.type === "required" && (
-                            <p className={style.errMsg}>
-                            {errors?.email?.message as string}
-                            </p>
-                        )}
-                        {errors.email.type === "pattern" && (
-                            <p className={style.errMsg}>
-                            {errors?.email?.message as string}
-                            </p>
-                        )}
+                            {errors.email.type === "required" && (
+                                <p className={style.errMsg}>
+                                    {errors?.email?.message as string}
+                                </p>
+                            )}
+                            {errors.email.type === "pattern" && (
+                                <p className={style.errMsg}>
+                                    {errors?.email?.message as string}
+                                </p>
+                            )}
                         </>
                     ) : null}
                 </div>
@@ -113,33 +107,34 @@ const TherapistAddForm = (props: any) => {
                         type="text"
                         placeholder="Enter phone number"
                         fullWidth={true}
+                        required={true}
                         value={therapistDetails.mobile}
                         {...register("mobile", {
-                        required: "This is required field",
-                        onChange: (event: SelectChangeEvent) => settherapistDetails(
-                            {
-                            ...therapistDetails,
-                            mobile: event.target.value as string
-                            }
-                        ),
-                        pattern: {
-                            value: /^(\+\d{1,3}[- ]?)?\d{10}$/,
-                            message: "Please enter valid phone number",
+                            required: "This is required field",
+                            onChange: (event: SelectChangeEvent) => settherapistDetails(
+                                {
+                                    ...therapistDetails,
+                                    mobile: event.target.value as string
+                                }
+                            ),
+                            pattern: {
+                                value: /^(\+\d{1,3}[- ]?)?\d{10}$/,
+                                message: "Please enter valid phone number",
                             },
                         })}
                     />
                     {errors.mobile ? (
                         <>
-                        {errors.mobile.type === "required" && (
-                            <p className={style.errMsg}>
-                            {errors.mobile.message as string}
-                            </p>
-                        )}
-                        {errors.mobile.type === "pattern" && (
-                            <p className={style.errMsg}>
-                            {errors.mobile.message as string}
-                            </p>
-                        )}
+                            {errors.mobile.type === "required" && (
+                                <p className={style.errMsg}>
+                                    {errors.mobile.message as string}
+                                </p>
+                            )}
+                            {errors.mobile.type === "pattern" && (
+                                <p className={style.errMsg}>
+                                    {errors.mobile.message as string}
+                                </p>
+                            )}
                         </>
                     ) : null}
                 </div>
@@ -149,34 +144,25 @@ const TherapistAddForm = (props: any) => {
                         type="text"
                         placeholder="Enter Education/Designation"
                         fullWidth={true}
+                        required={true}
                         value={therapistDetails.education}
                         {...register("education", {
-                        required: "This is required field",
-                        onChange: (event: SelectChangeEvent) => settherapistDetails(
-                            {
-                            ...therapistDetails,
-                            education: event.target.value as string
-                            }
-                        ),
-                        pattern: {
-                            value:
-                            /^[^-\s][a-zA-Z0-9_\s-]+$/,
-                            message: 'Enter valid education details',
-                        },
+                            required: "This is required field",
+                            onChange: (event: SelectChangeEvent) => settherapistDetails(
+                                {
+                                    ...therapistDetails,
+                                    education: event.target.value as string
+                                }
+                            )
                         })}
                     />
                     {errors.education ? (
                         <>
-                        {errors.education.type === "required" && (
-                            <p className={style.errMsg}>
-                            {errors.education.message as string}
-                            </p>
-                        )}
-                        {errors.education.type === "pattern" && (
-                            <p className={style.errMsg}>
-                            {errors.education.message as string}
-                            </p>
-                        )}
+                            {errors.education.type === "required" && (
+                                <p className={style.errMsg}>
+                                    {errors.education.message as string}
+                                </p>
+                            )}
                         </>
                     ) : null}
                 </div>
@@ -187,32 +173,22 @@ const TherapistAddForm = (props: any) => {
                         className={style.textField}
                         value={therapistDetails.introduction}
                         {...register("introduction", {
-                        required: "This is required field",
-                        onChange: (event: SelectChangeEvent) => settherapistDetails(
-                            {
-                            ...therapistDetails,
-                            introduction: event.target.value as string
-                            }
-                        ),
-                        pattern: {
-                            value:
-                            /^[^-\s][a-zA-Z0-9_\s-]+$/,
-                            message: 'Enter valid details',
-                        },
+                            required: "This is required field",
+                            onChange: (event: SelectChangeEvent) => settherapistDetails(
+                                {
+                                    ...therapistDetails,
+                                    introduction: event.target.value as string
+                                }
+                            )
                         })}
                     />
                     {errors.introduction ? (
                         <>
-                        {errors.introduction.type === "required" && (
-                            <p className={style.errMsg}>
-                            {errors.introduction.message as string}
-                            </p>
-                        )}
-                        {errors.introduction.type === "pattern" && (
-                            <p className={style.errMsg}>
-                            {errors.introduction.message as string}
-                            </p>
-                        )}
+                            {errors.introduction.type === "required" && (
+                                <p className={style.errMsg}>
+                                    {errors.introduction.message as string}
+                                </p>
+                            )}
                         </>
                     ) : null}
                 </div>

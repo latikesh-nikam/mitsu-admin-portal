@@ -1,0 +1,25 @@
+@import "../../styles/variables";
+@import "../../styles/mixins.scss";
+
+.accordionContainer {
+  .moduleContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 0;
+
+    .moduleHeading {
+      font-weight: 700;
+      font-family: $fontFamilySourceCode;
+    }
+
+    .label {
+      padding: 1rem 0;
+      font-size: toRem(15);
+      font-weight: 500;
+      font-style: italic;
+      font-family: $fontFamilyRobotoMono, monospace;
+    }
+  }
+}

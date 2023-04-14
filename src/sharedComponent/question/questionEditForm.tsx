@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useForm } from 'react-hook-form';
 import { InputLabel, Input, TextareaAutosize } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
@@ -39,7 +39,7 @@ const QuestionEditForm = (props: any) => {
   }
 
   const handleDeleteOption = (option: any) => {
-    optionArr = optionArr?.filter(function(item) {
+    optionArr = optionArr?.filter(function (item) {
       return item.text !== option.text
     })
     setOptionArr(optionArr)
@@ -163,41 +163,41 @@ const QuestionEditForm = (props: any) => {
         </div>
       </form>
       <div>
-      {((question.optionType !== 'text') && (question.optionType !== "")) && (
-        <div> 
-          <InputLabel>Enter Options</InputLabel>
-          {optionArr.length > 0 && (
-            <OptionsTable optionArr={optionArr} handleDeleteOption={handleDeleteOption} />
-          )}
-          <div className={style.optionsWrapper}>
-            <span className={style.optionWrapper}>
-              <Input
-                type="text"
-                placeholder="Enter Options"
-                value={optionVal.text}
-                {...register("optionText", {
-                  required: "This is required field",
-                  onChange: (e: any) => setOptionVal({ ...optionVal, text: e.target.value })
-                })}
-              />
-            </span>
-            <span className={style.optionWrapper}>
-              <Input
-                type="text"
-                placeholder="Enter Score"
-                value={optionVal.score}
-                {...register("optionScore", {
-                  required: "This is required field",
-                  onChange: (e: any) => setOptionVal({ ...optionVal, score: e.target.value })
-                })}
-              />
-            </span>
-            <span className={style.optionWrapper}>
-              <Button variant="outlined" onClick={() => handleOption()}>Add</Button>
-            </span>
+        {((question.optionType !== 'text') && (question.optionType !== "")) && (
+          <div>
+            <InputLabel>Enter Options</InputLabel>
+            {optionArr.length > 0 && (
+              <OptionsTable optionArr={optionArr} handleDeleteOption={handleDeleteOption} />
+            )}
+            <div className={style.optionsWrapper}>
+              <span className={style.optionWrapper}>
+                <Input
+                  type="text"
+                  placeholder="Enter Options"
+                  value={optionVal.text}
+                  {...register("optionText", {
+                    required: "This is required field",
+                    onChange: (e: React.ChangeEvent<HTMLInputElement>) => setOptionVal({ ...optionVal, text: e.target.value })
+                  })}
+                />
+              </span>
+              <span className={style.optionWrapper}>
+                <Input
+                  type="text"
+                  placeholder="Enter Score"
+                  value={optionVal.score}
+                  {...register("optionScore", {
+                    required: "This is required field",
+                    onChange: (e: React.ChangeEvent<HTMLInputElement>) => setOptionVal({ ...optionVal, score: e.target.value })
+                  })}
+                />
+              </span>
+              <span className={style.optionWrapper}>
+                <Button variant="outlined" onClick={() => handleOption()}>Add</Button>
+              </span>
+            </div>
           </div>
-        </div>
-      )}
+        )}
       </div>
     </>
   )

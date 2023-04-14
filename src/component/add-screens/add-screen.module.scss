@@ -2,30 +2,35 @@
 @import "../../styles/mixins.scss";
 
 .screenContainer {
-  width: 100%;
   padding: 1rem;
   box-shadow: 0 0.0625rem 0.1875rem $boxShadow-color1, 0 0.0625rem 0.125rem $boxShadow-color2;
+  margin-bottom: 1rem;
 
   .addBtn {
     margin: 0.5rem 0;
   }
 
   .screens {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-self: center;
-
-    .deleteContainer {
+    .screenLabel {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: center;
+      font-size: toRem(18);
+      font-weight: 500;
+      text-decoration: underline;
     }
 
-    .deleteBtn {
-      margin-top: 1.5rem;
-      cursor: pointer;
+    .formLabels {
+      font-family: $fontFamilySourceCode;
+      font-weight: 600;
+      font-size: toRem(17);
+    }
+
+    .screenSubWrapper {
+      .deleteBtn {
+        display: flex;
+        justify-content: flex-end;
+      }
     }
   }
 }

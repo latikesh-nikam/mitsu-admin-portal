@@ -5,8 +5,6 @@ import {
     CTableHead,
     CTableHeaderCell,
     CTableRow,
-    CPagination,
-    CPaginationItem,
   } from '@coreui/react'
   import Delete from "@mui/icons-material/Delete";
 

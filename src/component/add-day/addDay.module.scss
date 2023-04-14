@@ -2,22 +2,41 @@
 @import "../../styles/mixins.scss";
 
 .container {
-  padding-bottom: 2rem;
-  margin-left: 1rem;
-  margin-right: 1rem;
-
   .dayContainer {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 1rem;
-    box-shadow: 0 0.0625rem 0.1875rem $boxShadow-color1, 0 0.0625rem 0.125rem $boxShadow-color2;
-
-    .buttonWrapper {
+    .dayNumber {
       display: flex;
-      justify-content: space-around;
-      width: -webkit-fill-available;
+      align-items: center;
+      justify-content: center;
+      font-size: toRem(18);
+      font-weight: 500;
+      text-decoration: underline;
+    }
+
+    .activityWrapper {
+      margin-bottom: 0.5rem;
+    }
+
+    .delActivityBtn {
+      display: flex;
+      justify-content: flex-end;
+      padding-bottom: 2rem;
+      margin-left: 1rem;
+      margin-right: 1rem;
+
+      .dayContainer {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 1rem;
+        box-shadow: 0 0.0625rem 0.1875rem $boxShadow-color1, 0 0.0625rem 0.125rem $boxShadow-color2;
+
+        .buttonWrapper {
+          display: flex;
+          justify-content: space-around;
+          width: -webkit-fill-available;
+        }
+      }
     }
   }
 }

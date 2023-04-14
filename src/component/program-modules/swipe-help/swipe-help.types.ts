@@ -6,6 +6,6 @@ export interface ISwipeHelpProps {
   content: string
   options: any
   setOptions: (options: any) => void
-  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>, index: number) => void
+  handleInputChange: (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, index: number) => void
   setOpen: (open: boolean) => void
 }

@@ -4,9 +4,11 @@ import styles from "./activity.module.scss";
 import ModuleList from '../../../../../component/modules-list';
 import { Button } from '@mui/joy';
 import { Add } from '@mui/icons-material';
-import { getAllModules, getProgramsByCategories, assignModuleToCategories } from '../../../../../service/module.service';
+import { getAllModules, getProgramsByCategories, assignModuleToCategories } from '../../../../../services/service/module.service';
 import ModuleAddModal from '../../../../../sharedComponent/modules/moduleModal';
 import { toast } from 'react-hot-toast';
+import Canvas from '../../../../../component/canvas';
+import Accordion from '../../../../../component/accordion';
 
 const Anxiety: React.FC = () => {
   const [showModal, setModal] = useState(false)
@@ -15,6 +17,11 @@ const Anxiety: React.FC = () => {
   const [moduleIds, setModuleIds] = useState([]);
   const [categoryId, setCategoryId] = useState("");
   const [showPreview, setPreview] = useState(false);
+
+  const [subModulesData, setSubModulesData] = useState<any>([]);
+  const [activitiesData, setActivitiesData] = useState<any>([]);
+  const [screensData, setScreensData] = useState<any>([]);
+  const [modulesData, setModulesData] = useState<any>({});
 
   const getModules = async () => {
     const res = await getProgramsByCategories(`Anxiety`)
@@ -31,11 +38,11 @@ const Anxiety: React.FC = () => {
 
   useEffect(() => {
     getModules()
-  },[])
+  }, [])
 
   useEffect(() => {
     getAllCategoryModules()
-  },[])
+  }, [])
 
   const handleAddOption = (e: any) => {
     e.stopPropagation()
@@ -44,7 +51,7 @@ const Anxiety: React.FC = () => {
 
   const assignModules = async () => {
     let assignModuleIds = moduleIds?.map((item) => {
-      return { id: item}
+      return { id: item }
     })
     let moduleDetails = {
       id: categoryId,
@@ -54,7 +61,7 @@ const Anxiety: React.FC = () => {
       ]
     }
     const res = await assignModuleToCategories(moduleDetails)
-    if(res){
+    if (res) {
       setModal(false)
       setModuleIds([])
       toast.success("Module assigned Successfully!!")
@@ -62,13 +69,24 @@ const Anxiety: React.FC = () => {
     } else {
       toast.error("Something went wrong !!")
     }
-    
+  };
+
+  const sendPreviewData = (item: any) => {
+
+    const modulesdata = { ...item }
+    setModulesData(modulesdata);
+    setSubModulesData(item.sub_modules);
+
+    const activitesdata = item?.sub_modules?.map((val: any) => val?.activities)
+    setActivitiesData(activitesdata)
+
+    const screensdata = activitesdata[0]?.map((values: any) => values?.screens)
+    setScreensData(screensdata);
   }
 
   return (
-    <>
-      <div className={styles.container}>
-        {/* <ColumnGrid gridData={gridData} handleCardClick={handleCardClick} /> */}
+    <div className={styles.container}>
+      <div className={styles.btn}>
         <Button
           variant="soft"
           color="primary"
@@ -79,21 +97,35 @@ const Anxiety: React.FC = () => {
         >
           Add Modules to Anxiety
         </Button>
-        {showModal && (
-          <ModuleAddModal
-            showModal={showModal}
-            setModal={setModal}
-            modules={assignedModules}
-            moduleIds={moduleIds}
-            setModuleIds={setModuleIds}
-            title={'Anxiety'}
-            assignModules={assignModules}
-            disabled={moduleIds.length > 0 ? false : true }
-          />
-        )}
-        <ModuleList modulesList={modules? modules[0] : []} setPreview={setPreview} />
       </div>
-    </>
+      {showModal && (
+        <ModuleAddModal
+          showModal={showModal}
+          setModal={setModal}
+          modules={assignedModules}
+          moduleIds={moduleIds}
+          setModuleIds={setModuleIds}
+          title={'Anxiety'}
+          assignModules={assignModules}
+          disabled={moduleIds.length > 0 ? false : true}
+        />
+      )}
+      {showPreview && (
+        <Canvas
+          setVisible={setPreview}
+          visible={showPreview}
+          children={
+            <Accordion
+              subModulesData={subModulesData}
+              activitiesData={activitiesData}
+              screensData={screensData}
+              modulesData={modulesData}
+            />
+          }
+        />
+      )}
+      <ModuleList modulesList={modules ? modules[0] : []} setPreview={setPreview} previewData={(item) => sendPreviewData(item)} />
+    </div>
   )
 };
 

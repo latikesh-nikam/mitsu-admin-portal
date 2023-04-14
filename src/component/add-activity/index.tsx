@@ -4,27 +4,27 @@ import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
 import Stack from '@mui/joy/Stack';
 import { IAddActivityProps } from './add-activity.types';
-import { Button, Input } from '@mui/joy';
 import AddScreens from '../add-screens';
-import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import { Add } from '@mui/icons-material';
+import { Button, Input } from '@mui/joy';
 
 const AddActivityForm: React.FC<IAddActivityProps> = ({ dayCount, handleChangeSelect, selectedOptions, duration, setDuration, handleInputChange, activityName, setActivityName, screensData, handleAddScreen, handleDeleteScreen, activityFieldCount, setActivityFieldCount }) => {
 
   const [open, setOpen] = useState<boolean>(false);
   return (
     <div className={styles.container}>
+
       <Stack spacing={2}>
         <FormControl>
-          <FormLabel>Activity Name<span className={styles.requiredField}>*</span></FormLabel>
-          <Input name={`activityName-${activityFieldCount}`} required  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-             setActivityName(e.target.value)
+          <FormLabel className={styles.formLabels}>Activity Name<span className={styles.requiredField}>*</span></FormLabel>
+          <Input name={`activityName-${activityFieldCount}`} required onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setActivityName(e.target.value)
 
           }} />
         </FormControl>
 
         <FormControl>
-          <FormLabel>Duration<span className={styles.requiredField}>*</span></FormLabel>
+          <FormLabel className={styles.formLabels}>Duration<span className={styles.requiredField}>*</span></FormLabel>
           <Input name={`activityDuration-${activityFieldCount}`} required onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDuration(Number(e.target.value))} placeholder="Enter duration in min" type="number" />
         </FormControl>
 
@@ -40,20 +40,11 @@ const AddActivityForm: React.FC<IAddActivityProps> = ({ dayCount, handleChangeSe
             >
               Add Screens
             </Button>
-            <div
-              className={styles.deleteBtn}>
-              <DeleteRoundedIcon /></div>
           </div>
-
           {
-            screensData.map((val: any, index: number) => {
+            screensData?.map((val: Record<string, string>, index: number) => {
               return (
-                <>
-                  <div
-                    onClick={() => handleDeleteScreen(index)}
-                    className={styles.deleteBtn}>
-                    <DeleteRoundedIcon />
-                  </div>
+                <div key={index}>
                   <AddScreens
                     handleChangeSelect={handleChangeSelect}
                     setDuration={setDuration}
@@ -63,15 +54,16 @@ const AddActivityForm: React.FC<IAddActivityProps> = ({ dayCount, handleChangeSe
                     activityName={activityName}
                     setActivityName={setActivityName}
                     handleDeleteScreen={() => handleDeleteScreen(index)}
+                    index={index}
                     activityFieldCount={activityFieldCount}
                     dayCount={dayCount}
                   />
-                </>
+                </div>
               )
             })}
         </FormControl>
       </Stack>
-    </div>
+    </div >
   )
 }
 

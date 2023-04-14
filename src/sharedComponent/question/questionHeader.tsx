@@ -1,12 +1,13 @@
 import { CButton, CDropdownToggle, CDropdownMenu, CDropdownItem, CDropdown } from '@coreui/react'
 import styles from "./questionHeader.module.scss";
+import { BaseSyntheticEvent } from 'react';
 
 const QuestionHeader = (props: any) => {
   const { showQuestionForm, setQuestionForm, questionType, handleValue } = props;
 
   return (
     <div className={styles.questionHeaderWrapper}>
-      <CButton color="primary" variant="outline" onClick={(e: any) => {
+      <CButton color="primary" variant="outline" onClick={(e: BaseSyntheticEvent) => {
         e.stopPropagation()
         setQuestionForm(!showQuestionForm)
       }}>Add Question</CButton>

@@ -1,5 +1,5 @@
 export interface ICardProps {
   title: string
   subtitle: string
-  handleCardClick: (e: any) => void
+  handleCardClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
 }

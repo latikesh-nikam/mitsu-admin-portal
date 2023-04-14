@@ -54,6 +54,7 @@ const SwipeHelp: React.FC<ISwipeHelpProps> = ({ handleSubmit, setOptions, option
                     }} className={styles.deleteBtn}>
                       <DeleteRoundedIcon /></div>
                   </div>
+
                   <FormControl>
                     <FormLabel>Carousel Heading</FormLabel>
                     <Input name={`carousel-heading${index + 1}`} autoFocus required value={val[`carousel${index + 1}`]} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange(e, index)} />
@@ -61,7 +62,7 @@ const SwipeHelp: React.FC<ISwipeHelpProps> = ({ handleSubmit, setOptions, option
 
                   <FormControl>
                     <FormLabel>Content</FormLabel>
-                    <Textarea size="lg" variant="soft" name={`carousel-content${index + 1}`} required value={val[`carousel-content${index + 1}`]} onChange={(e: any) => handleInputChange(e, index)} />
+                    <Textarea size="lg" variant="soft" name={`carousel-content${index + 1}`} required value={val[`carousel-content${index + 1}`]} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => handleInputChange(e, index)} />
                   </FormControl>
 
                 </div>

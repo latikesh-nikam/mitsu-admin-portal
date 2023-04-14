@@ -1,13 +1,13 @@
-import { getQuestions, addQuestion, updateQuestion, deleteQuestion, logOutUser, user } from "../constants/urls";
+import { getQuestions, addQuestion, updateQuestion, deleteQuestion, logOutUser, user } from "../../utils/constants/urls";
 import axiosInstance from "./axios.instance";
 
-export const getQuestionDetails = async (category: string) => {
+export const getQuestionDetails = async (category: string, type: string) => {
   try {
     if (category && category !== 'All Questions') {
-      const res = await axiosInstance.get(`${getQuestions}?category=${category}`)
+      const res = await axiosInstance.get(`${getQuestions}?type=${type}&category=${category}`)
       return res
     } else {
-      const res = await axiosInstance.get(`${getQuestions}`)
+      const res = await axiosInstance.get(`${getQuestions}?type=${type}`)
       return res
     }
 

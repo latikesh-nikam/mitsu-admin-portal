@@ -1,0 +1,6 @@
+.canvas {
+  $offcanvas-transition-duration: 0.5s;
+  $offcanvas-box-shadow: 0 0.0625rem 0.125rem #1018280d;
+  $offcanvas-backdrop-bg: var(--joy-palette-background-backdrop, rgba(255 255 255 / 0.5));
+  $offcanvas-backdrop-opacity: blur(8px);
+}

@@ -4,7 +4,7 @@ export interface ICheckboxListProps {
   setContent: (event: React.ChangeEvent<HTMLTextAreaElement> | string) => void
   pageHeading: string
   content: string
-  options: any
+  options: Record<string, string>[]
   setOptions: (options: any) => void
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>, index: number) => void
   setOpen: (open: boolean) => void

@@ -3,6 +3,12 @@ import { Routes, Route } from "react-router-dom";
 import { AppContext } from '../context/AppContext';
 import { LoginComponent, Login, EmailTemplate, NotFound, PROTECTED_ROUTES_MAP } from "./routes.data";
 
+export interface IRoutesProps {
+  path: string,
+  element: React.LazyExoticComponent<React.FC<{}>> | React.FC<{}>
+  children: IRoutesProps[]
+}
+
 const RoutesComp: React.FC = () => {
   const { appState } = useContext(AppContext);
   const { loginData } = appState
@@ -16,14 +22,14 @@ const RoutesComp: React.FC = () => {
     setRole(userROLE);
   }, [Role])
 
-  const childrenRoutes = (routes: any) => {
+  const childrenRoutes = (routes: IRoutesProps[]) => {
     return (
       <>
         {
-          (routes?.map((route: any, index: number) => {
+          (routes?.map((route: IRoutesProps, index: number) => {
             return (
               <Route path={route.path} element={<route.element />} key={index}>
-                {route.children ? childrenRoutes(route.children) : <></>}
+                {route.children ? childrenRoutes(route?.children) : <></>}
               </Route>
             );
           }))
@@ -33,23 +39,21 @@ const RoutesComp: React.FC = () => {
   };
 
   return (
-    <>
-      <Routes>
-        <Route path='/login' element={<Login />} />
-        <Route path="/" element={<LoginComponent />} />
-        {
-          (roleRoutes?.map((route: any, index: number) => {
-            return (
-              <Route path={route.path} element={<route.element />} key={index}>
-                {route.children ? childrenRoutes(route.children) : <></>}
-              </Route>
-            );
-          }))
-        }
-        <Route path="/verify/email" element={<EmailTemplate />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </>
+    <Routes>
+      <Route path='/login' element={<Login />} />
+      <Route path="/" element={<LoginComponent />} />
+      {
+        (roleRoutes?.map((route: IRoutesProps, index: number) => {
+          return (
+            <Route path={route.path} element={<route.element />} key={index}>
+              {route.children ? childrenRoutes(route.children) : <></>}
+            </Route>
+          );
+        }))
+      }
+      <Route path="/verify/email" element={<EmailTemplate />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   )
 }
 

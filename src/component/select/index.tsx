@@ -1,20 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback } from 'react';
 import Select, { ActionMeta, MultiValue, SingleValue } from 'react-select';
-import { ISelectOptions, ISelectProps } from './select.types';
+import { ISelectProps } from './select.types';
+import { ISelectOptionsProps } from "../../interface";
 
-const CustomSelect: React.FC<Partial<ISelectProps>> = ({ isMulti = false, dropdownOptions, selectedOptions, disabled = false, isAutoFocus, isSearchable = true, handleChangeSelect, name, menuPlacement = "top", hideSelectedOptions = false, activityFieldCount = 0, dayCount = 0 }) => {
+const CustomSelect: React.FC<Partial<ISelectProps>> = React.forwardRef(({ isMulti = false, dropdownOptions, selectedOptions, disabled = false, isAutoFocus, isSearchable = true, handleChangeSelect, name, menuPlacement = "top", hideSelectedOptions = false, placeholder, activityFieldCount = 0, dayCount = 0 }, ref) => {
 
   const getOptionValue = useCallback(
-    (option: ISelectOptions | ISelectOptions[]) => {
+    (option: ISelectOptionsProps | ISelectOptionsProps[]) => {
       return !Array.isArray(option) ? (option.id ? option.id.toString() : '') : '';
     },
     [dropdownOptions]
   );
 
-  const onChange = (newValue: MultiValue<ISelectOptions> | SingleValue<ISelectOptions>, actionMeta: ActionMeta<ISelectOptions>) => {
+  const onChange = (newValue: MultiValue<ISelectOptionsProps> | SingleValue<ISelectOptionsProps>, actionMeta: ActionMeta<ISelectOptionsProps>,) => {
     handleChangeSelect && handleChangeSelect(newValue, actionMeta, activityFieldCount, dayCount);
-  }
+  };
 
   return (
     <div>
@@ -35,9 +36,10 @@ const CustomSelect: React.FC<Partial<ISelectProps>> = ({ isMulti = false, dropdo
         getOptionValue={getOptionValue}
         isSearchable={isSearchable}
         backspaceRemovesValue={false}
+        placeholder={placeholder}
       />
     </div>
   )
-}
+})
 
 export default CustomSelect

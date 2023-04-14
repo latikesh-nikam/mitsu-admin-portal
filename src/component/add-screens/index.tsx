@@ -1,61 +1,49 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Button from '@mui/joy/Button';
 import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
-import Input from '@mui/joy/Input';
 import Stack from '@mui/joy/Stack';
-import { Add } from '@mui/icons-material';
 import styles from "./add-screen.module.scss";
-import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import { IAddScreenProps } from './add-screen.types';
 import CustomSelect from '../select';
 import { screensDropdown } from './add-screen.data';
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+import { ISelectOptionsProps } from '../../interface';
+import { ActionMeta, MultiValue, SingleValue } from 'react-select';
 
-const AddScreens: React.FC<IAddScreenProps> = ({ activityFieldCount, dayCount, handleChangeSelect, duration, setDuration, setOpen, handleInputChange, activityName, setActivityName, handleDeleteScreen }) => {
-
-  // const handleAddOption = () => {
-  //   const values = [...screens];
-  //   values.push({});
-  //   setScreens(values);
-  // };
-
-  // const handleRemoveItems = (index: number) => {
-  //   const values = [...screens];
-  //   values.splice(index, 1);
-  //   setScreens(values);
-  // };
+const AddScreens: React.FC<IAddScreenProps> = ({ activityFieldCount, dayCount, handleChangeSelect, duration, setDuration, setOpen, handleInputChange, activityName, setActivityName, handleDeleteScreen, index }) => {
 
   return (
     <div className={styles.screenContainer}>
       <Stack spacing={2}>
         <div className={styles.screens}>
-          <div className={styles.deleteContainer}>
-
-            <FormLabel>Screen</FormLabel>
-
-            {/* <div onClick={handleDeleteScreen} className={styles.deleteBtn}>
-              <DeleteRoundedIcon /></div> */}
+          <FormLabel className={styles.screenLabel}>Screen-{index + 1}</FormLabel>
+          <div className={styles.screenSubWrapper}>
+            <div
+              onClick={handleDeleteScreen}
+              className={styles.deleteBtn}>
+              <DeleteRoundedIcon />
+            </div>
+            <FormControl>
+              <FormLabel className={styles.formLabels}>Select Screen</FormLabel>
+              <CustomSelect
+                name="program-activities"
+                isMulti={false}
+                dropdownOptions={screensDropdown}
+                handleChangeSelect={(newValue: MultiValue<ISelectOptionsProps> | SingleValue<ISelectOptionsProps>, actionMeta: ActionMeta<ISelectOptionsProps>, activityFieldCount: number, dayCount: number) => handleChangeSelect(newValue, actionMeta, activityFieldCount, dayCount)}
+                isAutoFocus={false}
+                isSearchable={false}
+                menuPlacement="bottom"
+                hideSelectedOptions={true}
+                activityFieldCount={activityFieldCount}
+                dayCount={dayCount}
+              />
+            </FormControl>
           </div>
-
-          <FormControl>
-            <FormLabel>Select Screen</FormLabel>
-            <CustomSelect
-              name="program-activities"
-              isMulti={false}
-              dropdownOptions={screensDropdown}
-              handleChangeSelect={(e: any, actionMeta: any, activityFieldCount: number, dayCount: number) => handleChangeSelect(e, actionMeta, activityFieldCount, dayCount)}
-              isAutoFocus={false}
-              isSearchable={false}
-              menuPlacement="bottom"
-              hideSelectedOptions={true}
-              activityFieldCount={activityFieldCount}
-              dayCount={dayCount}
-            />
-          </FormControl>
         </div>
         <Button type="submit" hidden disabled={!duration} onClick={e => setOpen(false)}>Submit</Button>
       </Stack>
-    </div >
+    </div>
   )
 }
 

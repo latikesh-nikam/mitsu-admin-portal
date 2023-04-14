@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import OptionsTable from "./optionsTable";
 import QuillComp from "../../component/quill";
 import { CButton } from "@coreui/react";
-import { addQuestionDetails } from "../../service/user.service";
+import { addQuestionDetails } from "../../services/service/user.service";
 import { toast } from 'react-hot-toast';
 
 type options_type = { text: string, score: string };
@@ -43,7 +43,7 @@ const QuestionForm = (props: any) => {
   }
 
   const handleDeleteOption = (option: any) => {
-    optionArr = optionArr?.filter(function(item) {
+    optionArr = optionArr?.filter(function (item) {
       return item.text !== option.text
     })
     setOptionArr(optionArr)
@@ -59,7 +59,7 @@ const QuestionForm = (props: any) => {
       }
     }
     const res = await addQuestionDetails(data)
-    if(res){
+    if (res) {
       toast.success("Question Added Successfully")
     } else {
       toast.error("Something went wrong!")
@@ -169,47 +169,47 @@ const QuestionForm = (props: any) => {
           </select>
         </div>
         <div>
-      {((question.options_type !== 'text') && (question.options_type !== "")) && (
-        <div> 
-          <InputLabel>Enter Options</InputLabel>
-          {optionArr.length > 0 && (
-            <OptionsTable optionArr={optionArr} handleDeleteOption={handleDeleteOption} />
+          {((question.options_type !== 'text') && (question.options_type !== "")) && (
+            <div>
+              <InputLabel>Enter Options</InputLabel>
+              {optionArr.length > 0 && (
+                <OptionsTable optionArr={optionArr} handleDeleteOption={handleDeleteOption} />
+              )}
+              <div className={style.optionsWrapper}>
+                <span className={style.optionWrapper}>
+                  <Input
+                    type="text"
+                    placeholder="Enter Options"
+                    value={optionVal.text}
+                    {...register("optionText", {
+                      required: "This is required field",
+                      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setOptionVal({ ...optionVal, text: e.target.value })
+                    })}
+                  />
+                </span>
+                <span className={style.optionWrapper}>
+                  <Input
+                    type="text"
+                    placeholder="Enter Score"
+                    value={optionVal.score}
+                    {...register("optionScore", {
+                      required: "This is required field",
+                      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setOptionVal({ ...optionVal, score: e.target.value })
+                    })}
+                  />
+                </span>
+                <span className={style.optionWrapper}>
+                  <Button variant="outlined" onClick={() => handleOption()}>Add</Button>
+                </span>
+              </div>
+            </div>
           )}
-          <div className={style.optionsWrapper}>
-            <span className={style.optionWrapper}>
-              <Input
-                type="text"
-                placeholder="Enter Options"
-                value={optionVal.text}
-                {...register("optionText", {
-                  required: "This is required field",
-                  onChange: (e: any) => setOptionVal({ ...optionVal, text: e.target.value })
-                })}
-              />
-            </span>
-            <span className={style.optionWrapper}>
-              <Input
-                type="text"
-                placeholder="Enter Score"
-                value={optionVal.score}
-                {...register("optionScore", {
-                  required: "This is required field",
-                  onChange: (e: any) => setOptionVal({ ...optionVal, score: e.target.value })
-                })}
-              />
-            </span>
-            <span className={style.optionWrapper}>
-              <Button variant="outlined" onClick={() => handleOption()}>Add</Button>
-            </span>
-          </div>
         </div>
-      )}
-      </div>
         <div className={style.buttons}>
-            <CButton color="dark" className="m-1" onClick={() => setQuestionForm(false)}>
-                Close
-            </CButton>
-            <CButton color="primary" type="submit" className="m-1">Submit</CButton>
+          <CButton color="dark" className="m-1" onClick={() => setQuestionForm(false)}>
+            Close
+          </CButton>
+          <CButton color="primary" type="submit" className="m-1">Submit</CButton>
         </div>
       </form>
     </>

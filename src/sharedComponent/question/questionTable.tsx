@@ -6,11 +6,11 @@ import {
   CTableHeaderCell,
   CTableRow,
 } from '@coreui/react'
-import style from './questionTable.module.scss';
 import Delete from "@mui/icons-material/Delete";
 import Edit from "@mui/icons-material/Edit";
 import Visibility from "@mui/icons-material/Visibility";
 import Tooltip from '@mui/material/Tooltip';
+import { BaseSyntheticEvent } from 'react';
 
 const QuestionTable = (props: any) => {
   const { questionSet, handlePreviewIcon, handleDeleteAction, handleEditIcon } = props;
@@ -41,22 +41,22 @@ const QuestionTable = (props: any) => {
                 </CTableDataCell>
                 <CTableDataCell className="text-center">
                   <Tooltip title="Preview">
-                    <Visibility className="m-1" color="action" onClick={(e:any) => {
+                    <Visibility className="m-1" color="action" onClick={(e: BaseSyntheticEvent) => {
                       e.stopPropagation()
                       handlePreviewIcon(item)
-                    }}/>
+                    }} />
                   </Tooltip>
                   <Tooltip title="Edit">
-                    <Edit color="action" onClick={(e:any) => {
+                    <Edit color="action" onClick={(e: BaseSyntheticEvent) => {
                       e.stopPropagation()
                       handleEditIcon(item)
-                    }}/>
+                    }} />
                   </Tooltip>
                   <Tooltip title="Delete">
-                    <Delete color="action" onClick={(e:any) => {
+                    <Delete color="action" onClick={(e: BaseSyntheticEvent) => {
                       e.stopPropagation()
                       handleDeleteAction(item)
-                    }}/>
+                    }} />
                   </Tooltip>
                 </CTableDataCell>
               </CTableRow>

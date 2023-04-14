@@ -16,7 +16,8 @@ const ShowModalTextInput: React.FC<Props> = ({ open, setOpen, setTextInputFormDa
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = getFormData(event);
-    setTextInputFormData(formData);
+    const postFormData = { name: formData.name, description: content.description }
+    setTextInputFormData(postFormData);
     toast.success("Submitted Successfully!");
     setHeading("");
     setContent("");

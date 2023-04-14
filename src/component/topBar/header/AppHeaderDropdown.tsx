@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import profileImg from '../../../assets/images/profile_icon.png'
 import { clearStore } from '../../../services/module.service';
 import { toast } from 'react-hot-toast';
-import { userLogOut } from '../../../service/user.service';
+import { userLogOut } from '../../../services/service/user.service';
 
 const AppHeaderDropdown = () => {
   const nav = useNavigate();

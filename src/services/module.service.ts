@@ -25,6 +25,7 @@ class Http {
         body: JSON.stringify(data),
       });
     }
+
     else {
       return this.send(url, {
         method: "POST",

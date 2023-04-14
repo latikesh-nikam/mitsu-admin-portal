@@ -1,12 +1,16 @@
+import { ActionMeta, MultiValue, SingleValue } from "react-select"
+import { ISelectOptionsProps } from "../../interface"
+
 export interface IAddScreenProps {
-  handleChangeSelect: (params: any, actionMeta: any, activityFieldCount: number, dayCount: number) => void
+  handleChangeSelect: (newValue: MultiValue<ISelectOptionsProps> | SingleValue<ISelectOptionsProps>, actionMeta: ActionMeta<ISelectOptionsProps>, activityFieldCount: number, dayCount: number) => void
   setDuration: (event: React.ChangeEvent<HTMLInputElement> | number) => void
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>, index: number) => void
   activityName: string
   setActivityName: (event: React.ChangeEvent<HTMLInputElement> | string) => void
   duration: number
   setOpen: (open: boolean) => void,
-  handleDeleteScreen: any,
+  handleDeleteScreen: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
+  index: number
   activityFieldCount: number,
   dayCount: number,
 }

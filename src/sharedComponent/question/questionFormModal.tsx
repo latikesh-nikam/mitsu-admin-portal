@@ -1,4 +1,4 @@
-import { CButton, CModal, CModalHeader, CModalBody, CModalFooter, CModalTitle } from '@coreui/react';
+import { CModal, CModalHeader, CModalBody, CModalTitle } from '@coreui/react';
 import QuestionForm from "./questionForm";
 
 const QuestionFormModal = (props: any) => {
@@ -10,7 +10,7 @@ const QuestionFormModal = (props: any) => {
           <CModalTitle>Add Question</CModalTitle>
         </CModalHeader>
         <CModalBody>
-          <QuestionForm setQuestionForm={setQuestionForm}/>
+          <QuestionForm setQuestionForm={setQuestionForm} />
         </CModalBody>
       </CModal>
     </>

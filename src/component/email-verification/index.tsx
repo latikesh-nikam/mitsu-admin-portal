@@ -27,7 +27,7 @@ const EmailTemplate: React.FC = () => {
     }
 
     catch (error: any) {
-      setResponse({ status: 400, message: error.message });
+      setResponse({ status: 400, message: error?.message });
     }
     setLoading(false);
   };

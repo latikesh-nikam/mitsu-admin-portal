@@ -2,11 +2,13 @@
 import React, { useState, useEffect } from 'react';
 import styles from "./depression.module.scss";
 import ModuleList from '../../../../../component/modules-list';
-import { getAllModules, getProgramsByCategories, assignModuleToCategories } from '../../../../../service/module.service';
+import { getAllModules, getProgramsByCategories, assignModuleToCategories } from '../../../../../services/service/module.service';
 import ModuleAddModal from '../../../../../sharedComponent/modules/moduleModal';
 import { Button } from '@mui/joy';
 import { Add } from '@mui/icons-material';
 import { toast } from 'react-hot-toast';
+import Canvas from '../../../../../component/canvas';
+import Accordion from '../../../../../component/accordion';
 
 const Depression: React.FC = () => {
   const [showModal, setModal] = useState(false)
@@ -16,10 +18,15 @@ const Depression: React.FC = () => {
   const [categoryId, setCategoryId] = useState("");
   const [showPreview, setPreview] = useState(false);
 
+  const [subModulesData, setSubModulesData] = useState<any>([]);
+  const [activitiesData, setActivitiesData] = useState<any>([]);
+  const [screensData, setScreensData] = useState<any>([]);
+  const [modulesData, setModulesData] = useState<any>({});
+
   const getModules = async () => {
     const res = await getProgramsByCategories(`Depression`)
     setCategoryId(res?.data?.data[0].id)
-    setModules(res?.data?.data?.map((item: any, index: number) => {
+    setModules(res?.data?.data.map((item: any, index: number) => {
       return item.modules
     }))
   }
@@ -42,6 +49,7 @@ const Depression: React.FC = () => {
     setModal(true)
   };
 
+
   const assignModules = async () => {
     let assignModuleIds = moduleIds?.map((item) => {
       return { id: item }
@@ -62,12 +70,24 @@ const Depression: React.FC = () => {
     } else {
       toast.error("Something went wrong !!")
     }
+  };
 
+  const sendPreviewData = (item: any) => {
+
+    const modulesdata = { ...item }
+    setModulesData(modulesdata);
+    setSubModulesData(item.sub_modules);
+
+    const activitesdata = item?.sub_modules?.map((val: any) => val?.activities)
+    setActivitiesData(activitesdata)
+
+    const screensdata = activitesdata[0]?.map((values: any) => values?.screens)
+    setScreensData(screensdata);
   }
 
   return (
-    <>
-      <div className={styles.container}>
+    <div className={styles.container}>
+      <div className={styles.btn}>
         <Button
           variant="soft"
           color="primary"
@@ -78,21 +98,35 @@ const Depression: React.FC = () => {
         >
           Add Modules to Depression
         </Button>
-        {showModal && (
-          <ModuleAddModal
-            showModal={showModal}
-            setModal={setModal}
-            modules={assignedModules}
-            moduleIds={moduleIds}
-            setModuleIds={setModuleIds}
-            title={'Depression'}
-            assignModules={assignModules}
-            disabled={moduleIds.length > 0 ? false : true}
-          />
-        )}
-        <ModuleList modulesList={modules[0]} setPreview={setPreview} />
-      </div >
-    </>
+      </div>
+      {showModal && (
+        <ModuleAddModal
+          showModal={showModal}
+          setModal={setModal}
+          modules={assignedModules}
+          moduleIds={moduleIds}
+          setModuleIds={setModuleIds}
+          title={'Depression'}
+          assignModules={assignModules}
+          disabled={moduleIds.length > 0 ? false : true}
+        />
+      )}
+      {showPreview && (
+        <Canvas
+          setVisible={setPreview}
+          visible={showPreview}
+          children={
+            <Accordion
+              subModulesData={subModulesData}
+              activitiesData={activitiesData}
+              screensData={screensData}
+              modulesData={modulesData}
+            />
+          }
+        />
+      )}
+      <ModuleList modulesList={modules ? modules[0] : []} setPreview={setPreview} previewData={(item) => sendPreviewData(item)} />
+    </div>
   )
 };
 

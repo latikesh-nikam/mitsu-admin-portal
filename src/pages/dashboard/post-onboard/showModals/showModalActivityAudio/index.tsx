@@ -2,33 +2,52 @@ import React, { useState } from 'react';
 import BasicModalDialog from '../../../../../component/modal';
 import ActivityAudio from '../../../../../component/program-modules/activity-audio';
 import { getFormData } from '../../../../../utils/formData';
-import axiosInstance from "../../../../../service/axiosfileUpload.instance";
-import { uploadFilesToS3 } from "../../../../../constants/urls";
+import axiosInstance from "../../../../../services/service/axiosfileUpload.instance";
+import { uploadFilesToS3 } from "../../../../../utils/constants/urls";
 import { toast } from "react-hot-toast";
+import Canvas from '../../../../../component/canvas';
+import styles from "./audio.module.scss";
 
 interface Props {
   open: boolean
   setOpen: (open: boolean) => void
   setActivityAudioFormData: any
+  type: 'canvas' | 'modal'
+  setVisible: (visible: boolean) => void
+  visible: boolean
+  activity: string
+  audioArr: any
+  setAudioArr: (e: any) => void
 }
 
-const ShowModalActivityAudio: React.FC<Props> = ({ open, setOpen, setActivityAudioFormData }) => {
+const ShowModalActivityAudio: React.FC<Props> = ({ open, setOpen, setActivityAudioFormData, type, setVisible, visible, activity, audioArr, setAudioArr }) => {
   const [heading, setHeading] = useState<any>("");
   const [content, setContent] = useState<any>("");
   const [audios, setAudios] = useState<any>([]);
   const [uploaded, setUploaded] = useState<any>(null);
   const [showProgress, setShowProgress] = useState<boolean>(false);
   const [s3Key, setS3Key] = useState("");
+  const [autocompleteOptions, setAutocompleteOptions] = useState<{ id: number, label: string, value: string }>({
+    id: 0,
+    label: "",
+    value: ""
+  });
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = getFormData(event);
-    const postData = { ...formData, key: s3Key }
-    setActivityAudioFormData(postData);
+    setActivityAudioFormData(formData);
+    if(activity === 'GroundingExercise'){
+      setAudioArr((audioArr: any) => [...audioArr, {name: "Audio", type: "Audio", content_heading: heading, content_text: content, external_link: s3Key, isSubType: true}])
+    }
     setHeading("");
     setContent("");
     setOpen(false);
   };
+
+  const handleAutoCompleteChange = (params: any) => {
+    setAutocompleteOptions(params);
+  }
 
   const config = {
     onUploadProgress: (data: any) => {
@@ -66,15 +85,26 @@ const ShowModalActivityAudio: React.FC<Props> = ({ open, setOpen, setActivityAud
   };
 
   return (
-    <>
-      <BasicModalDialog
-        children={
-          <ActivityAudio handleSubmit={handleSubmit} setContent={setContent} setHeading={setHeading} heading={heading} content={content} handleFileChange={handleFileChange} uploaded={uploaded} showProgress={showProgress} setOpen={setOpen} />}
-        open={open}
-        setOpen={setOpen}
-        title="Activity Audio"
-      />
-    </>
+    <div className={styles.container}>
+      {type === "modal" &&
+        <BasicModalDialog
+          children={
+            <ActivityAudio handleSubmit={handleSubmit} setContent={setContent} setHeading={setHeading} heading={heading} content={content} handleFileChange={handleFileChange} uploaded={uploaded} showProgress={showProgress} setOpen={setOpen} handleAutoCompleteChange={handleAutoCompleteChange} autocompleteOptions={autocompleteOptions} />}
+          open={open}
+          setOpen={setOpen}
+          title="Activity Audio"
+        />
+      }
+      {type === "canvas" &&
+        <div className={styles.canvas}>
+          <Canvas
+            setVisible={setVisible}
+            visible={visible}
+            children={<ActivityAudio handleSubmit={handleSubmit} setContent={setContent} setHeading={setHeading} heading={heading} content={content} handleFileChange={handleFileChange} uploaded={uploaded} showProgress={showProgress} setOpen={setOpen} handleAutoCompleteChange={handleAutoCompleteChange} autocompleteOptions={autocompleteOptions} />}
+          />
+        </div>
+      }
+    </div>
   )
 }
 
