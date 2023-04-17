@@ -5,49 +5,37 @@ import { getFormData } from '../../../../../utils/formData';
 import axiosInstance from "../../../../../services/service/axiosfileUpload.instance";
 import { uploadFilesToS3 } from "../../../../../utils/constants/urls";
 import { toast } from "react-hot-toast";
-import Canvas from '../../../../../component/canvas';
-import styles from "./audio.module.scss";
-
 interface Props {
   open: boolean
   setOpen: (open: boolean) => void
   setActivityAudioFormData: any
-  type: 'canvas' | 'modal'
-  setVisible: (visible: boolean) => void
-  visible: boolean
   activity: string
   audioArr: any
   setAudioArr: (e: any) => void
 }
 
-const ShowModalActivityAudio: React.FC<Props> = ({ open, setOpen, setActivityAudioFormData, type, setVisible, visible, activity, audioArr, setAudioArr }) => {
-  const [heading, setHeading] = useState<any>("");
+const ShowModalActivityAudio: React.FC<Props> = ({ open, setOpen, setActivityAudioFormData, activity, audioArr, setAudioArr }) => {
+
+  const [heading, setHeading] = useState("");
   const [content, setContent] = useState<any>("");
-  const [audios, setAudios] = useState<any>([]);
+  const [audios, setAudios] = useState("");
   const [uploaded, setUploaded] = useState<any>(null);
   const [showProgress, setShowProgress] = useState<boolean>(false);
   const [s3Key, setS3Key] = useState("");
-  const [autocompleteOptions, setAutocompleteOptions] = useState<{ id: number, label: string, value: string }>({
-    id: 0,
-    label: "",
-    value: ""
-  });
+  const [error, showError] = useState("");
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = getFormData(event);
-    setActivityAudioFormData(formData);
-    if(activity === 'GroundingExercise'){
-      setAudioArr((audioArr: any) => [...audioArr, {name: "Audio", type: "Audio", content_heading: heading, content_text: content, external_link: s3Key, isSubType: true}])
+    const postFormData = { ...formData, external_link: s3Key }
+    setActivityAudioFormData(postFormData);
+    if (activity === 'GroundingExercise') {
+      setAudioArr((audioArr: any) => [...audioArr, { name: "Audio", type: "Audio", content_heading: heading, content_text: content, external_link: s3Key, isSubType: true }])
     }
     setHeading("");
     setContent("");
     setOpen(false);
   };
-
-  const handleAutoCompleteChange = (params: any) => {
-    setAutocompleteOptions(params);
-  }
 
   const config = {
     onUploadProgress: (data: any) => {
@@ -68,43 +56,41 @@ const ShowModalActivityAudio: React.FC<Props> = ({ open, setOpen, setActivityAud
   };
 
   const handleFileChange = async (event: any) => {
-    setShowProgress(true);
-    setAudios(event.target.files[0]);
+    if (validateFile(event.target.files[0]) === true) {
+      setShowProgress(true);
+      setAudios(event.target.files[0]?.name);
 
-    const formData = new FormData()
-    formData.append("file", event.target.files[0]);
+      const formData = new FormData()
+      formData.append("file", event.target.files[0]);
 
-    const uploadData = await uploadAudioVideoToS3(formData);
-    if (uploadData.data.statusCode === 201) {
-      setS3Key(uploadData?.data.data.key);
+      const uploadData = await uploadAudioVideoToS3(formData);
+      if (uploadData.data.statusCode === 201) {
+        setS3Key(uploadData?.data.data.key);
+      }
+      else {
+        toast.error(`${uploadData.statusText}`);
+      }
+      setShowProgress(false);
     }
-    else {
-      toast.error(`${uploadData.statusText}`);
+  };
+
+  const validateFile = (file: any) => {
+    const validTypes = ["audio/mp3", "audio/mpeg"];
+    if (!validTypes.includes(file.type)) {
+      showError(`Only ${validTypes.join('')} are allowed!`)
+      return `Only ${validTypes.join('')} are allowed!`;
     }
-    setShowProgress(false);
+    return true;
   };
 
   return (
-    <div className={styles.container}>
-      {type === "modal" &&
-        <BasicModalDialog
-          children={
-            <ActivityAudio handleSubmit={handleSubmit} setContent={setContent} setHeading={setHeading} heading={heading} content={content} handleFileChange={handleFileChange} uploaded={uploaded} showProgress={showProgress} setOpen={setOpen} handleAutoCompleteChange={handleAutoCompleteChange} autocompleteOptions={autocompleteOptions} />}
-          open={open}
-          setOpen={setOpen}
-          title="Activity Audio"
-        />
-      }
-      {type === "canvas" &&
-        <div className={styles.canvas}>
-          <Canvas
-            setVisible={setVisible}
-            visible={visible}
-            children={<ActivityAudio handleSubmit={handleSubmit} setContent={setContent} setHeading={setHeading} heading={heading} content={content} handleFileChange={handleFileChange} uploaded={uploaded} showProgress={showProgress} setOpen={setOpen} handleAutoCompleteChange={handleAutoCompleteChange} autocompleteOptions={autocompleteOptions} />}
-          />
-        </div>
-      }
-    </div>
+    <BasicModalDialog
+      children={
+        <ActivityAudio handleSubmit={handleSubmit} setContent={setContent} setHeading={setHeading} heading={heading} content={content} uploaded={uploaded} showProgress={showProgress} handleAudioUpload={handleFileChange} audioName={audios} validateFile={validateFile} error={error} />}
+      open={open}
+      setOpen={setOpen}
+      title="Activity Audio"
+    />
   )
 }
 

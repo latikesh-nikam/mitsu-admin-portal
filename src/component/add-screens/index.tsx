@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from '@mui/joy/Button';
 import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
 import Stack from '@mui/joy/Stack';
@@ -41,7 +40,6 @@ const AddScreens: React.FC<IAddScreenProps> = ({ activityFieldCount, dayCount, h
             </FormControl>
           </div>
         </div>
-        <Button type="submit" hidden disabled={!duration} onClick={e => setOpen(false)}>Submit</Button>
       </Stack>
     </div>
   )

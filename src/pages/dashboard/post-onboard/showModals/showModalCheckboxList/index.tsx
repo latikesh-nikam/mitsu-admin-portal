@@ -11,9 +11,9 @@ interface Props {
 }
 
 const ShowModalCheckboxList: React.FC<Props> = ({ open, setOpen, setSubjectiveQuizFormData }) => {
-  const [pageHeading, setPageHeading] = useState<any>("");
+  const [pageHeading, setPageHeading] = useState("");
   const [content, setContent] = useState<any>("");
-  const [options, setOptions] = useState<any>([{}]);
+  const [options, setOptions] = useState<any>([]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -29,7 +29,7 @@ const ShowModalCheckboxList: React.FC<Props> = ({ open, setOpen, setSubjectiveQu
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
     let data = [...options];
-    data[index][event.target.name] = event.target.value;
+    data[index].value = event.target.value;
     setOptions(data);
   };
 
@@ -51,7 +51,7 @@ const ShowModalCheckboxList: React.FC<Props> = ({ open, setOpen, setSubjectiveQu
         }
         open={open}
         setOpen={setOpen}
-        title="Checkbox list"
+        title="Subjective Quiz"
       />
     </>
   )

@@ -37,7 +37,7 @@ const ShowModalTextInput: React.FC<Props> = ({ open, setOpen, setTextInputFormDa
         />}
         open={open}
         setOpen={setOpen}
-        title="Text Input"
+        title="Text Block"
       />
     </>
   )

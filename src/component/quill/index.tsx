@@ -12,8 +12,8 @@ const QuillComp = (props: any) => {
     toolbar: [
       ['bold', 'italic', 'underline', 'strike'],
       [{ align: [] }],
-      [{ list: 'ordered'}, { list: 'bullet' }],
-      [{ indent: '-1'}, { indent: '+1' }],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      [{ indent: '-1' }, { indent: '+1' }],
       [{ header: [1, 2, 3, 4, 5, 6, false] }],
     ],
   };
@@ -21,7 +21,7 @@ const QuillComp = (props: any) => {
   const formats = [
     'bold', 'italic', 'underline', 'strike',
     'align', 'list', 'indent',
-    'size', 'header', 
+    'size', 'header',
   ];
 
   const { quill, quillRef } = useQuill({ theme, modules, formats });

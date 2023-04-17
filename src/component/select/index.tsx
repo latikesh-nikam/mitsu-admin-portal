@@ -3,6 +3,7 @@ import React, { useCallback } from 'react';
 import Select, { ActionMeta, MultiValue, SingleValue } from 'react-select';
 import { ISelectProps } from './select.types';
 import { ISelectOptionsProps } from "../../interface";
+import { CUSTOM_STYLES } from '../../utils/constants/style';
 
 const CustomSelect: React.FC<Partial<ISelectProps>> = React.forwardRef(({ isMulti = false, dropdownOptions, selectedOptions, disabled = false, isAutoFocus, isSearchable = true, handleChangeSelect, name, menuPlacement = "top", hideSelectedOptions = false, placeholder, activityFieldCount = 0, dayCount = 0 }, ref) => {
 
@@ -20,6 +21,7 @@ const CustomSelect: React.FC<Partial<ISelectProps>> = React.forwardRef(({ isMult
   return (
     <div>
       <Select
+        styles={{ ...CUSTOM_STYLES }}
         name={name}
         isMulti={isMulti}
         options={dropdownOptions}

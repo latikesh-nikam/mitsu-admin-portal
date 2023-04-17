@@ -2,6 +2,19 @@
 @import "../../styles/mixins.scss";
 
 .container {
+  .formLabels {
+    font-family: $fontFamilySourceCode;
+    font-weight: 600;
+    font-size: toRem(17);
+
+    .requiredField {
+      color: red;
+      font-size: toRem(12);
+      margin-left: 0.1rem;
+      padding-bottom: 0.5rem;
+    }
+  }
+
   .dayContainer {
     .dayNumber {
       display: flex;

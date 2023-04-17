@@ -68,7 +68,7 @@ const ModuleList: React.FC<IModuleListProps> = (props: any) => {
   };
 
   return (
-    <div className="wrapper d-flex flex-column">
+    <div className="wrapper d-flex flex-column overflow-y-scroll">
       <div className="body flex-grow-1 px-3">
 
         <CTable align="middle" className="mb-0 border" hover responsive>

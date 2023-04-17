@@ -13,11 +13,11 @@ interface Props {
   postOnboardingQuestions: any
   setGroundExercisingData: (e: any) => void
   quizArr: any
-  setQuizArr: (e:any) => void
+  setQuizArr: (e: any) => void
   audioArr: any
-  setAudioArr: (e:any) => void
+  setAudioArr: (e: any) => void
   videoArr: any
-  setVideoArr: (e:any) => void
+  setVideoArr: (e: any) => void
 }
 
 const ShowModalGroundingExercise: React.FC<Props> = ({ open, setOpen, postOnboardingQuestions, setGroundExercisingData, audioArr, setAudioArr, videoArr, setVideoArr, quizArr, setQuizArr }) => {
@@ -26,11 +26,9 @@ const ShowModalGroundingExercise: React.FC<Props> = ({ open, setOpen, postOnboar
   const [options, setOptions] = useState<any>([{}]);
   const [subScreenData, setSubScreenData] = useState<any>([]);
   const [visible, setVisible] = useState<boolean>(true);
-
   const [audioData, setAudioData] = useState([]);
   const [videoData, setVideoData] = useState([]);
   const [quizData, setQuizData] = useState([]);
-  const [textBlockData, setTextBlockData] = useState([]);
   const [quizOpen, setQuizOpen] = useState(false)
   const [videoOpen, setVideoOpen] = useState(false)
   const [audioOpen, setAudioOpen] = useState(false)
@@ -47,8 +45,6 @@ const ShowModalGroundingExercise: React.FC<Props> = ({ open, setOpen, postOnboar
     setOpen(false);
   };
 
-  
-
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
     let data = [...options];
     data[index][event.target.name] = event.target.value;
@@ -57,13 +53,13 @@ const ShowModalGroundingExercise: React.FC<Props> = ({ open, setOpen, postOnboar
 
   const handleSubScreenSelect = (e: any) => {
     setSubScreenData(e);
-    if(e.label === 'Quiz'){
+    if (e.label === 'Quiz') {
       setQuizOpen(true)
     }
-    if(e.label === 'Audio'){
+    if (e.label === 'Audio') {
       setAudioOpen(true)
     }
-    if(e.label === 'Video'){
+    if (e.label === 'Video') {
       setVideoOpen(true)
     }
   };
@@ -89,9 +85,9 @@ const ShowModalGroundingExercise: React.FC<Props> = ({ open, setOpen, postOnboar
         title="Grounding Exercise"
       />
 
-      {subScreenData.label === "Quiz" ? <ShowQuizQuesModal open={quizOpen} setOpen={setQuizOpen} setQuizFormData={setQuizData} postOnboardingQuestions={postOnboardingQuestions} activity={'GroundingExercise'} quizArr={quizArr} setQuizArr={setQuizArr}/> : <></>}
-      {subScreenData.label === "Audio" ? <ShowModalActivityAudio open={audioOpen} setOpen={setAudioOpen} setActivityAudioFormData={setAudioData} type={'modal'} visible={visible} setVisible={setVisible} activity={'GroundingExercise'} audioArr={audioArr} setAudioArr={setAudioArr} /> : <></>}
-      {subScreenData.label === "Video" ? <ShowModalActivityVideo open={videoOpen} setOpen={setVideoOpen} setActivityVideoFormData={setVideoData} type={'modal'} setVisible={setVisible} visible={visible} activity={'GroundingExercise'} videoArr={videoArr} setVideoArr={setVideoArr} /> : <></>}
+      {subScreenData.label === "Quiz" ? <ShowQuizQuesModal open={quizOpen} setOpen={setQuizOpen} setQuizFormData={setQuizData} postOnboardingQuestions={postOnboardingQuestions} activity={'GroundingExercise'} quizArr={quizArr} setQuizArr={setQuizArr} /> : <></>}
+      {subScreenData.label === "Audio" ? <ShowModalActivityAudio open={audioOpen} setOpen={setAudioOpen} setActivityAudioFormData={setAudioData} activity={'GroundingExercise'} audioArr={audioArr} setAudioArr={setAudioArr} /> : <></>}
+      {subScreenData.label === "Video" ? <ShowModalActivityVideo open={videoOpen} setOpen={setVideoOpen} setActivityVideoFormData={setVideoData} activity={'GroundingExercise'} videoArr={videoArr} setVideoArr={setVideoArr} /> : <></>}
     </>
   )
 }

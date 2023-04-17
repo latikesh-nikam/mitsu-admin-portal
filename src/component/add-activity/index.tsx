@@ -6,26 +6,58 @@ import Stack from '@mui/joy/Stack';
 import { IAddActivityProps } from './add-activity.types';
 import AddScreens from '../add-screens';
 import { Add } from '@mui/icons-material';
-import { Button, Input } from '@mui/joy';
+import { Button } from '@mui/joy';
+import Input from '../input';
 
-const AddActivityForm: React.FC<IAddActivityProps> = ({ dayCount, handleChangeSelect, selectedOptions, duration, setDuration, handleInputChange, activityName, setActivityName, screensData, handleAddScreen, handleDeleteScreen, activityFieldCount, setActivityFieldCount }) => {
+const AddActivityForm: React.FC<IAddActivityProps> = ({ dayCount, handleChangeSelect, duration, setDuration, handleInputChange, activityName, setActivityName, screensData, handleAddScreen, handleDeleteScreen, activityFieldCount }) => {
 
   const [open, setOpen] = useState<boolean>(false);
+  const [errorDuration, setErrorDuration] = useState<string>();
+  const [errorName, setErrorName] = useState<string>();
+
+  const handleNumberValidation = (value: number) => {
+    if (value <= 0) {
+      setErrorDuration("Duration can not be less than or equal to zero")
+    }
+    else if (value > 5) {
+      setErrorDuration("Duration can not be bigger than 5")
+    }
+    else { setErrorDuration("") }
+  };
+
+  const handleNameValidation = (value: string) => {
+    if (value.trim() === "") {
+      setErrorName("Field can not be empty!");
+    }
+    else {
+      setErrorName("")
+    }
+  };
+
   return (
     <div className={styles.container}>
-
       <Stack spacing={2}>
+
         <FormControl>
           <FormLabel className={styles.formLabels}>Activity Name<span className={styles.requiredField}>*</span></FormLabel>
           <Input name={`activityName-${activityFieldCount}`} required onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setActivityName(e.target.value)
-
-          }} />
+            setActivityName(e.target.value);
+            handleNameValidation(e.target.value);
+          }
+          } />
+          <span className={[styles.error, !errorName && styles.errorVisibility].join(" ")}>{errorName || <>&nbsp;</>}</span>
         </FormControl>
 
         <FormControl>
           <FormLabel className={styles.formLabels}>Duration<span className={styles.requiredField}>*</span></FormLabel>
-          <Input name={`activityDuration-${activityFieldCount}`} required onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDuration(Number(e.target.value))} placeholder="Enter duration in min" type="number" />
+          <Input name={`activityDuration-${activityFieldCount}`} required onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setDuration(Number(e.target.value))
+            handleNumberValidation(Number(e.target.value))
+          }
+          } placeholder="Enter duration in min" type="number" onKeyDown={(e) =>
+            ["ArrowUp", "ArrowDown", "e", "E"].includes(e.key) && e.preventDefault()
+          } />
+          <span className={[styles.error, !errorDuration && styles.errorVisibility].join(" ")}>{errorDuration || <>&nbsp;</>}</span>
         </FormControl>
 
         <FormControl className={styles.subContainer}>

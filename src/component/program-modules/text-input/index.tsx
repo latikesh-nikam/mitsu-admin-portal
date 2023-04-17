@@ -12,14 +12,14 @@ const TextInput: React.FC<ITextInputProps> = ({ handleSubmit, setContent, setHea
   return (
     <div className={styles.optionContainer}>
       <form onSubmit={handleSubmit}>
-        <Stack spacing={10}>
+        <Stack spacing={2}>
           <FormControl>
             <FormLabel>Page Heading</FormLabel>
-
             <Input name="name" autoFocus required value={heading} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setHeading(e.target.value)} />
-
           </FormControl>
-
+        </Stack>
+        <br />
+        <Stack spacing={10}>
           <FormControl>
             <FormLabel>Content</FormLabel>
             <QuillComp question={content} setQuestion={setContent} />

@@ -1,20 +1,32 @@
 import React from 'react';
-import FormControl from '@mui/joy/FormControl';
-import FormLabel from '@mui/joy/FormLabel';
-import Input from '@mui/joy/Input';
 import { IFileUploaderProps } from './file-uploader.types';
+import { LinearProgress, Typography } from '@mui/joy';
 
-const FileUploader: React.FC<IFileUploaderProps> = ({ name, isRequired = true, isMultiple, handleOnChange, label }) => {
+const FileUploader: React.FC<IFileUploaderProps> = ({ uploaded }) => {
   return (
-    <FormControl>
-      <FormLabel>{label}<span style={{color: 'red', fontFamily: 'large', marginLeft: '0.10rem'}}>*</span></FormLabel>
-      <Input
-        name={name}
-        type="file"
-        required={isRequired}
-        onChange={handleOnChange}
-      />
-    </FormControl>
+    <LinearProgress
+      determinate
+      variant="soft"
+      color="primary"
+      size="lg"
+      thickness={32}
+      value={uploaded}
+      sx={{
+        '--LinearProgress-radius': '0px',
+        '--LinearProgress-progressThickness': '24px',
+        boxShadow: 'sm',
+        borderColor: 'neutral.500',
+      }}
+    >
+      <Typography
+        level="body3"
+        fontWeight="xl"
+        textColor="common.white"
+        sx={{ mixBlendMode: 'difference' }}
+      >
+        Uploading {`${uploaded}%...`}
+      </Typography>
+    </LinearProgress>
   )
 }
 

@@ -6,7 +6,7 @@ export interface IAddScreenProps {
   setDuration: (event: React.ChangeEvent<HTMLInputElement> | number) => void
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>, index: number) => void
   activityName: string
-  setActivityName: (event: React.ChangeEvent<HTMLInputElement> | string) => void
+  setActivityName: (value: string) => void
   duration: number
   setOpen: (open: boolean) => void,
   handleDeleteScreen: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void

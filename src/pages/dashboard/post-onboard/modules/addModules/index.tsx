@@ -4,7 +4,6 @@ import styles from "./add.module.scss";
 import { Button, FormControl, FormLabel, Input } from '@mui/joy';
 import AddDays from '../../../../../component/add-day';
 import PostOnboardingScreen from '../..';
-import FileUploader from '../../../../../component/file-uploader';
 import { uploadFilesToS3 } from '../../../../../utils/constants/urls';
 import { toast } from 'react-hot-toast';
 import axiosInstance from '../../../../../services/service/axiosfileUpload.instance';
@@ -13,31 +12,31 @@ import { weekData } from './addModule.data';
 import Stack from '@mui/joy/Stack';
 import { addModules } from '../../../../../services/service/module.service';
 import { Add } from '@mui/icons-material';
-import { getFileName } from './utils';
-import { useFieldArray, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import QuillActivityInput from '../../../../../component/activityQuillInput';
 import { getPostOnBoardingQuestions } from '../../../../../services/service/user.service';
-import { ShowModalActivityAudio } from '../../showModals';
-import { any } from 'prop-types';
+import { validateNameField } from "../../../../../utils/constants/validation";
+import FileUploader from '../../../../../component/file-uploader';
+import { CUSTOM_STYLES } from '../../../../../utils/constants/style';
 
 const AddModules: React.FC<IAddModuleProps> = () => {
 
   const [open, setOpen] = useState<boolean>(false);
-  const [imageName, setImageName] = useState<string>("");
+  const [imageName, setImageName] = useState("");
 
   const [selectedOptions, setSelectedOptions] = useState<any>([]);
   const [selectDate, setSelectDate] = useState<any>([]);
   const [selectWeek, setSelectWeek] = useState<any>([]);
 
-  const [showProgress, setShowProgress] = useState<boolean>(false);
+  const [showProgress, setShowProgress] = useState(false);
   const [uploaded, setUploaded] = useState<any>(null);
 
   const [modalData, setModalData] = useState<any>();
 
   const [duration, setDuration] = useState<any>(0);
-  const [activityName, setActivityName] = useState<any>("");
-  const [moduleHeading, setModuleHeading] = useState<any>("");
-  const [moduleDesc, setModuleDesc] = useState<any>("");
+  const [activityName, setActivityName] = useState("");
+  const [moduleHeading, setModuleHeading] = useState("");
+  const [moduleDesc, setModuleDesc] = useState("");
 
   const [textIntroFormData, setTextIntroFormData] = useState({});
   const [textInputFormData, setTextInputFormData] = useState<any>({});
@@ -54,11 +53,12 @@ const AddModules: React.FC<IAddModuleProps> = () => {
   const [activitiesArr, setActivitiesArr] = useState([]);
   const [screenArr, setScreenArray] = useState<any>([]);
   const [activityFieldCount, setActivityFieldCount] = useState(1);
-  const [imageS3Key, setImageS3Key] = useState<string>("");
+  const [imageS3Key, setImageS3Key] = useState("");
   const [postOnboardingQuestions, setPostOnboardingQuestions] = useState([])
   const [quizArr, setQuizArr] = useState<any>([])
   const [audioArr, setAudioArr] = useState<any>([])
-  const [videoArr, setVideoArr] = useState<any>([])
+  const [videoArr, setVideoArr] = useState<any>([]);
+  const [modulesData, setModulesData] = useState<any>([]);
 
   const postOnBoardingQuestions = async () => {
     let res = await getPostOnBoardingQuestions()
@@ -69,14 +69,9 @@ const AddModules: React.FC<IAddModuleProps> = () => {
     postOnBoardingQuestions()
   }, [])
 
-  const handleDateChange = (e: any) => {
-    const data = e.map((option: any, index: number) => {
-      if (index === e.length - 1) {
-        return { ...option, activities: [{ identifier: 0, activityName: '', duration: 0, screens: [] }] }
-      } else return option
-    })
-    setSelectDate(data);
-    setSelectedOptions(data);
+  const handleDateChange = (e: any, actionMeta: any) => {
+    setSelectDate(e);
+    setSelectedOptions(e);
     setActivityFieldCount(1)
   };
 
@@ -152,6 +147,7 @@ const AddModules: React.FC<IAddModuleProps> = () => {
     setActivitiesArr([])
     setScreenArray([])
     setActivityFieldCount(1)
+    setImageName("")
   }
 
   const handleSelections = (options: any) => {
@@ -167,7 +163,7 @@ const AddModules: React.FC<IAddModuleProps> = () => {
   const handleSubjectiveQuizSelections = (options: any) => {
     let selectionOption = options?.map((item: any) => {
       return {
-        selection: Object.values(item)[0]
+        selection: Object.values(item)[2]
       }
     })
     return selectionOption;
@@ -203,7 +199,7 @@ const AddModules: React.FC<IAddModuleProps> = () => {
         type: singleScreen?.type,
         content_heading: activityAudioFormData?.heading,
         content_text: activityAudioFormData?.content,
-        external_link: activityAudioFormData.key
+        external_link: activityAudioFormData.external_link
       }
     } else if (singleScreen?.type === 'Video') {
       return {
@@ -211,7 +207,7 @@ const AddModules: React.FC<IAddModuleProps> = () => {
         type: singleScreen?.type,
         content_heading: activityVideoFormData?.heading,
         content_text: activityVideoFormData?.content,
-        external_link: activityVideoFormData.key
+        external_link: activityVideoFormData.external_link
       }
     } else if (singleScreen?.type === 'Emotion_Intensity') {
       return {
@@ -251,14 +247,23 @@ const AddModules: React.FC<IAddModuleProps> = () => {
         heading: swipeTextData?.heading,
         selections: handleSelections(swipeTextData?.options)
       }
-    } else if (singleScreen?.type === "Quiz") {
+    }
+
+    else if (singleScreen?.type === "Self_Check_In") {
+      return {
+        name: 'Self_Check_In',
+        type: singleScreen?.type,
+      }
+    }
+
+    else if (singleScreen?.type === "Quiz") {
       return {
         name: 'Quiz',
         type: singleScreen?.type,
         content_heading: quizFormData?.contentHeading,
         question_ids: quizFormData?.questionIds
       }
-    } else if(singleScreen?.type === "Grounding_Exercise"){
+    } else if (singleScreen?.type === "Grounding_Exercise") {
       let val = [
         {
           name: 'Grounding Exercise',
@@ -282,15 +287,15 @@ const AddModules: React.FC<IAddModuleProps> = () => {
   }
 
   const getScreenAsperActivitiesAndDay = (item: any) => {
-    let scrn = screenArr.reduce((acc:any,singleScreen: any, index: number) => {
+    let scrn = screenArr.reduce((acc: any, singleScreen: any, index: number) => {
       if ((item.dayCount === singleScreen.dayCount) && (item.activityCount === singleScreen.activityCount)) {
-        if(singleScreen?.type === "Grounding_Exercise"){
-          return [...acc,...getScreenDataAsPerType(singleScreen) as any]
+        if (singleScreen?.type === "Grounding_Exercise") {
+          return [...acc, ...getScreenDataAsPerType(singleScreen) as any]
         }
-          return [...acc,getScreenDataAsPerType(singleScreen)]
+        return [...acc, getScreenDataAsPerType(singleScreen)]
       }
       return [...acc]
-    },[])
+    }, [])
     // console.log(scrn)
 
     // scrn = scrn.filter(function (element: any) {
@@ -331,7 +336,6 @@ const AddModules: React.FC<IAddModuleProps> = () => {
     let updatedActivities = removeDuplicate(val)
 
     return updatedActivities
-
   }
 
   const submitModule = async () => {
@@ -348,6 +352,8 @@ const AddModules: React.FC<IAddModuleProps> = () => {
       image_link: imageS3Key,
       sub_modules: subModules
     }
+    setModulesData(moduleDetails);
+
     const res = await addModules(moduleDetails);
     if (res) {
       toast.success("Module Added Successfully")
@@ -357,55 +363,74 @@ const AddModules: React.FC<IAddModuleProps> = () => {
     }
   };
 
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   getValues,
-  //   formState: { errors }
-  // } = useForm({
-  //   defaultValues: {
-  //     activityImage: "",
-  //   },
-  //   mode: 'onChange',
-  //   reValidateMode: 'onChange',
-  // });
-
-  // const onSubmit = (data: any) => {
-  //   const test = getFileName(
-  //     typeof getValues('activityImage') === 'string'
-  //       ? (getValues('activityImage') as string)
-  //       : "");
-  //   console.log(test);
-  //   console.log(data);
-  // };
+  const {
+    register,
+    formState: { errors }
+  } = useForm({
+    defaultValues: {
+      activityImage: "",
+      moduleheading: ""
+    },
+    mode: 'all',
+    reValidateMode: 'onChange',
+  });
 
   const handleImageUpload = (e: BaseSyntheticEvent) => {
-    setImageName(e.target.files[0]?.name)
-    handleFileChange(e);
+    if (validateFile(e.target.files) === true) {
+      setImageName(e.target.files[0]?.name)
+      handleFileChange(e);
+    }
+  };
+
+  const handleSubmit = () => { }
+
+  const isScreenData = () => {
+    selectedOptions.map((val: Record<string, string>) => val.activities).map((val: any) => val.screens)
   }
 
-  const handleSubmit = () => {
-
-  }
+  const validateFile = (file: any) => {
+    const validTypes = ["image/jpeg"];
+    if (!validTypes.includes(file[0].type)) {
+      return `Only ${validTypes.join('')} files are allowed!`;
+    }
+    return true;
+  };
 
   return (
     <div className={styles.moduleForm}>
       <div className={styles.formContainer}>
         <h1 className={styles.heading}>Enter Module Details</h1>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
           <div className={styles.formElements}>
             <div className={styles.inputContainer}>
               <div className={styles.specificElements}>
                 <Stack spacing={2}>
                   <FormControl>
                     <FormLabel className={styles.formLabels}>Module Name<span className={styles.requiredField}>*</span></FormLabel>
-                    <Input value={moduleHeading} onChange={(e:any) => setModuleHeading(e.target.value)} autoFocus />
-                  </FormControl >
-                  <br /><br />
+
+                    <Input value={moduleHeading} autoFocus {...register("moduleheading", {
+                      required: {
+                        value: true,
+                        message: "Please enter Module Name!"
+                      },
+                      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setModuleHeading(e.target.value),
+                      maxLength: {
+                        value: 50,
+                        message: "Maximum length exceeded"
+                      },
+                      validate: validateNameField("Module Name")
+                    })}
+                    />
+
+                    <span className={[styles.error, !errors?.moduleheading && styles.errorVisibility].join(" ")}>{errors?.moduleheading?.message || <>&nbsp;</>}</span>
+
+                  </FormControl>
+
                   <FormControl>
                     <FormLabel className={styles.formLabels}>Module Description<span className={styles.requiredField}>*</span></FormLabel>
                     <QuillActivityInput value={moduleDesc} setValue={setModuleDesc} />
                   </FormControl >
+
                   <br /><br />
                   <FormControl>
                     <FormLabel className={styles.formLabels}>Week<span className={styles.requiredField}>*</span></FormLabel>
@@ -421,11 +446,10 @@ const AddModules: React.FC<IAddModuleProps> = () => {
                       menuPlacement={"bottom"}
                     />
                   </FormControl>
-
                 </Stack>
 
-                {/* <FormControl className={styles.fileUploadWrapper}>
-                  <FormLabel className={styles.formLabels}>Image Link</FormLabel>
+                <FormControl className={styles.fileUploadWrapper}>
+                  <FormLabel className={styles.formLabels}>Image Link<span className={styles.requiredField}>*</span></FormLabel>
                   <input
                     type="file"
                     id="activity-image-file"
@@ -433,7 +457,12 @@ const AddModules: React.FC<IAddModuleProps> = () => {
                     accept=".jpg, .jpeg"
                     onClick={(e: BaseSyntheticEvent) => { e.target.value = null; }}
                     {...register('activityImage', {
-                      onChange: handleImageUpload
+                      onChange: handleImageUpload,
+                      required: {
+                        value: true,
+                        message: "Please Upload Image!"
+                      },
+                      validate: (e: any) => validateFile(e)
                     })}
                   />
                   <div className={styles.fileUploadSubWrapper}>
@@ -445,58 +474,62 @@ const AddModules: React.FC<IAddModuleProps> = () => {
                     <label htmlFor="activity-image-file" className={styles.uploadButton}>Upload Image</label>
                   </div>
                   {showProgress && <FileUploader uploaded={uploaded} />}
-                </FormControl> */}
+                  <span className={[styles.error, !errors?.activityImage && styles.errorVisibility].join(" ")}>{errors?.activityImage?.message || <>&nbsp;</>}</span>
+                </FormControl>
 
-              </div >
-            </div >
-          </div >
+              </div>
+            </div>
+          </div>
           <Stack spacing={2}>
-            <AddDays
-              handleChangeSelect={handleSelectChange}
-              selectedOptions={selectedOptions}
-              selectDate={selectDate}
-              handleDateChange={handleDateChange}
-              setDuration={setDuration}
-              duration={duration}
-              handleInputChange={handleInputChange}
-              activityName={activityName}
-              setActivityName={setActivityName}
-              selectWeek={selectWeek}
-              setSelectedOptions={setSelectedOptions}
-              activitiesArr={activitiesArr}
-              setActivitiesArr={setActivitiesArr}
-              activityFieldCount={activityFieldCount}
-              setActivityFieldCount={setActivityFieldCount}
-            />
-            <PostOnboardingScreen
-              OpenModalData={modalData}
-              open={open}
-              setOpen={setOpen}
-              setTextIntroFormData={setTextIntroFormData}
-              setTextInputFormData={setTextInputFormData}
-              setActivityAudioFormData={setActivityAudioFormData}
-              setActivityVideoFormData={setActivityVideoFormData}
-              setQuizFormData={setQuizFormData}
-              setEmotionIntensityFormData={setEmotionIntensityFormData}
-              setThinkingTrapFormData={setThinkingTrapFormData}
-              setFearLadderFormData={setFearLadderFormData}
-              setSubjectiveQuizFormData={setSubjectiveQuizFormData}
-              setSwipeTextFormData={setSwipeTextFormData}
-              postOnboardingQuestions={postOnboardingQuestions}
-              setGroundExercisingData={setGroundExercisingData}
-              quizArr={quizArr}
-              setQuizArr={setQuizArr}
-              audioArr={audioArr}
-              setAudioArr={setAudioArr}
-              videoArr={videoArr}
-              setVideoArr={setVideoArr}
-            />
+            <div className={styles.addDays}>
+              <AddDays
+                handleChangeSelect={handleSelectChange}
+                selectedOptions={selectedOptions}
+                selectDate={selectDate}
+                handleDateChange={handleDateChange}
+                setDuration={setDuration}
+                duration={duration}
+                handleInputChange={handleInputChange}
+                activityName={activityName}
+                setActivityName={setActivityName}
+                selectWeek={selectWeek}
+                setSelectedOptions={setSelectedOptions}
+                activitiesArr={activitiesArr}
+                setActivitiesArr={setActivitiesArr}
+                activityFieldCount={activityFieldCount}
+                setActivityFieldCount={setActivityFieldCount}
+              />
+            </div>
             <Button
+              disabled={(selectedOptions.length === 0) || !moduleHeading || !moduleDesc}
               onClick={() => submitModule()}
               startDecorator={<Add />}
             >Submit Module
             </Button>
           </Stack>
+          <PostOnboardingScreen
+            OpenModalData={modalData}
+            open={open}
+            setOpen={setOpen}
+            setTextIntroFormData={setTextIntroFormData}
+            setTextInputFormData={setTextInputFormData}
+            setActivityAudioFormData={setActivityAudioFormData}
+            setActivityVideoFormData={setActivityVideoFormData}
+            setQuizFormData={setQuizFormData}
+            setEmotionIntensityFormData={setEmotionIntensityFormData}
+            setThinkingTrapFormData={setThinkingTrapFormData}
+            setFearLadderFormData={setFearLadderFormData}
+            setSubjectiveQuizFormData={setSubjectiveQuizFormData}
+            setSwipeTextFormData={setSwipeTextFormData}
+            postOnboardingQuestions={postOnboardingQuestions}
+            setGroundExercisingData={setGroundExercisingData}
+            quizArr={quizArr}
+            setQuizArr={setQuizArr}
+            audioArr={audioArr}
+            setAudioArr={setAudioArr}
+            videoArr={videoArr}
+            setVideoArr={setVideoArr}
+          />
         </form>
       </div>
     </div>

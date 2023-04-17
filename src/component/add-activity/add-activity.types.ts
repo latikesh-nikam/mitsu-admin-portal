@@ -8,7 +8,7 @@ export interface IAddActivityProps {
   setDuration: (event: React.ChangeEvent<HTMLInputElement> | number) => void
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>, index: number) => void
   activityName: string
-  setActivityName: (event: React.ChangeEvent<HTMLInputElement> | string) => void
+  setActivityName: (value:string) => void
   duration: number
   screensData: never[] | undefined
   handleAddScreen: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void

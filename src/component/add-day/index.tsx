@@ -9,8 +9,7 @@ import { dayData } from './addDay.data';
 import AddActivityForm from '../add-activity';
 import { Button } from '@mui/joy';
 import { Add } from '@mui/icons-material';
-import { IActivitiesProps, IActivityProps, IOptionProps } from '../../interface';
-import toast from 'react-hot-toast';
+import { IActivityProps, IOptionProps } from '../../interface';
 
 const AddDays: React.FC<IAddDayProps> = ({ handleDateChange, selectDate, activityName, duration, handleChangeSelect, handleInputChange, selectedOptions, setActivityName, setDuration, setSelectedOptions, activitiesArr, setActivitiesArr, activityFieldCount, setActivityFieldCount }) => {
 
@@ -41,45 +40,44 @@ const AddDays: React.FC<IAddDayProps> = ({ handleDateChange, selectDate, activit
       return e
     })
     setSelectedOptions(data)
-    setActivitiesArr((activitiesArr: any) => [...activitiesArr, { key: `activityName-${activityFieldCount}`, name: activityName, durationMin: duration, dayCount: currentOption.value, activityCount: activityFieldCount}])
+    setActivitiesArr((activitiesArr: any) => [...activitiesArr, { key: `activityName-${activityFieldCount}`, name: activityName, durationMin: duration, dayCount: currentOption.value, activityCount: activityFieldCount }])
   };
 
-
-  const handleDeleteActivity = (index:number, option: any) => {
-    selectedOptions.forEach((moduleOption: any) => {
+  const handleDeleteActivity = (index: number, option: any) => {
+    selectedOptions?.forEach((moduleOption: any) => {
       moduleOption.id === option.id && moduleOption.activities.splice(index, 1)
     })
 
     setSelectedOptions([...selectedOptions])
   }
 
-  const handleDeleteScreen = ( activity:any, option:any) => (index:number) => {
+  const handleDeleteScreen = (activity: any, option: any) => (index: number) => {
 
-    selectedOptions.forEach((moduleOption: any) => {
-      moduleOption.id === option.id && moduleOption.activities.forEach((moduleActivity:any)=> {
-        moduleActivity.identifier === activity.identifier && moduleActivity.screens.splice(index,1)
+    selectedOptions?.forEach((moduleOption: any) => {
+      moduleOption.id === option.id && moduleOption.activities.forEach((moduleActivity: any) => {
+        moduleActivity.identifier === activity.identifier && moduleActivity.screens.splice(index, 1)
       })
     })
     setSelectedOptions([...selectedOptions])
-
-  } 
+  }
 
   return (
     <div className={styles.container}>
       <Stack spacing={2}>
         <FormControl>
-          <FormLabel>Select Days-</FormLabel>
+          <FormLabel className={styles.formLabels}>Select Days<span className={styles.requiredField}>*</span></FormLabel>
           <CustomSelect
             name="select-days"
             hideSelectedOptions={true}
             isMulti={true}
             dropdownOptions={dayData}
-            handleChangeSelect={handleDateChange}
+            handleChangeSelect={(newValue, actionMeta) => handleDateChange(newValue, actionMeta)}
             isAutoFocus={false}
             isSearchable={false}
             selectedOptions={selectDate}
             menuPlacement={"bottom"}
           />
+
         </FormControl>
 
         {

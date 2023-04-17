@@ -8,7 +8,7 @@ export interface IAddDayProps {
   setDuration: (event: React.ChangeEvent<HTMLInputElement> | number) => void
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>, index: number) => void
   activityName: string
-  setActivityName: (event: React.ChangeEvent<HTMLInputElement> | string) => void
+  setActivityName: (value: string) => void
   handleChangeSelect: (newValue: MultiValue<ISelectOptionsProps> | SingleValue<ISelectOptionsProps>, actionMeta: ActionMeta<ISelectOptionsProps>, activityFieldCount: number, dayCount: number) => void
 
   duration: number

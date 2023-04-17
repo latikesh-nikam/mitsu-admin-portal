@@ -1,25 +1,13 @@
-import { MultiValue, SingleValue } from "react-select";
-import { ISelectOptionsProps } from "../../../interface";
-
 export interface IActivityVideoProps {
   handleSubmit?: (event: React.FormEvent<HTMLFormElement>) => void
-  onSubmit?: (formInput: FormData) => void;
-  handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-  setContent: (event: React.ChangeEvent<HTMLTextAreaElement> | string) => void
-  setHeading: (event: React.ChangeEvent<HTMLInputElement> | string) => void
-  handleAutoCompleteChange: (newValue: MultiValue<ISelectOptionsProps> | SingleValue<ISelectOptionsProps>) => void
-  autocompleteOptions: ISelectOptionsProps
-
-  uploaded: any
+  setContent: (event: string | React.ChangeEvent<HTMLInputElement>) => void
+  setHeading: (event: string) => void
   heading: string
   content: string
+  handleVideoUpload: (e: any) => void
+  videoName: string
   showProgress: boolean
-  setOpen: (open: boolean) => void;
-  activityVideoData?: IActivityVideoData;
-}
-
-export interface IActivityVideoData {
-  activityVideo: File;
-  content: string;
-  heading: string;
+  uploaded: number
+  validateFile: (file: any) => string | boolean
+  error: string
 }

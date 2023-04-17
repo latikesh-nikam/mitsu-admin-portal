@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useId } from 'react';
 import Button from '@mui/joy/Button';
 import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
@@ -9,19 +9,20 @@ import { ICheckboxListProps } from './checkbox.types';
 import styles from "./checkbox-list.module.scss";
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import { Textarea } from '@mui/joy';
+import { v4 as uuidv4 } from 'uuid';
 
 const CheckboxList: React.FC<ICheckboxListProps> = ({ handleSubmit, setContent, content, pageHeading, setPageHeading, setOptions, options, handleInputChange, setOpen }) => {
 
   const handleAddOption = () => {
     const values = [...options];
-    values.push({});
+    values.push({ id: uuidv4(), label: `Option-${options.length + 1}`, value: '' });
     setOptions(values);
   };
 
-  const handleRemoveItems = (index: number) => {
+  const handleRemoveItems = (index: string) => {
     const values = [...options];
-    values.splice(index, 1);
-    setOptions(values);
+    const updatedOptions = values.filter((option) => option.id !== index);
+    setOptions(updatedOptions.map((e: any, index) => ({ ...e, label: `Option-${index + 1}` })));
   };
 
   return (
@@ -52,11 +53,13 @@ const CheckboxList: React.FC<ICheckboxListProps> = ({ handleSubmit, setContent, 
               return (
                 <div className={styles.optionList} key={index}>
                   <FormControl className={styles.options}>
-                    <FormLabel>Option-{index + 1}</FormLabel>
-                    <Input name={`option${index + 1}`} value={val[`option${index + 1}`]} required onChange={e => handleInputChange(e, index)} />
+                    <FormLabel>{val.label}</FormLabel>
+
+                    <Input name={`option${index}`} value={val.value} required onChange={e => handleInputChange(e, index)} />
                   </FormControl>
+
                   <div onClick={() => {
-                    handleRemoveItems(index);
+                    handleRemoveItems(val.id);
                   }} className={styles.deleteBtn}>
                     <DeleteRoundedIcon /></div>
                 </div>

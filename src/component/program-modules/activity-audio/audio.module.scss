@@ -15,16 +15,30 @@
     grid-gap: 4px;
     margin: 1rem 0;
 
+    .errorVisibility {
+      visibility: hidden;
+    }
+
+    .error {
+      font-family: $fontFamilySourceCode;
+      font-size: toRem(13);
+      color: #eb0000;
+      font-weight: 200;
+      line-height: 120%;
+    }
+
     .fileUploadSubWrapper {
       display: flex;
       align-items: center;
       justify-content: space-between;
       grid-gap: 1rem;
 
+
       .uploadInput {
         font-family: $fontFamilySourceCode;
         width: 100%;
-        padding: 0.2rem;
+        padding: 0.5rem;
+        border-radius: toRem(10);
       }
 
       .uploadButton {

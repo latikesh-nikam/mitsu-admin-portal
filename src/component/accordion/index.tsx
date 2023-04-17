@@ -13,9 +13,10 @@ const Accordion: React.FC<IAccordionProps> = ({ modulesData, screensData, subMod
           <div className={styles.moduleContainer}>
             <h2 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(`${modulesData?.name}`) }} className={styles.moduleHeading}></h2>
             <span dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(`${modulesData?.description}`) }} className={styles.label}></span>
+            <span dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(`Week-${modulesData?.week}`) }} className={styles.label}></span>
           </div>
 
-          <CAccordion alwaysOpen>
+          <CAccordion alwaysOpen activeItemKey={1}>
             <CAccordionItem itemKey={1}>
               <CAccordionHeader>Sub Modules</CAccordionHeader>
               <CAccordionBody>
@@ -93,7 +94,9 @@ const Accordion: React.FC<IAccordionProps> = ({ modulesData, screensData, subMod
                               <CTableDataCell className="text-center">{values.name}</CTableDataCell>
                               <CTableDataCell className="text-center">{values.type}</CTableDataCell>
                               <CTableDataCell className="text-center">{!!values.content_heading ? values.content_heading : "N/A"}</CTableDataCell>
-                              <CTableDataCell className="text-center">{!!values.content_text ? values.content_text : "N/A"}</CTableDataCell>
+                              <CTableDataCell className="text-center">
+                                <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(`${!!values.content_text ? values.content_text : "N/A"}`) }}></div>
+                              </CTableDataCell>
                             </CTableRow>
                           )
                         })
