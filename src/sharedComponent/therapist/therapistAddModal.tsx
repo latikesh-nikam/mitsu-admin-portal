@@ -2,7 +2,7 @@ import { CModal, CModalHeader, CModalBody, CModalTitle } from '@coreui/react';
 import TherapistAddForm from './therapistAddForm';
 
 const TherapistAddModal = (props: any) => {
-  const { addTherapist, setTherapist } = props;
+  const { addTherapist, setTherapist, setData } = props;
   return (
     <>
       <CModal scrollable visible={addTherapist} onClose={() => setTherapist(false)}>
@@ -10,7 +10,7 @@ const TherapistAddModal = (props: any) => {
           <CModalTitle>Add Therapist</CModalTitle>
         </CModalHeader>
         <CModalBody>
-          <TherapistAddForm setTherapist={setTherapist} />
+          <TherapistAddForm setTherapist={setTherapist} setData={setData} />
         </CModalBody>
       </CModal>
     </>
