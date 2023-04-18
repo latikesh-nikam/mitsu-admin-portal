@@ -20,8 +20,6 @@ const ActivityAudio: React.FC<IActivityAudioProps> = ({ handleSubmit, setContent
     },
   });
 
-  console.log({ heading: !!heading, content: !!content, progress: showProgress })
-
   return (
     <form onSubmit={handleSubmit} className={styles.optionContainer}>
       <Stack spacing={2}>

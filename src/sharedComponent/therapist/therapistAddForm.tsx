@@ -58,12 +58,12 @@ const TherapistAddForm = (props: any) => {
                         onChange: (event: SelectChangeEvent) => settherapistDetails(
                             {
                             ...therapistDetails,
-                            name: event.target.value as string
+                            name: event.target.value.trimStart() as string
                             }
                         ),
                         pattern: {
                             value:
-                            /^[^-\s][a-zA-Z0-9_\s-]+$/,
+                            /^[^-\s][a-zA-Z\s-]+$/,
                             message: 'Enter valid name',
                         },
                         })}
@@ -163,14 +163,9 @@ const TherapistAddForm = (props: any) => {
                         onChange: (event: SelectChangeEvent) => settherapistDetails(
                             {
                             ...therapistDetails,
-                            education: event.target.value as string
+                            education: event.target.value.trimStart() as string
                             }
                         ),
-                        pattern: {
-                            value:
-                            /^[^-\s][a-zA-Z0-9_\s-]+$/,
-                            message: 'Enter valid education details',
-                        },
                         })}
                     />
                     {errors.education ? (
@@ -180,11 +175,7 @@ const TherapistAddForm = (props: any) => {
                             {errors.education.message as string}
                             </p>
                         )}
-                        {errors.education.type === "pattern" && (
-                            <p className={style.errMsg}>
-                            {errors.education.message as string}
-                            </p>
-                        )}
+                        
                         </>
                     ) : null}
                 </div>
@@ -199,24 +190,14 @@ const TherapistAddForm = (props: any) => {
                         onChange: (event: SelectChangeEvent) => settherapistDetails(
                             {
                             ...therapistDetails,
-                            introduction: event.target.value as string
+                            introduction: event.target.value.trimStart() as string
                             }
                         ),
-                        pattern: {
-                            value:
-                            /^[^-\s][a-zA-Z0-9_\s-]+$/,
-                            message: 'Enter valid details',
-                        },
                         })}
                     />
                     {errors.introduction ? (
                         <>
                         {errors.introduction.type === "required" && (
-                            <p className={style.errMsg}>
-                            {errors.introduction.message as string}
-                            </p>
-                        )}
-                        {errors.introduction.type === "pattern" && (
                             <p className={style.errMsg}>
                             {errors.introduction.message as string}
                             </p>
