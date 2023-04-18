@@ -22,18 +22,19 @@ const ShowModalActivityAudio: React.FC<Props> = ({ open, setOpen, setActivityAud
   const [uploaded, setUploaded] = useState<any>(null);
   const [showProgress, setShowProgress] = useState<boolean>(false);
   const [s3Key, setS3Key] = useState("");
-  const [error, showError] = useState("");
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = getFormData(event);
-    const postFormData = { ...formData, external_link: s3Key }
+    const postFormData = { ...formData, external_link: s3Key, heading: heading, content: content }
     setActivityAudioFormData(postFormData);
     if (activity === 'GroundingExercise') {
       setAudioArr((audioArr: any) => [...audioArr, { name: "Audio", type: "Audio", content_heading: heading, content_text: content, external_link: s3Key, isSubType: true }])
     }
+
     setHeading("");
     setContent("");
+    setAudios("");
     setOpen(false);
   };
 
@@ -56,7 +57,7 @@ const ShowModalActivityAudio: React.FC<Props> = ({ open, setOpen, setActivityAud
   };
 
   const handleFileChange = async (event: any) => {
-    if (validateFile(event.target.files[0]) === true) {
+    if (validateFile(event.target.files) === true) {
       setShowProgress(true);
       setAudios(event.target.files[0]?.name);
 
@@ -76,9 +77,8 @@ const ShowModalActivityAudio: React.FC<Props> = ({ open, setOpen, setActivityAud
 
   const validateFile = (file: any) => {
     const validTypes = ["audio/mp3", "audio/mpeg"];
-    if (!validTypes.includes(file.type)) {
-      showError(`Only ${validTypes.join('')} are allowed!`)
-      return `Only ${validTypes.join('')} are allowed!`;
+    if (!validTypes.includes(file[0].type)) {
+      return `Only ${validTypes.join(' ')} are allowed!`;
     }
     return true;
   };
@@ -86,7 +86,7 @@ const ShowModalActivityAudio: React.FC<Props> = ({ open, setOpen, setActivityAud
   return (
     <BasicModalDialog
       children={
-        <ActivityAudio handleSubmit={handleSubmit} setContent={setContent} setHeading={setHeading} heading={heading} content={content} uploaded={uploaded} showProgress={showProgress} handleAudioUpload={handleFileChange} audioName={audios} validateFile={validateFile} error={error} />}
+        <ActivityAudio handleSubmit={handleSubmit} setContent={setContent} setHeading={setHeading} heading={heading} content={content} uploaded={uploaded} showProgress={showProgress} handleAudioUpload={handleFileChange} audioName={audios} validateFile={validateFile} s3key={s3Key} />}
       open={open}
       setOpen={setOpen}
       title="Activity Audio"

@@ -5,6 +5,35 @@
   overflow-y: scroll;
   padding: 0.5rem;
 
+  .formControl {
+    .formLabels {
+      font-family: $fontFamilySourceCode;
+      font-weight: 500;
+      font-size: toRem(15);
+      color: black !important;
+
+      .requiredField {
+        color: red;
+        font-size: toRem(12);
+        margin-left: 0.1rem;
+        padding: 0.5rem 0;
+      }
+    }
+
+    .errorVisibility {
+      visibility: hidden;
+    }
+
+    .error {
+      font-family: $fontFamilySourceCode;
+      font-size: toRem(13);
+      color: #eb0000;
+      font-weight: 200;
+      line-height: 150%;
+      padding: 0.5rem 0;
+    }
+  }
+
   .addBtn {
     margin: 0.5rem 0;
   }
@@ -24,7 +53,7 @@
       font-size: toRem(13);
       color: #eb0000;
       font-weight: 200;
-      line-height: 120%;
+      line-height: 150%;
     }
 
     .fileUploadSubWrapper {
@@ -32,7 +61,6 @@
       align-items: center;
       justify-content: space-between;
       grid-gap: 1rem;
-
 
       .uploadInput {
         font-family: $fontFamilySourceCode;
@@ -49,22 +77,6 @@
         padding: 0.5rem;
         border-radius: 10px;
       }
-    }
-  }
-
-  .optionList {
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    align-self: center;
-
-    .options {
-      flex: 1;
-    }
-
-    .deleteBtn {
-      margin-top: 1.5rem;
-      cursor: pointer;
     }
   }
 }

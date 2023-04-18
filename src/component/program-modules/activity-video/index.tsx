@@ -4,34 +4,55 @@ import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
 import Input from '@mui/joy/Input';
 import Stack from '@mui/joy/Stack';
-import { Textarea } from '@mui/joy';
 import { IActivityVideoProps } from './activity-video.types';
 import FileUploader from '../../file-uploader';
 import styles from "./video.module.scss";
 import { useForm } from 'react-hook-form';
+import { validateNameField } from '../../../utils/constants/validation';
+import QuillActivityInput from '../../activityQuillInput';
 
-const ActivityVideo: React.FC<IActivityVideoProps> = ({ handleSubmit, setContent, setHeading, heading, content, handleVideoUpload, videoName, showProgress, uploaded,
-  validateFile, error }) => {
+const ActivityVideo: React.FC<IActivityVideoProps> = ({ handleSubmit, setContent, setHeading, heading, content, handleVideoUpload, videoName, showProgress, uploaded, validateFile, s3key }) => {
+
   const {
     register,
     formState: { errors }
   } = useForm({
     defaultValues: {
       activityVideo: "",
+      videoHeading: ""
     },
+    mode: 'all',
+    reValidateMode: 'onChange',
   });
 
   return (
     <form onSubmit={handleSubmit} className={styles.optionContainer}>
       <Stack spacing={2}>
-        <FormControl>
-          <FormLabel>Heading</FormLabel>
-          <Input name="heading" value={heading} autoFocus required onChange={(e: React.ChangeEvent<HTMLInputElement>) => setHeading(e.target.value)} />
+        <FormControl className={styles.formControl}>
+          <FormLabel className={styles.formLabels}>Heading<span className={styles.requiredField}>*</span></FormLabel>
+          <Input value={heading} autoFocus {...register("videoHeading", {
+            required: {
+              value: true,
+              message: "Please enter Heading!"
+            },
+            onChange: (e: React.ChangeEvent<HTMLInputElement>) => setHeading(e.target.value),
+            maxLength: {
+              value: 50,
+              message: "Maximum length exceeded"
+            },
+            validate: validateNameField("Heading")
+          })}
+          />
+
+          <span className={[styles.error, !errors?.videoHeading && styles.errorVisibility].join(" ")}>{errors?.videoHeading?.message || <>&nbsp;</>}</span>
         </FormControl>
-        <FormControl>
-          <FormLabel>Content</FormLabel>
-          <Textarea size="lg" variant="soft" name="content" required value={content} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setContent(e.target.value)} />
-        </FormControl>
+
+        <Stack spacing={10}>
+          <FormControl>
+            <FormLabel>Content</FormLabel>
+            <QuillActivityInput value={content} setValue={setContent} />
+          </FormControl>
+        </Stack>
 
         <FormControl className={styles.fileUploadWrapper}>
           <FormLabel className={styles.formLabels}>Video Link<span className={styles.requiredField}>*</span></FormLabel>
@@ -61,12 +82,12 @@ const ActivityVideo: React.FC<IActivityVideoProps> = ({ handleSubmit, setContent
 
           {
             showProgress && <FileUploader uploaded={uploaded} />}
-          <span className={[styles.error, !errors?.activityVideo && styles.errorVisibility].join(" ")}>{errors?.activityVideo?.message || error || <>&nbsp;</>}</span>
+          <span className={[styles.error, !errors?.activityVideo && styles.errorVisibility].join(" ")}>{errors?.activityVideo?.message || <>&nbsp;</>}</span>
         </FormControl>
 
-        <Button type="submit" disabled={(!heading || !content)}>Submit</Button>
+        <Button type="submit" disabled={!heading || !content || !s3key}>Submit</Button>
       </Stack>
-    </form>
+    </form >
   )
 }
 

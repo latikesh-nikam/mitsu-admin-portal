@@ -9,5 +9,5 @@ export interface IActivityVideoProps {
   showProgress: boolean
   uploaded: number
   validateFile: (file: any) => string | boolean
-  error: string
+  s3key: string
 }

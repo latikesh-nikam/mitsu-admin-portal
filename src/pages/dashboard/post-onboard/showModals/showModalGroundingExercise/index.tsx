@@ -78,7 +78,9 @@ const ShowModalGroundingExercise: React.FC<Props> = ({ open, setOpen, postOnboar
             setOptions={setOptions}
             handleInputChange={handleInputChange}
             setOpen={setOpen}
-            handleChangeSelect={handleSubScreenSelect} />
+            handleChangeSelect={handleSubScreenSelect}
+            selectedOptions={subScreenData}
+          />
         }
         open={open}
         setOpen={setOpen}

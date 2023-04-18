@@ -8,6 +8,6 @@ export interface IActivityAudioProps {
   audioName: string
   showProgress: boolean
   uploaded: number
-  validateFile: any
-  error: string
+  validateFile: (file: any) => string | boolean
+  s3key: string
 }

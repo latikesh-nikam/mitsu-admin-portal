@@ -4,34 +4,63 @@ import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
 import Input from '@mui/joy/Input';
 import Stack from '@mui/joy/Stack';
-import { Textarea } from '@mui/joy';
 import { IActivityAudioProps } from './activity-audio.types';
 import FileUploader from '../../file-uploader';
 import styles from "./audio.module.scss";
 import { useForm } from 'react-hook-form';
+import QuillActivityInput from '../../activityQuillInput';
+import { validateNameField } from '../../../utils/constants/validation';
 
-const ActivityAudio: React.FC<IActivityAudioProps> = ({ handleSubmit, setContent, setHeading, heading, content, showProgress, uploaded, handleAudioUpload, audioName, validateFile, error }) => {
+const ActivityAudio: React.FC<IActivityAudioProps> = ({ handleSubmit, setContent, setHeading, heading, content, showProgress, uploaded, handleAudioUpload, audioName, validateFile, s3key }) => {
+
   const {
     register,
     formState: { errors }
   } = useForm({
     defaultValues: {
+      audioHeading: "",
       activityAudio: "",
     },
+    mode: 'all',
+    reValidateMode: 'onChange',
   });
 
   return (
     <form onSubmit={handleSubmit} className={styles.optionContainer}>
       <Stack spacing={2}>
-        <FormControl>
-          <FormLabel>Heading</FormLabel>
-          <Input name="heading" value={heading} autoFocus required onChange={(e: React.ChangeEvent<HTMLInputElement>) => setHeading(e.target.value)} />
-        </FormControl>
-        <FormControl>
-          <FormLabel>Content</FormLabel>
-          <Textarea size="lg" variant="soft" name="content" required value={content} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setContent(e.target.value)} />
+
+        <FormControl className={styles.formControl}>
+          <FormLabel className={styles.formLabels}>Heading<span className={styles.requiredField}>*</span></FormLabel>
+          <Input value={heading} autoFocus {...register("audioHeading", {
+            required: {
+              value: true,
+              message: "Please enter Heading!"
+            },
+            onChange: (e: React.ChangeEvent<HTMLInputElement>) => setHeading(e.target.value),
+            maxLength: {
+              value: 50,
+              message: "Maximum length exceeded"
+            },
+            validate: validateNameField("Heading")
+          })}
+          />
+          <span className={[styles.error, !errors?.audioHeading && styles.errorVisibility].join(" ")}>{errors?.audioHeading?.message || <>&nbsp;</>}</span>
         </FormControl>
 
+      </Stack>
+
+      <Stack spacing={10}>
+
+        <FormControl>
+          <FormLabel>Content</FormLabel>
+          <QuillActivityInput value={content} setValue={setContent} />
+        </FormControl>
+
+      </Stack>
+
+      <br /><br />
+
+      <Stack spacing={1}>
         <FormControl className={styles.fileUploadWrapper}>
           <FormLabel className={styles.formLabels}>Audio Link<span className={styles.requiredField}>*</span></FormLabel>
           <input
@@ -59,10 +88,9 @@ const ActivityAudio: React.FC<IActivityAudioProps> = ({ handleSubmit, setContent
           </div>
 
           {showProgress && <FileUploader uploaded={uploaded} />}
-          <span className={[styles.error, !errors.activityAudio && styles.errorVisibility].join(" ")}>{errors?.activityAudio?.message || error || <> & nbsp;</>}</span>
+          <span className={[styles.error, !errors.activityAudio && styles.errorVisibility].join(" ")}>{errors?.activityAudio?.message || <>&nbsp;</>}</span>
         </FormControl>
-
-        <Button type="submit" disabled={!!!heading || !!!content || showProgress}>Submit</Button>
+        <Button type="submit" disabled={!heading || !s3key || !content}>Submit</Button>
       </Stack>
     </form>
   )

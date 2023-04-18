@@ -22,7 +22,6 @@ const TextIntro: React.FC<ITextIntroProps> = ({ handleSubmit, setPageHeading, se
           <FormControl>
             <FormLabel>Content Heading</FormLabel>
             <Input name="content_heading" autoFocus required value={contentHeading} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setContentHeading(e.target.value)} />
-
           </FormControl>
 
           <FormControl>

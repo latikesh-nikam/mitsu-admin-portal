@@ -13,7 +13,7 @@ const Accordion: React.FC<IAccordionProps> = ({ modulesData, screensData, subMod
           <div className={styles.moduleContainer}>
             <h2 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(`${modulesData?.name}`) }} className={styles.moduleHeading}></h2>
             <span dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(`${modulesData?.description}`) }} className={styles.label}></span>
-            <span dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(`Week-${modulesData?.week}`) }} className={styles.label}></span>
+            <span dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(`Week-${!!modulesData?.week ? modulesData?.week : "N/A"}`) }} className={styles.label}></span>
           </div>
 
           <CAccordion alwaysOpen activeItemKey={1}>
@@ -57,14 +57,19 @@ const Accordion: React.FC<IAccordionProps> = ({ modulesData, screensData, subMod
                     </CTableRow>
                   </CTableHead>
                   <CTableBody>
-                    {activitiesData[0]?.map((val: any, index: number) => {
-                      return (
-                        <CTableRow v-for="item in tableItems" key={index} color="light">
-                          <CTableDataCell className="text-left">{val.name}</CTableDataCell>
-                          <CTableDataCell className="text-center">{val.durationMin}</CTableDataCell>
-                        </CTableRow>
-                      )
-                    })
+                    {
+                      activitiesData?.map((value: any) => {
+                        return (
+                          value?.map((val: any, index: number) => {
+                            return (
+                              <CTableRow v-for="item in tableItems" key={index} color="light">
+                                <CTableDataCell className="text-left">{val.name}</CTableDataCell>
+                                <CTableDataCell className="text-center">{val.durationMin}</CTableDataCell>
+                              </CTableRow>
+                            )
+                          })
+                        )
+                      })
                     }
                   </CTableBody>
                 </CTable>
@@ -86,22 +91,23 @@ const Accordion: React.FC<IAccordionProps> = ({ modulesData, screensData, subMod
                     </CTableRow>
                   </CTableHead>
                   <CTableBody>
-                    {screensData?.map((val: any, index: number) => {
-                      return (
-                        val.map((values: any) => {
-                          return (
-                            <CTableRow v-for="item in tableItems" key={index} color="light">
-                              <CTableDataCell className="text-center">{values.name}</CTableDataCell>
-                              <CTableDataCell className="text-center">{values.type}</CTableDataCell>
-                              <CTableDataCell className="text-center">{!!values.content_heading ? values.content_heading : "N/A"}</CTableDataCell>
-                              <CTableDataCell className="text-center">
-                                <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(`${!!values.content_text ? values.content_text : "N/A"}`) }}></div>
-                              </CTableDataCell>
-                            </CTableRow>
-                          )
-                        })
-                      )
-                    })
+                    {
+                      screensData?.map((array: any) => {
+                        return (
+                          array?.map((val: any, index: number) => {
+                            return (
+                              <CTableRow v-for="item in tableItems" key={index} color="light">
+                                <CTableDataCell className="text-center">{val.name}</CTableDataCell>
+                                <CTableDataCell className="text-center">{val.type}</CTableDataCell>
+                                <CTableDataCell className="text-center">{!!val.content_heading ? val.content_heading : "N/A"}</CTableDataCell>
+                                <CTableDataCell className="text-center">
+                                  <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(`${!!val.content_text ? val.content_text : "N/A"}`) }}></div>
+                                </CTableDataCell>
+                              </CTableRow>
+                            )
+                          })
+                        )
+                      })
                     }
                   </CTableBody>
                 </CTable>

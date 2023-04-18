@@ -3,6 +3,7 @@ import ModuleList from '../../../../../component/modules-list';
 import { getAllModules } from '../../../../../services/service/module.service';
 import Canvas from '../../../../../component/canvas';
 import Accordion from '../../../../../component/accordion';
+import { validate } from 'uuid';
 
 const AllModules: React.FC<any> = () => {
 
@@ -23,17 +24,14 @@ const AllModules: React.FC<any> = () => {
   }, []);
 
   const sendPreviewData = (item: any) => {
-
     const modulesdata = { ...item }
     setModulesData(modulesdata);
     setSubModulesData(item.sub_modules);
-
     const activitesdata = item?.sub_modules?.map((val: any) => val?.activities)
     setActivitiesData(activitesdata)
-
-    const screensdata = activitesdata[0]?.map((values: any) => values?.screens)
-    setScreensData(screensdata);
-
+    const screensArray: any = []
+    const screendata = activitesdata.forEach((array: any) => screensArray.push(array.map((val: any) => val.screens)))
+    setScreensData(screensArray.flat());
   }
 
   return (

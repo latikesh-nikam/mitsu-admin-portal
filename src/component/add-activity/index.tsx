@@ -15,12 +15,15 @@ const AddActivityForm: React.FC<IAddActivityProps> = ({ dayCount, handleChangeSe
   const [errorDuration, setErrorDuration] = useState<string>();
   const [errorName, setErrorName] = useState<string>();
 
-  const handleNumberValidation = (value: number) => {
-    if (value <= 0) {
+  const handleNumberValidation = (value: string) => {
+    if (Number(value) <= 0) {
       setErrorDuration("Duration can not be less than or equal to zero")
     }
-    else if (value > 5) {
+    else if (Number(value) > 5) {
       setErrorDuration("Duration can not be bigger than 5")
+    }
+    else if (!new RegExp(/^[0-9\b]+$/).test(value)) {
+      setErrorDuration("Duration can only be integer")
     }
     else { setErrorDuration("") }
   };
@@ -52,11 +55,11 @@ const AddActivityForm: React.FC<IAddActivityProps> = ({ dayCount, handleChangeSe
           <FormLabel className={styles.formLabels}>Duration<span className={styles.requiredField}>*</span></FormLabel>
           <Input name={`activityDuration-${activityFieldCount}`} required onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setDuration(Number(e.target.value))
-            handleNumberValidation(Number(e.target.value))
+            handleNumberValidation(e.target.value)
           }
           } placeholder="Enter duration in min" type="number" onKeyDown={(e) =>
             ["ArrowUp", "ArrowDown", "e", "E"].includes(e.key) && e.preventDefault()
-          } />
+          } step={1} />
           <span className={[styles.error, !errorDuration && styles.errorVisibility].join(" ")}>{errorDuration || <>&nbsp;</>}</span>
         </FormControl>
 

@@ -12,7 +12,7 @@ import { Textarea } from '@mui/joy';
 import CustomSelect from '../../select';
 import { subScreensDropdown } from './grounding.data';
 
-const GroundingExercise: React.FC<IGroundingExerciseProps> = ({ handleSubmit, setHeading, setQuestionText, questionText, heading, options, setOptions, handleInputChange, handleChangeSelect }) => {
+const GroundingExercise: React.FC<IGroundingExerciseProps> = ({ handleSubmit, setHeading, setQuestionText, questionText, heading, options, setOptions, handleInputChange, handleChangeSelect, selectedOptions }) => {
 
   const handleAddOption = () => {
     const values = [...options];
@@ -85,6 +85,7 @@ const GroundingExercise: React.FC<IGroundingExerciseProps> = ({ handleSubmit, se
                         isSearchable={false}
                         menuPlacement="bottom"
                         hideSelectedOptions={true}
+                        selectedOptions={selectedOptions}
                       />
                     </FormControl>
                   </div>

@@ -22,18 +22,18 @@ const ShowModalActivityVideo: React.FC<Props> = ({ open, setOpen, setActivityVid
   const [uploaded, setUploaded] = useState<any>(null);
   const [showProgress, setShowProgress] = useState<boolean>(false);
   const [s3Key, setS3Key] = useState("");
-  const [error, showError] = useState("");
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = getFormData(event);
-    const postData = { ...formData, external_link: s3Key, content: content }
+    const postData = { ...formData, external_link: s3Key, content: content, heading: heading }
     setActivityVideoFormData(postData);
     if (activity === 'GroundingExercise') {
       setVideoArr((videoArr: any) => [...videoArr, { name: "Video", type: "Video", content_heading: heading, content_text: content, external_link: s3Key, isSubType: true }])
     }
     setHeading("");
     setContent("");
+    setVideos("");
     setOpen(false);
   };
 
@@ -56,7 +56,7 @@ const ShowModalActivityVideo: React.FC<Props> = ({ open, setOpen, setActivityVid
   };
 
   const handleFileChange = async (event: any) => {
-    if (validateFile(event.target.files[0]) === true) {
+    if (validateFile(event.target.files) === true) {
       setShowProgress(true);
       setVideos(event.target.files[0]?.name);
 
@@ -64,7 +64,6 @@ const ShowModalActivityVideo: React.FC<Props> = ({ open, setOpen, setActivityVid
       formData.append("file", event.target.files[0]);
 
       const uploadData = await uploadAudioVideoToS3(formData);
-
       if (uploadData.data.statusCode === 201) {
         setS3Key(uploadData?.data.data.key);
       }
@@ -77,9 +76,8 @@ const ShowModalActivityVideo: React.FC<Props> = ({ open, setOpen, setActivityVid
 
   const validateFile = (file: any) => {
     const validTypes = ["video/mp4", "video/avi"];
-    if (!validTypes.includes(file.type)) {
-      showError(`Only ${validTypes.join('')} are allowed!`)
-      return `Only ${validTypes.join('')} are allowed!`;
+    if (!validTypes.includes(file[0].type)) {
+      return `Only ${validTypes.join(' ')} are allowed!`;
     }
     return true;
   };
@@ -88,7 +86,7 @@ const ShowModalActivityVideo: React.FC<Props> = ({ open, setOpen, setActivityVid
     <BasicModalDialog
       children={
         <>
-          <ActivityVideo handleSubmit={handleSubmit} setContent={setContent} setHeading={setHeading} heading={heading} content={content} uploaded={uploaded} showProgress={showProgress} handleVideoUpload={handleFileChange} videoName={videos} validateFile={validateFile} error={error} />
+          <ActivityVideo handleSubmit={handleSubmit} setContent={setContent} setHeading={setHeading} heading={heading} content={content} uploaded={uploaded} showProgress={showProgress} handleVideoUpload={handleFileChange} videoName={videos} validateFile={validateFile} s3key={s3Key} />
         </>
       }
       open={open}

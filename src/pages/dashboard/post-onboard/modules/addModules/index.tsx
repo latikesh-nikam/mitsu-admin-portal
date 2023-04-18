@@ -17,10 +17,10 @@ import QuillActivityInput from '../../../../../component/activityQuillInput';
 import { getPostOnBoardingQuestions } from '../../../../../services/service/user.service';
 import { validateNameField } from "../../../../../utils/constants/validation";
 import FileUploader from '../../../../../component/file-uploader';
-import { CUSTOM_STYLES } from '../../../../../utils/constants/style';
+import { useNavigate } from 'react-router-dom';
 
 const AddModules: React.FC<IAddModuleProps> = () => {
-
+  const nav = useNavigate();
   const [open, setOpen] = useState<boolean>(false);
   const [imageName, setImageName] = useState("");
 
@@ -357,7 +357,8 @@ const AddModules: React.FC<IAddModuleProps> = () => {
     const res = await addModules(moduleDetails);
     if (res) {
       toast.success("Module Added Successfully")
-      resetDetails()
+      resetDetails();
+      nav("/dashboard/modules/all");
     } else {
       toast.error("Something Went Wrong!!")
     }
@@ -391,7 +392,7 @@ const AddModules: React.FC<IAddModuleProps> = () => {
   const validateFile = (file: any) => {
     const validTypes = ["image/jpeg"];
     if (!validTypes.includes(file[0].type)) {
-      return `Only ${validTypes.join('')} files are allowed!`;
+      return `Only ${validTypes.join(' ')} files are allowed!`;
     }
     return true;
   };
