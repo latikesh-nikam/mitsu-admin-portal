@@ -2,6 +2,7 @@
 @import "../../../../../styles/mixins.scss";
 
 .container {
+  overflow: scroll;
   .formControl {
     .formLabels {
       font-family: $fontFamilySourceCode;

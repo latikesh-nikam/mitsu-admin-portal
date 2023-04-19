@@ -9,11 +9,9 @@ import { Add } from '@mui/icons-material';
 import { Button } from '@mui/joy';
 import Input from '../input';
 
-const AddActivityForm: React.FC<IAddActivityProps> = ({ dayCount, handleChangeSelect, duration, setDuration, handleInputChange, activityName, setActivityName, screensData, handleAddScreen, handleDeleteScreen, activityFieldCount }) => {
+const AddActivityForm: React.FC<IAddActivityProps> = ({ dayCount, handleChangeSelect, duration, setDuration, handleInputChange, activityName, setActivityName, screensData, handleAddScreen, handleDeleteScreen, activityFieldCount, errorDuration, errorName, setErrorDuration, setErrorName }) => {
 
   const [open, setOpen] = useState<boolean>(false);
-  const [errorDuration, setErrorDuration] = useState<string>();
-  const [errorName, setErrorName] = useState<string>();
 
   const handleNumberValidation = (value: string) => {
     if (Number(value) <= 0) {

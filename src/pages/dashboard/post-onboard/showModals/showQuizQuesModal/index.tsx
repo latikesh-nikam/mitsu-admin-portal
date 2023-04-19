@@ -50,6 +50,7 @@ const ShowQuizQuesModal: React.FC<Props> = ({ open, setOpen, setQuizFormData, po
   });
 
   return (
+    <div className='overflow-y-scroll'>
     <Modal open={open} onClose={() => setOpen(false)} className={styles.container}>
       <ModalDialog
         aria-labelledby="basic-modal-dialog-title"
@@ -103,6 +104,7 @@ const ShowQuizQuesModal: React.FC<Props> = ({ open, setOpen, setQuizFormData, po
         </CButton>
       </ModalDialog>
     </Modal>
+    </div>
   )
 };
 

@@ -34,6 +34,8 @@ const ShowModalActivityVideo: React.FC<Props> = ({ open, setOpen, setActivityVid
     setHeading("");
     setContent("");
     setVideos("");
+    setUploaded(null)
+    setS3Key("")
     setOpen(false);
   };
 

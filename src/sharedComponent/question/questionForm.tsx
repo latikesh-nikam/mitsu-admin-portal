@@ -19,8 +19,8 @@ const QuestionForm = (props: any) => {
     heading: "",
     description: "",
     title: "",
-    type: "",
-    category: "",
+    type: "PostOnboard",
+    category: "Anxiety",
     options_type: "text",
     options: {},
     explanation: "",
@@ -49,15 +49,24 @@ const QuestionForm = (props: any) => {
     setOptionArr(optionArr)
   }
 
+  const obj: any = {}
+
   const onSubmit = async () => {
+    optionArr?.forEach((item) => {
+      return (
+        obj[item.text] = Number(item.score)
+      )
+    })
     let data = {
       ...question,
       asset_links: {
         video_link: "",
         audio_link: "",
         image_link: "",
-      }
+      },
+      options: obj
     }
+    setQuestionForm(false)
     const res = await addQuestionDetails(data)
     if (res) {
       toast.success("Question Added Successfully")
@@ -124,8 +133,8 @@ const QuestionForm = (props: any) => {
               )
             })}
           >
-            <option value={'PreOnboard'}>Pre-Onboard</option>
-            <option value={'PostOnboard'}>Post-Onboard</option>
+            <option value={'PreOnboard'}>PreOnboard</option>
+            <option value={'PostOnboard'}>PostOnboard</option>
           </select>
         </div>
         <div className={style.fieldWrapper}>
@@ -182,7 +191,6 @@ const QuestionForm = (props: any) => {
                     placeholder="Enter Options"
                     value={optionVal.text}
                     {...register("optionText", {
-                      required: "This is required field",
                       onChange: (e: React.ChangeEvent<HTMLInputElement>) => setOptionVal({ ...optionVal, text: e.target.value })
                     })}
                   />
@@ -193,7 +201,6 @@ const QuestionForm = (props: any) => {
                     placeholder="Enter Score"
                     value={optionVal.score}
                     {...register("optionScore", {
-                      required: "This is required field",
                       onChange: (e: React.ChangeEvent<HTMLInputElement>) => setOptionVal({ ...optionVal, score: e.target.value })
                     })}
                   />

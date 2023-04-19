@@ -1,7 +1,7 @@
 import { CButton, CModal, CModalHeader, CModalBody, CModalFooter, CModalTitle } from '@coreui/react';
 
 const DeleteQuestionConfirmation = (props: any) => {
-  const { questionDelete, setQuestionDelete } = props;
+  const { questionDelete, setQuestionDelete, setDeleteQuestion } = props;
   return (
     <>
       <CModal scrollable visible={questionDelete} onClose={() => setQuestionDelete(false)}>
@@ -15,7 +15,7 @@ const DeleteQuestionConfirmation = (props: any) => {
           <CButton color="dark" onClick={() => setQuestionDelete(false)}>
             Close
           </CButton>
-          <CButton color="danger" onClick={() => setQuestionDelete(false)}>Delete</CButton>
+          <CButton color="danger" onClick={() => setDeleteQuestion()}>Delete</CButton>
         </CModalFooter>
       </CModal>
     </>

@@ -59,6 +59,8 @@ const AddModules: React.FC<IAddModuleProps> = () => {
   const [audioArr, setAudioArr] = useState<any>([])
   const [videoArr, setVideoArr] = useState<any>([]);
   const [modulesData, setModulesData] = useState<any>([]);
+  const [errorDuration, setErrorDuration] = useState<string>("Field can not be empty!");
+  const [errorName, setErrorName] = useState<string>("Field can not be empty!");
 
   const postOnBoardingQuestions = async () => {
     let res = await getPostOnBoardingQuestions()
@@ -79,10 +81,20 @@ const AddModules: React.FC<IAddModuleProps> = () => {
     setSelectWeek(params);
   }
 
-  const handleSelectChange = (e: any, actionMeta: any, activityCount: number, dayCount: number,) => {
+  const handleSelectChange = (e: any, actionMeta: any, activityCount: number, dayCount: number, screenIndex: number) => {
     let data = [...selectedOptions];
     setSelectedOptions(data);
-    setScreenArray((screenArr: any) => [...screenArr, { dayCount: dayCount, activityCount: activityCount, type: e.value, name: 'Mood_Log' }])
+    const newScreenArray=[...screenArr]
+    const oldIndex = newScreenArray.findIndex((obj)=>{
+      const {dayCount:d,activityCount:a,screenIndex:s}=obj
+      return dayCount===d && activityCount==a && screenIndex==s;
+    })
+    if(oldIndex!==-1){
+      newScreenArray[oldIndex]={ dayCount: dayCount, activityCount: activityCount, type: e.value, name: 'Mood_Log', screenIndex: screenIndex };
+    }else{
+      newScreenArray.push({ dayCount: dayCount, activityCount: activityCount, type: e.value, name: 'Mood_Log', screenIndex: screenIndex });
+    }
+    setScreenArray( [...newScreenArray])
     const modalComponent = e
     if (modalComponent) {
       actionMeta.action === "remove-value" ? setOpen(false) : setOpen(true)
@@ -154,8 +166,8 @@ const AddModules: React.FC<IAddModuleProps> = () => {
   const handleSelections = (options: any) => {
     let selectionOption = options?.map((item: any) => {
       return {
-        selection: Object.values(item)[0],
-        description: Object.values(item)[1]
+        selection: Object.values(item)[3],
+        description: Object.values(item)[0]
       }
     })
     return selectionOption;
@@ -174,8 +186,8 @@ const AddModules: React.FC<IAddModuleProps> = () => {
     let selectionOption = options?.map((item: any, index: number) => {
       return {
         index: index + 1,
-        title: Object.values(item)[0],
-        description: Object.values(item)[1]
+        title: Object.values(item)[3],
+        description: Object.values(item)[0]
       }
     })
     return selectionOption;
@@ -262,7 +274,7 @@ const AddModules: React.FC<IAddModuleProps> = () => {
         name: 'Quiz',
         type: singleScreen?.type,
         content_heading: quizFormData?.contentHeading,
-        question_ids: quizFormData?.questionIds
+        questionIds: quizFormData?.questionIds
       }
     } else if (singleScreen?.type === "Grounding_Exercise") {
       let val = [
@@ -297,11 +309,6 @@ const AddModules: React.FC<IAddModuleProps> = () => {
       }
       return [...acc]
     }, [])
-    // console.log(scrn)
-
-    // scrn = scrn.filter(function (element: any) {
-    //   return element !== undefined
-    // })
 
     return scrn;
   }
@@ -391,7 +398,7 @@ const AddModules: React.FC<IAddModuleProps> = () => {
   }
 
   const validateFile = (file: any) => {
-    const validTypes = ["image/jpeg", "image/png"];
+    const validTypes = ["image/jpeg", "image/png", "image/jpg", "image/gif", "image/jfif", "image/pjpeg", "image/pjp", "image/svg", "image/webp"];
     if (!validTypes.includes(file[0].type)) {
       return `Only ${validTypes.join(' ')} files are allowed!`;
     }
@@ -455,7 +462,7 @@ const AddModules: React.FC<IAddModuleProps> = () => {
                     type="file"
                     id="activity-image-file"
                     style={{ display: "none" }}
-                    accept=".jpg, .jpeg"
+                    accept=".jpg, .jpeg, .png, .gif, .jfif, .pjpeg, .pjp, .svg, .webp"
                     onClick={(e: BaseSyntheticEvent) => { e.target.value = null; }}
                     {...register('activityImage', {
                       onChange: handleImageUpload,
@@ -499,10 +506,14 @@ const AddModules: React.FC<IAddModuleProps> = () => {
                 setActivitiesArr={setActivitiesArr}
                 activityFieldCount={activityFieldCount}
                 setActivityFieldCount={setActivityFieldCount}
+                errorName={errorName}
+                setErrorName={setErrorName}
+                errorDuration={errorDuration}
+                setErrorDuration={setErrorDuration}
               />
             </div>
             <Button
-              disabled={(selectedOptions.length === 0) || !moduleHeading || !moduleDesc}
+              disabled={(selectedOptions.length === 0) || !moduleHeading || !moduleDesc || !!errorName || !!errorDuration}
               onClick={() => submitModule()}
               startDecorator={<Add />}
             >Submit Module

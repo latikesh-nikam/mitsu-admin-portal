@@ -9,7 +9,7 @@ export interface IAddDayProps {
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>, index: number) => void
   activityName: string
   setActivityName: (value: string) => void
-  handleChangeSelect: (newValue: MultiValue<ISelectOptionsProps> | SingleValue<ISelectOptionsProps>, actionMeta: ActionMeta<ISelectOptionsProps>, activityFieldCount: number, dayCount: number) => void
+  handleChangeSelect: (newValue: MultiValue<ISelectOptionsProps> | SingleValue<ISelectOptionsProps>, actionMeta: ActionMeta<ISelectOptionsProps>, activityFieldCount: number, dayCount: number, screenIndex: number) => void
 
   duration: number
   setSelectedOptions: (e: any) => void
@@ -17,4 +17,9 @@ export interface IAddDayProps {
   setActivitiesArr: (e: any) => void
   activityFieldCount: number
   setActivityFieldCount: (e: any) => void
+
+  errorName: string
+  setErrorName: (val: string) => void
+  errorDuration: string
+  setErrorDuration: (val: string) => void
 }

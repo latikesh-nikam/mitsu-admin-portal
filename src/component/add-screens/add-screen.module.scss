@@ -29,7 +29,12 @@
     .screenSubWrapper {
       .deleteBtn {
         display: flex;
-        justify-content: flex-end;
+        justify-content: end;
+
+        .btn {
+          display: block;
+          cursor: pointer;
+        }
       }
     }
   }

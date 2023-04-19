@@ -80,6 +80,7 @@
     "@testing-library/user-event": "^14.4.3",
     "@types/lodash": "^4.14.191",
     "@types/quill": "^2.0.10",
+    "@types/react-phone-number-input": "^3.0.14",
     "@types/uuid": "^9.0.1",
     "auto-changelog": "~2.4.0",
     "eslint-config-prettier": "^8.5.0",

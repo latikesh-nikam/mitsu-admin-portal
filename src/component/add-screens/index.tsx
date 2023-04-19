@@ -18,23 +18,25 @@ const AddScreens: React.FC<IAddScreenProps> = ({ activityFieldCount, dayCount, h
         <div className={styles.screens}>
           <FormLabel className={styles.screenLabel}>Screen-{index + 1}</FormLabel>
           <div className={styles.screenSubWrapper}>
-            <div
-              onClick={handleDeleteScreen}
+            <span
               className={styles.deleteBtn}>
-              <DeleteRoundedIcon />
-            </div>
+              <div onClick={handleDeleteScreen} className={styles.btn}>
+                <DeleteRoundedIcon />
+              </div>
+            </span>
             <FormControl>
               <FormLabel className={styles.formLabels}>Select Screen</FormLabel>
               <CustomSelect
                 name="program-activities"
                 isMulti={false}
                 dropdownOptions={screensDropdown}
-                handleChangeSelect={(newValue: MultiValue<ISelectOptionsProps> | SingleValue<ISelectOptionsProps>, actionMeta: ActionMeta<ISelectOptionsProps>, activityFieldCount: number, dayCount: number) => handleChangeSelect(newValue, actionMeta, activityFieldCount, dayCount)}
+                handleChangeSelect={(newValue: MultiValue<ISelectOptionsProps> | SingleValue<ISelectOptionsProps>, actionMeta: ActionMeta<ISelectOptionsProps>, activityFieldCount: number, dayCount: number) => handleChangeSelect(newValue, actionMeta, activityFieldCount, dayCount, index)}
                 isAutoFocus={false}
                 isSearchable={false}
                 menuPlacement="bottom"
                 activityFieldCount={activityFieldCount}
                 dayCount={dayCount}
+                hideSelectedOptions={false}
               />
             </FormControl>
           </div>

@@ -26,6 +26,8 @@ const ShowModalQuiz: React.FC<Props> = ({ open, setOpen, setQuizFormData }) => {
     setHeading("");
     setQuestionText("");
     setSelectedOptions("");
+    setOptions([{}])
+    setQuizOptions({})
     setOpen(false);
   };
 

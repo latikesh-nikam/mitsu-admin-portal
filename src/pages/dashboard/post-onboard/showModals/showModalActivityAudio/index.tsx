@@ -28,7 +28,6 @@ const ShowModalActivityAudio: React.FC<Props> = ({ open, setOpen, setActivityAud
     const formData = getFormData(event);
     const postFormData = { ...formData, external_link: s3Key, heading: heading, content: content }
     setActivityAudioFormData(postFormData);
-    console.log("formdata", postFormData)
     if (activity === 'GroundingExercise') {
       setAudioArr((audioArr: any) => [...audioArr, { name: "Audio", type: "Audio", content_heading: heading, content_text: content, external_link: s3Key, isSubType: true }])
     }

@@ -42,13 +42,13 @@ const ModuleList: React.FC<IModuleListProps> = (props: any) => {
     return (
       <CTableRow v-for="item in tableItems" color="light" {...other}>
         <CTableDataCell className="text-left" ><DragHandle /></CTableDataCell>
-        <CTableDataCell className="text-left">
+        <CTableDataCell className="text-left"> 
           <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(`${data?.name}`) }}></div>
         </CTableDataCell>
-        <CTableDataCell className="text-left">
+        <CTableDataCell className="text-left" >
           <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(`${data?.description}`) }}></div>
         </CTableDataCell>
-        <CTableDataCell className="text-left" style={{ display: 'flex', flexDirection: 'row'}}>
+        <CTableDataCell className="text-left" style={{ display: 'flex', flexDirection: 'row', justifyContent: "space-between",  marginTop: '0.5rem' }}>
           <Tooltip title="Preview">
             <div onClick={(e) => {
               e.stopPropagation();
@@ -61,7 +61,7 @@ const ModuleList: React.FC<IModuleListProps> = (props: any) => {
           <Tooltip title="Delete">
             <div onClick={(e) => {
               e.stopPropagation();
-              setDelete(true) 
+              setDelete(true)
               setDeletedItem(data)
             }}>
               <Delete color="action" />

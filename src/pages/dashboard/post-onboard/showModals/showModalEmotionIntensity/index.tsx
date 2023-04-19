@@ -19,6 +19,8 @@ const ShowModalEmotionIntensity: React.FC<Props> = ({ open, setOpen, setEmotionI
     setEmotionIntensityFormData(postFormData);
     toast.success("Emotion Intensity details submitted successfully")
     setOpen(false)
+    setHeading("")
+    setContent("")
   };
 
   return (
