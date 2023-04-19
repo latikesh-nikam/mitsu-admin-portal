@@ -5,7 +5,7 @@ import { ISelectProps } from './select.types';
 import { ISelectOptionsProps } from "../../interface";
 import { CUSTOM_STYLES } from '../../utils/constants/style';
 
-const CustomSelect: React.FC<Partial<ISelectProps>> = React.forwardRef(({ isMulti = false, dropdownOptions, selectedOptions, disabled = false, isAutoFocus, isSearchable = true, handleChangeSelect, name, menuPlacement = "top", placeholder, activityFieldCount = 0, dayCount = 0, hideSelectedOptions = true, index = 0 }, ref) => {
+const CustomSelect: React.FC<Partial<ISelectProps>> = React.forwardRef(({ isMulti = false, dropdownOptions, selectedOptions, disabled = false, isAutoFocus, isSearchable = true, handleChangeSelect, name, menuPlacement = "top", placeholder, activityFieldCount = 0, dayCount = 0 }, ref) => {
 
   const getOptionValue = useCallback(
     (option: ISelectOptionsProps | ISelectOptionsProps[]) => {
@@ -15,7 +15,7 @@ const CustomSelect: React.FC<Partial<ISelectProps>> = React.forwardRef(({ isMult
   );
 
   const onChange = (newValue: MultiValue<ISelectOptionsProps> | SingleValue<ISelectOptionsProps>, actionMeta: ActionMeta<ISelectOptionsProps>,) => {
-    handleChangeSelect && handleChangeSelect(newValue, actionMeta, activityFieldCount, dayCount, index);
+    handleChangeSelect && handleChangeSelect(newValue, actionMeta, activityFieldCount, dayCount);
   };
 
   return (
@@ -26,7 +26,7 @@ const CustomSelect: React.FC<Partial<ISelectProps>> = React.forwardRef(({ isMult
         isMulti={isMulti}
         options={dropdownOptions}
         value={selectedOptions}
-        hideSelectedOptions={hideSelectedOptions}
+        hideSelectedOptions={true}
         closeMenuOnSelect={true}
         menuShouldScrollIntoView={true}
         isDisabled={disabled}

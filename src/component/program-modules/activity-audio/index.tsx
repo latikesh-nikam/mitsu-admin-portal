@@ -90,7 +90,7 @@ const ActivityAudio: React.FC<IActivityAudioProps> = ({ handleSubmit, setContent
           {showProgress && <FileUploader uploaded={uploaded} />}
           <span className={[styles.error, !errors.activityAudio && styles.errorVisibility].join(" ")}>{errors?.activityAudio?.message || <>&nbsp;</>}</span>
         </FormControl>
-        <Button type="submit" disabled={!heading || !s3key || !content || !!errors?.activityAudio?.message || !!errors?.heading?.message}>Submit</Button>
+        <Button type="submit" disabled={!heading || !s3key || !content}>Submit</Button>
       </Stack>
     </form>
   )

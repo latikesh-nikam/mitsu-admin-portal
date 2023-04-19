@@ -11,14 +11,15 @@
 
     .moduleHeading {
       font-weight: 700;
-      font-family: $fontFamilySourceCode, monospace;
+      font-family: $fontFamilySourceCode;
     }
 
     .label {
       padding: 1rem 0;
       font-size: toRem(15);
       font-weight: 500;
-      font-family: $fontFamilySourceCode, monospace;
+      font-style: italic;
+      font-family: $fontFamilyRobotoMono, monospace;
     }
   }
 }

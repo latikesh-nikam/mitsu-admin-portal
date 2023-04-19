@@ -48,7 +48,7 @@ const ModuleList: React.FC<IModuleListProps> = (props: any) => {
         <CTableDataCell className="text-left">
           <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(`${data?.description}`) }}></div>
         </CTableDataCell>
-        <CTableDataCell className="text-left" style={{ display: 'flex', flexDirection: 'row' }}>
+        <CTableDataCell className="text-left" style={{ display: 'flex', flexDirection: 'row'}}>
           <Tooltip title="Preview">
             <div onClick={(e) => {
               e.stopPropagation();
@@ -61,7 +61,7 @@ const ModuleList: React.FC<IModuleListProps> = (props: any) => {
           <Tooltip title="Delete">
             <div onClick={(e) => {
               e.stopPropagation();
-              setDelete(true)
+              setDelete(true) 
               setDeletedItem(data)
             }}>
               <Delete color="action" />

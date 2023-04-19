@@ -39,6 +39,7 @@ const AllModules: React.FC<any> = () => {
   }
 
   const handleDeleteModule = async() => {
+    console.log(deleteItem)
     const res = await deleteModules(deleteItem?.id)
     if(res){
       toast.success('Module deleted successfully!!!')

@@ -6,7 +6,7 @@ import GroundingExercise from '../../../../../component/program-modules/groundin
 import ShowModalActivityAudio from '../showModalActivityAudio';
 import ShowModalActivityVideo from '../showModalActivityVideo';
 import ShowQuizQuesModal from '../showQuizQuesModal';
-import { v4 as uuidv4 } from "uuid";
+
 interface Props {
   open: boolean
   setOpen: (open: boolean) => void
@@ -23,11 +23,7 @@ interface Props {
 const ShowModalGroundingExercise: React.FC<Props> = ({ open, setOpen, postOnboardingQuestions, setGroundExercisingData, audioArr, setAudioArr, videoArr, setVideoArr, quizArr, setQuizArr }) => {
   const [heading, setHeading] = useState<any>("");
   const [questionText, setQuestionText] = useState<any>("");
-
-  const [options, setOptions] = useState<any>([{
-    id: uuidv4(), label: "Selection-1", name: "", desc: "", subScreens: {}
-  }]);
-
+  const [options, setOptions] = useState<any>([{}]);
   const [subScreenData, setSubScreenData] = useState<any>([]);
   const [visible, setVisible] = useState<boolean>(true);
   const [audioData, setAudioData] = useState([]);
@@ -39,6 +35,7 @@ const ShowModalGroundingExercise: React.FC<Props> = ({ open, setOpen, postOnboar
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const formData = getFormData(event);
     setGroundExercisingData({
       content_heading: heading,
       content_text: questionText,
@@ -50,31 +47,21 @@ const ShowModalGroundingExercise: React.FC<Props> = ({ open, setOpen, postOnboar
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
     let data = [...options];
-    if ((!!event.target) && (event.target.name === "name")) {
-      data[index].name = event.target.value;
-    }
-    else {
-      data[index].desc = event
-    }
-    setOptions([...data])
+    // data[index].value = event.target.value;
+    data[index][event.target.name] = event.target.value;
+    setOptions(data);
   };
 
-  const handleSubScreenSelect = (e: any, actionMeta: any, activityFieldCount: any, dayCount: number, index: number) => {
-    let data = [...options]
-    data[index].subScreens = e
-    setOptions([...data]);
-
+  const handleSubScreenSelect = (e: any) => {
+    setSubScreenData(e);
     if (e.label === 'Quiz') {
       setQuizOpen(true)
-      return
     }
     if (e.label === 'Audio') {
       setAudioOpen(true)
-      return
     }
     if (e.label === 'Video') {
       setVideoOpen(true)
-      return
     }
   };
 
@@ -101,11 +88,9 @@ const ShowModalGroundingExercise: React.FC<Props> = ({ open, setOpen, postOnboar
         title="Grounding Exercise"
       />
 
-      <ShowQuizQuesModal open={quizOpen} setOpen={setQuizOpen} setQuizFormData={setQuizData} postOnboardingQuestions={postOnboardingQuestions} activity={'GroundingExercise'} quizArr={quizArr} setQuizArr={setQuizArr} />
-
-      <ShowModalActivityAudio open={audioOpen} setOpen={setAudioOpen} setActivityAudioFormData={setAudioData} activity={'GroundingExercise'} audioArr={audioArr} setAudioArr={setAudioArr} />
-
-      <ShowModalActivityVideo open={videoOpen} setOpen={setVideoOpen} setActivityVideoFormData={setVideoData} activity={'GroundingExercise'} videoArr={videoArr} setVideoArr={setVideoArr} />
+      {subScreenData.label === "Quiz" ? <ShowQuizQuesModal open={quizOpen} setOpen={setQuizOpen} setQuizFormData={setQuizData} postOnboardingQuestions={postOnboardingQuestions} activity={'GroundingExercise'} quizArr={quizArr} setQuizArr={setQuizArr} /> : <></>}
+      {subScreenData.label === "Audio" ? <ShowModalActivityAudio open={audioOpen} setOpen={setAudioOpen} setActivityAudioFormData={setAudioData} activity={'GroundingExercise'} audioArr={audioArr} setAudioArr={setAudioArr} /> : <></>}
+      {subScreenData.label === "Video" ? <ShowModalActivityVideo open={videoOpen} setOpen={setVideoOpen} setActivityVideoFormData={setVideoData} activity={'GroundingExercise'} videoArr={videoArr} setVideoArr={setVideoArr} /> : <></>}
     </>
   )
 }

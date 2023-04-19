@@ -17,9 +17,4 @@ export interface IAddDayProps {
   setActivitiesArr: (e: any) => void
   activityFieldCount: number
   setActivityFieldCount: (e: any) => void
-
-  errorName: string
-  setErrorName: (val: string) => void
-  errorDuration: string
-  setErrorDuration: (val: string) => void
 }

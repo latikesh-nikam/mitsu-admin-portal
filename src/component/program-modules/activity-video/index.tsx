@@ -85,7 +85,7 @@ const ActivityVideo: React.FC<IActivityVideoProps> = ({ handleSubmit, setContent
           <span className={[styles.error, !errors?.activityVideo && styles.errorVisibility].join(" ")}>{errors?.activityVideo?.message || <>&nbsp;</>}</span>
         </FormControl>
 
-        <Button type="submit" disabled={!heading || !content || !s3key || !!errors?.activityVideo?.message || !!errors?.heading?.message}>Submit</Button>
+        <Button type="submit" disabled={!heading || !content || !s3key}>Submit</Button>
       </Stack>
     </form >
   )

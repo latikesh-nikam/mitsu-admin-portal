@@ -52,7 +52,9 @@ const CheckboxList: React.FC<ICheckboxListProps> = ({ handleSubmit, setContent, 
       </Button>
 
       <form onSubmit={handleSubmit}>
-        <Stack>
+
+        <Stack spacing={2}>
+
           <FormControl className={styles.formControl}>
             <FormLabel className={styles.formLabels}>Heading<span className={styles.requiredField}>*</span></FormLabel>
             <Input value={pageHeading} autoFocus {...register("heading", {
@@ -72,7 +74,7 @@ const CheckboxList: React.FC<ICheckboxListProps> = ({ handleSubmit, setContent, 
           </FormControl>
 
           <FormControl className={styles.formControlQuill}>
-            <FormLabel className={styles.formLabels}>Content<span className={styles.requiredField}>*</span></FormLabel>
+            <FormLabel>Content</FormLabel>
             <QuillActivityInput value={content} setValue={setContent} />
           </FormControl>
 
@@ -96,7 +98,7 @@ const CheckboxList: React.FC<ICheckboxListProps> = ({ handleSubmit, setContent, 
               })
             }
           </div>
-          <Button type="submit" disabled={!pageHeading || !content || !!errors?.heading?.message}>Submit</Button>
+          <Button type="submit" disabled={!pageHeading || !content}>Submit</Button>
         </Stack>
       </form>
     </div>

@@ -8,6 +8,6 @@ export interface IGroundingExerciseProps {
   setOptions: (options: any) => void
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>, index: number) => void
   setOpen: (open: boolean) => void
-  handleChangeSelect: (params: any, actionMeta: any, activityFieldCount: number, dayCount: number, index: number) => void
+  handleChangeSelect: (params: any, actionMeta: any, activityFieldCount: number, dayCount: number) => void
   selectedOptions: any
 }

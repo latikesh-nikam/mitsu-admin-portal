@@ -40,31 +40,16 @@
 
   .formControlQuill {
     padding-bottom: 1rem;
-
-    .formLabels {
-      font-family: $fontFamilySourceCode;
-      font-weight: 500;
-      font-size: toRem(15);
-      color: black !important;
-
-      .requiredField {
-        color: red;
-        font-size: toRem(12);
-        margin-left: 0.1rem;
-        padding: 0.5rem 0;
-      }
-    }
   }
 
   .optionsContainer {
-    padding: 2rem 0;
+    padding-top: 2rem;
 
     .optionList {
       width: 100%;
       display: flex;
       justify-content: space-around;
       align-self: center;
-      padding-top: 1rem;
 
       .options {
         flex: 1;

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import BasicModalDialog from '../../../../../component/modal';
 import SwipeHelp from '../../../../../component/program-modules/swipe-help';
-import { v4 as uuidv4 } from "uuid";
+import { getFormData } from '../../../../../utils/formData';
 
 interface Props {
   open: boolean
@@ -13,12 +13,11 @@ interface Props {
 const ShowModalCheckboxList: React.FC<Props> = ({ open, setOpen, setSwipeTextFormData }) => {
   const [pageHeading, setPageHeading] = useState<any>("");
   const [content, setContent] = useState<any>("");
-  const [options, setOptions] = useState<any>([{
-    id: uuidv4(), label: "Carousel-1", name: "", desc: ""
-  }]);
+  const [options, setOptions] = useState<any>([{}]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const formData = getFormData(event);
     setSwipeTextFormData({
       heading: pageHeading,
       options: options
@@ -29,12 +28,7 @@ const ShowModalCheckboxList: React.FC<Props> = ({ open, setOpen, setSwipeTextFor
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, index: number) => {
     let data = [...options];
-    if ((!!event.target) && (event.target.name === "name")) {
-      data[index].name = event.target.value;
-    }
-    else {
-      data[index].desc = event
-    }
+    data[index][event.target.name] = event.target.value;
     setOptions(data);
   };
 

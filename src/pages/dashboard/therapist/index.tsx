@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import TherapistList from '../../../component/therapistList';
+import { AppHeader } from '../../../component/topBar'
+import { IListDataProps } from '../../../interface';
 import { getTherapistDetails } from '../../../services/service/therapist.service';
 import { userDelete } from '../../../services/service/user.service';
 import TherapistAddModal from '../../../sharedComponent/therapist/therapistAddModal';

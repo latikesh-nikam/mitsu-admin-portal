@@ -8,6 +8,7 @@ import { addTherapistUser, getTherapistDetails } from "../../services/service/th
 import { toast } from 'react-hot-toast';
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input'
 import 'react-phone-number-input/style.css'
+
 interface ITherapistDetails {
     name: string
     email: string,
