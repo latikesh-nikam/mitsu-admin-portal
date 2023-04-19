@@ -47,6 +47,7 @@ const ShowModalGroundingExercise: React.FC<Props> = ({ open, setOpen, postOnboar
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
     let data = [...options];
+    // data[index].value = event.target.value;
     data[index][event.target.name] = event.target.value;
     setOptions(data);
   };

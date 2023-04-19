@@ -34,4 +34,13 @@ export const addModules = async(payload: any) => {
   } catch (error) {
     console.error(error)
   }
-}
+};
+
+export const deleteModules = async(id: string) => {
+  try {
+    const res = await axiosInstance.delete(`/programs/modules/${id}`)
+    return res
+  } catch (error) {
+    console.error(error)
+  }
+};

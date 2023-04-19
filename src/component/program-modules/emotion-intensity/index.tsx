@@ -7,21 +7,52 @@ import Stack from '@mui/joy/Stack';
 import { IEmotionIntensityProps } from './emotion-intensity.types';
 import { Textarea } from '@mui/joy';
 import styles from "./emotion-intensity.module.scss";
+import { useForm } from 'react-hook-form';
+import { validateNameField } from '../../../utils/constants/validation';
+import QuillActivityInput from '../../activityQuillInput';
 
 const EmotionIntensity: React.FC<IEmotionIntensityProps> = ({ handleSubmit, setContent, setHeading, heading, content, setOpen }) => {
+
+  const {
+    register,
+    formState: { errors }
+  } = useForm({
+    defaultValues: {
+      heading: ""
+    },
+    mode: 'all',
+    reValidateMode: 'onChange',
+  });
+
   return (
     <form onSubmit={handleSubmit} className={styles.optionContainer}>
       <Stack spacing={2}>
-        <FormControl>
-          <FormLabel>Page Heading</FormLabel>
-          <Input name="pageHeading" autoFocus required onChange={(e: React.ChangeEvent<HTMLInputElement>) => setHeading(e.target.value)} />
-        </FormControl>
-        <FormControl>
-          <FormLabel>Content</FormLabel>
-          <Textarea size="lg" variant="soft" name="content" required onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setContent(e.target.value)} />
+
+        <FormControl className={styles.formControl}>
+          <FormLabel className={styles.formLabels}>Heading<span className={styles.requiredField}>*</span></FormLabel>
+          <Input value={heading} autoFocus {...register("heading", {
+            required: {
+              value: true,
+              message: "Please enter Heading!"
+            },
+            onChange: (e: React.ChangeEvent<HTMLInputElement>) => setHeading(e.target.value),
+            maxLength: {
+              value: 50,
+              message: "Maximum length exceeded"
+            },
+            validate: validateNameField("Heading")
+          })}
+          />
+          <span className={[styles.error, !errors?.heading && styles.errorVisibility].join(" ")}>{errors?.heading?.message || <>&nbsp;</>}</span>
         </FormControl>
 
-        <Button type="submit" disabled={!heading || !content}>Submit</Button>
+        <Stack spacing={10}>
+          <FormControl>
+            <FormLabel>Content</FormLabel>
+            <QuillActivityInput value={content} setValue={setContent} />
+          </FormControl>
+          <Button type="submit" disabled={!heading || !content}>Submit</Button>
+        </Stack>
       </Stack>
     </form >
   )

@@ -16,8 +16,7 @@ const ShowModalFearLadder: React.FC<Props> = ({ open, setOpen, setFearLadderForm
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const formData = getFormData(event);
-    const postFormData = { name: heading, content_text: content.description, completionTime: completionTime }
+    const postFormData = { name: heading, content_text: content, completionTime: completionTime }
     setFearLadderFormData(postFormData);
     toast.success("Submitted Successfully!");
     setHeading("");

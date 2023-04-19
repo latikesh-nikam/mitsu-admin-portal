@@ -9,6 +9,8 @@ import styles from "./swipe-help.module.scss";
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import { Textarea } from '@mui/joy';
 import { ISwipeHelpProps } from './swipe-help.types';
+import { validateNameField } from '../../../utils/constants/validation';
+import { useForm } from 'react-hook-form';
 
 const SwipeHelp: React.FC<ISwipeHelpProps> = ({ handleSubmit, setOptions, options, handleInputChange, setOpen, pageHeading, setPageHeading }) => {
 
@@ -24,6 +26,17 @@ const SwipeHelp: React.FC<ISwipeHelpProps> = ({ handleSubmit, setOptions, option
     setOptions(values);
   };
 
+  const {
+    register,
+    formState: { errors }
+  } = useForm({
+    defaultValues: {
+      heading: "",
+    },
+    mode: 'all',
+    reValidateMode: 'onChange',
+  });
+
   return (
     <div className={styles.optionContainer}>
       <Button
@@ -38,9 +51,23 @@ const SwipeHelp: React.FC<ISwipeHelpProps> = ({ handleSubmit, setOptions, option
       </Button>
       <form onSubmit={handleSubmit}>
         <Stack spacing={2}>
-          <FormControl>
-            <FormLabel>Heading</FormLabel>
-            <Input name="page-heading" required onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPageHeading(e.target.value)} />
+
+          <FormControl className={styles.formControl}>
+            <FormLabel className={styles.formLabels}>Heading<span className={styles.requiredField}>*</span></FormLabel>
+            <Input value={pageHeading} autoFocus {...register("heading", {
+              required: {
+                value: true,
+                message: "Please enter Heading!"
+              },
+              onChange: (e: React.ChangeEvent<HTMLInputElement>) => setPageHeading(e.target.value),
+              maxLength: {
+                value: 50,
+                message: "Maximum length exceeded"
+              },
+              validate: validateNameField("Heading")
+            })}
+            />
+            <span className={[styles.error, !errors?.heading && styles.errorVisibility].join(" ")}>{errors?.heading?.message || <>&nbsp;</>}</span>
           </FormControl>
 
           {
@@ -70,7 +97,7 @@ const SwipeHelp: React.FC<ISwipeHelpProps> = ({ handleSubmit, setOptions, option
             })
           }
 
-          <Button type="submit">Submit</Button>
+          <Button type="submit" disabled={!pageHeading}>Submit</Button>
         </Stack>
       </form>
     </div>

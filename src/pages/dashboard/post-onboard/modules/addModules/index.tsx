@@ -125,6 +125,7 @@ const AddModules: React.FC<IAddModuleProps> = () => {
     }
   };
 
+
   const resetDetails = () => {
     setSelectDate([])
     setSelectedOptions([])
@@ -284,7 +285,7 @@ const AddModules: React.FC<IAddModuleProps> = () => {
         type: singleScreen?.type
       }
     }
-  }
+  };
 
   const getScreenAsperActivitiesAndDay = (item: any) => {
     let scrn = screenArr.reduce((acc: any, singleScreen: any, index: number) => {
@@ -390,7 +391,7 @@ const AddModules: React.FC<IAddModuleProps> = () => {
   }
 
   const validateFile = (file: any) => {
-    const validTypes = ["image/jpeg"];
+    const validTypes = ["image/jpeg", "image/png"];
     if (!validTypes.includes(file[0].type)) {
       return `Only ${validTypes.join(' ')} files are allowed!`;
     }
@@ -433,11 +434,10 @@ const AddModules: React.FC<IAddModuleProps> = () => {
                   </FormControl >
 
                   <br /><br />
-                  <FormControl>
+                  {/* <FormControl>
                     <FormLabel className={styles.formLabels}>Week<span className={styles.requiredField}>*</span></FormLabel>
                     <CustomSelect
                       name="select-weeks"
-                      hideSelectedOptions={true}
                       isMulti={false}
                       dropdownOptions={weekData}
                       handleChangeSelect={handleWeekChange}
@@ -446,7 +446,7 @@ const AddModules: React.FC<IAddModuleProps> = () => {
                       selectedOptions={selectWeek}
                       menuPlacement={"bottom"}
                     />
-                  </FormControl>
+                  </FormControl> */}
                 </Stack>
 
                 <FormControl className={styles.fileUploadWrapper}>

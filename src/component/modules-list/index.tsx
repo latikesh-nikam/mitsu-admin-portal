@@ -8,10 +8,10 @@ import {
   CTableRow,
 } from '@coreui/react';
 import Tooltip from '@mui/material/Tooltip';
-import Visibility from "@mui/icons-material/Visibility";
 import { IModuleListProps } from './module-list.types';
 import DOMPurify from 'dompurify';
 import { SortableContainer, SortableHandle, SortableElement, arrayMove } from 'react-sortable-hoc';
+import { Delete, Visibility } from '@mui/icons-material';
 
 interface ITableBodySortableProps {
   onSortEnd: (e: any) => void
@@ -25,7 +25,7 @@ const TableBodySortable: any = SortableContainer(({ children }: any) => (
 ))
 
 const ModuleList: React.FC<IModuleListProps> = (props: any) => {
-  const { modulesList, setPreview, previewData } = props;
+  const { modulesList, setPreview, previewData, setDeletedItem, setDelete } = props;
   const [listItems, setListItems] = useState<any>([])
 
   const DragHandle = SortableHandle(() => (
@@ -41,14 +41,14 @@ const ModuleList: React.FC<IModuleListProps> = (props: any) => {
   const Row: any = SortableElement(({ data, ...other }: any) => {
     return (
       <CTableRow v-for="item in tableItems" color="light" {...other}>
-        <CTableDataCell className="text-center" ><DragHandle /></CTableDataCell>
-        <CTableDataCell className="text-center">
+        <CTableDataCell className="text-left" ><DragHandle /></CTableDataCell>
+        <CTableDataCell className="text-left">
           <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(`${data?.name}`) }}></div>
         </CTableDataCell>
-        <CTableDataCell className="text-center">
+        <CTableDataCell className="text-left">
           <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(`${data?.description}`) }}></div>
         </CTableDataCell>
-        <CTableDataCell className="text-center">
+        <CTableDataCell className="text-left" style={{ display: 'flex', flexDirection: 'row'}}>
           <Tooltip title="Preview">
             <div onClick={(e) => {
               e.stopPropagation();
@@ -56,6 +56,15 @@ const ModuleList: React.FC<IModuleListProps> = (props: any) => {
               previewData(data);
             }}>
               <Visibility color="action" />
+            </div>
+          </Tooltip>
+          <Tooltip title="Delete">
+            <div onClick={(e) => {
+              e.stopPropagation();
+              setDelete(true) 
+              setDeletedItem(data)
+            }}>
+              <Delete color="action" />
             </div>
           </Tooltip>
         </CTableDataCell>
@@ -75,9 +84,9 @@ const ModuleList: React.FC<IModuleListProps> = (props: any) => {
           <CTableHead color="dark">
             <CTableRow>
               <CTableHeaderCell className="text-center">#</CTableHeaderCell>
-              <CTableHeaderCell className="text-center">Name</CTableHeaderCell>
-              <CTableHeaderCell className="text-center">Description</CTableHeaderCell>
-              <CTableHeaderCell className="text-center">Actions</CTableHeaderCell>
+              <CTableHeaderCell className="text-left">Name</CTableHeaderCell>
+              <CTableHeaderCell className="text-left">Description</CTableHeaderCell>
+              <CTableHeaderCell className="text-left">Actions</CTableHeaderCell>
             </CTableRow>
           </CTableHead>
           <TableBodySortable onSortEnd={onSortEnd} useDragHandle>

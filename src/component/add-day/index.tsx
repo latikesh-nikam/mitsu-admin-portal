@@ -68,7 +68,6 @@ const AddDays: React.FC<IAddDayProps> = ({ handleDateChange, selectDate, activit
           <FormLabel className={styles.formLabels}>Select Days<span className={styles.requiredField}>*</span></FormLabel>
           <CustomSelect
             name="select-days"
-            hideSelectedOptions={true}
             isMulti={true}
             dropdownOptions={dayData}
             handleChangeSelect={(newValue, actionMeta) => handleDateChange(newValue, actionMeta)}

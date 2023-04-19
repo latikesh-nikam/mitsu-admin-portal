@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import BasicModalDialog from '../../../../../component/modal';
 import TextInput from '../../../../../component/program-modules/text-input';
-import { getFormData } from '../../../../../utils/formData';
 interface Props {
   open: boolean
   setOpen: (open: boolean) => void
@@ -15,8 +14,7 @@ const ShowModalTextInput: React.FC<Props> = ({ open, setOpen, setTextInputFormDa
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const formData = getFormData(event);
-    const postFormData = { name: formData.name, description: content.description }
+    const postFormData = { name: heading, description: content }
     setTextInputFormData(postFormData);
     toast.success("Submitted Successfully!");
     setHeading("");

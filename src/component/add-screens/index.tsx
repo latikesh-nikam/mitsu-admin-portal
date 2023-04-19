@@ -33,7 +33,6 @@ const AddScreens: React.FC<IAddScreenProps> = ({ activityFieldCount, dayCount, h
                 isAutoFocus={false}
                 isSearchable={false}
                 menuPlacement="bottom"
-                hideSelectedOptions={true}
                 activityFieldCount={activityFieldCount}
                 dayCount={dayCount}
               />

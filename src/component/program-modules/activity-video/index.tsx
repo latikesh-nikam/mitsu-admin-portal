@@ -19,7 +19,7 @@ const ActivityVideo: React.FC<IActivityVideoProps> = ({ handleSubmit, setContent
   } = useForm({
     defaultValues: {
       activityVideo: "",
-      videoHeading: ""
+      heading: ""
     },
     mode: 'all',
     reValidateMode: 'onChange',
@@ -30,7 +30,7 @@ const ActivityVideo: React.FC<IActivityVideoProps> = ({ handleSubmit, setContent
       <Stack spacing={2}>
         <FormControl className={styles.formControl}>
           <FormLabel className={styles.formLabels}>Heading<span className={styles.requiredField}>*</span></FormLabel>
-          <Input value={heading} autoFocus {...register("videoHeading", {
+          <Input value={heading} autoFocus {...register("heading", {
             required: {
               value: true,
               message: "Please enter Heading!"
@@ -44,7 +44,7 @@ const ActivityVideo: React.FC<IActivityVideoProps> = ({ handleSubmit, setContent
           })}
           />
 
-          <span className={[styles.error, !errors?.videoHeading && styles.errorVisibility].join(" ")}>{errors?.videoHeading?.message || <>&nbsp;</>}</span>
+          <span className={[styles.error, !errors?.heading && styles.errorVisibility].join(" ")}>{errors?.heading?.message || <>&nbsp;</>}</span>
         </FormControl>
 
         <Stack spacing={10}>

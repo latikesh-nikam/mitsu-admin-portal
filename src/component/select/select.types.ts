@@ -20,7 +20,6 @@ export interface ISelectProps {
   handleChangeSelect: (newValue: MultiValue<ISelectOptionsProps> | SingleValue<ISelectOptionsProps>, actionMeta: ActionMeta<ISelectOptionsProps>, activityFieldCount: number, dayCount: number) => void
 
   menuPlacement: 'top' | 'bottom' | 'auto'
-  hideSelectedOptions?: boolean
   activityFieldCount: number
   dayCount: number
 }

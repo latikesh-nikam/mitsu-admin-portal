@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import ModuleList from '../../../../../component/modules-list';
-import { getAllModules } from '../../../../../services/service/module.service';
+import { deleteModules, getAllModules } from '../../../../../services/service/module.service';
 import Canvas from '../../../../../component/canvas';
 import Accordion from '../../../../../component/accordion';
 import { validate } from 'uuid';
+import DeleteModuleConfirmation from '../../../../../sharedComponent/postOnboarding/deleteModuleConfirmation';
+import toast from 'react-hot-toast';
 
 const AllModules: React.FC<any> = () => {
 
@@ -13,6 +15,8 @@ const AllModules: React.FC<any> = () => {
   const [activitiesData, setActivitiesData] = useState<any>([]);
   const [screensData, setScreensData] = useState<any>([]);
   const [modulesData, setModulesData] = useState<any>({});
+  const [showDelete, setDelete] = useState<boolean>(false)
+  const [deleteItem, setDeletedItem] = useState<any>("")
 
   const getModules = async () => {
     const res = await getAllModules()
@@ -34,6 +38,18 @@ const AllModules: React.FC<any> = () => {
     setScreensData(screensArray.flat());
   }
 
+  const handleDeleteModule = async() => {
+    console.log(deleteItem)
+    const res = await deleteModules(deleteItem?.id)
+    if(res){
+      toast.success('Module deleted successfully!!!')
+      getModules()
+      setDelete(false)
+    } else {
+      toast.error('Something went wrong!!!')
+    }
+  }
+
   return (
     <div >
       {showPreview && (
@@ -50,7 +66,14 @@ const AllModules: React.FC<any> = () => {
           }
         />
       )}
-      <ModuleList modulesList={modules} setPreview={setPreview} previewData={(item) => sendPreviewData(item)} />
+      {showDelete && (
+        <DeleteModuleConfirmation
+          showDelete={showDelete}
+          setDelete={setDelete}
+          handleDeleteModule={handleDeleteModule}
+        />
+      )}
+      <ModuleList modulesList={modules} setPreview={setPreview} previewData={(item) => sendPreviewData(item)} setDeletedItem={setDeletedItem} setDelete={setDelete} />
     </div>
   )
 }

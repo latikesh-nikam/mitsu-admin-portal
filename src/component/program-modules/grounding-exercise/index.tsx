@@ -11,6 +11,9 @@ import { IGroundingExerciseProps } from './grounding.types';
 import { Textarea } from '@mui/joy';
 import CustomSelect from '../../select';
 import { subScreensDropdown } from './grounding.data';
+import { validateNameField } from '../../../utils/constants/validation';
+import { useForm } from 'react-hook-form';
+import QuillActivityInput from '../../activityQuillInput';
 
 const GroundingExercise: React.FC<IGroundingExerciseProps> = ({ handleSubmit, setHeading, setQuestionText, questionText, heading, options, setOptions, handleInputChange, handleChangeSelect, selectedOptions }) => {
 
@@ -25,6 +28,17 @@ const GroundingExercise: React.FC<IGroundingExerciseProps> = ({ handleSubmit, se
     values.splice(index, 1);
     setOptions(values);
   };
+
+  const {
+    register,
+    formState: { errors }
+  } = useForm({
+    defaultValues: {
+      heading: "",
+    },
+    mode: 'all',
+    reValidateMode: 'onChange',
+  });
 
   return (
     <div className={styles.optionContainer}>
@@ -41,14 +55,27 @@ const GroundingExercise: React.FC<IGroundingExerciseProps> = ({ handleSubmit, se
       <form onSubmit={handleSubmit}>
         <Stack spacing={2}>
 
-          <FormControl>
-            <FormLabel>Content Heading</FormLabel>
-            <Input name="page-heading" autoFocus required value={heading} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setHeading(e.target.value)} />
+          <FormControl className={styles.formControl}>
+            <FormLabel className={styles.formLabels}>Heading<span className={styles.requiredField}>*</span></FormLabel>
+            <Input value={heading} autoFocus {...register("heading", {
+              required: {
+                value: true,
+                message: "Please enter Heading!"
+              },
+              onChange: (e: React.ChangeEvent<HTMLInputElement>) => setHeading(e.target.value),
+              maxLength: {
+                value: 50,
+                message: "Maximum length exceeded"
+              },
+              validate: validateNameField("Heading")
+            })}
+            />
+            <span className={[styles.error, !errors?.heading && styles.errorVisibility].join(" ")}>{errors?.heading?.message || <>&nbsp;</>}</span>
           </FormControl>
 
-          <FormControl>
+          <FormControl className={styles.quillContainer}>
             <FormLabel>Content Text</FormLabel>
-            <Input name="questionText" required value={questionText} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuestionText(e.target.value)} />
+            <QuillActivityInput value={questionText} setValue={setQuestionText} />
           </FormControl>
 
           <div>
@@ -74,8 +101,8 @@ const GroundingExercise: React.FC<IGroundingExerciseProps> = ({ handleSubmit, se
                       <Textarea size="lg" variant="soft" name={`description${index + 1}`} required value={val[`description${index + 1}`]} onChange={(e: any) => handleInputChange(e, index)} />
                     </FormControl>
 
-                    <FormControl>
-                      <FormLabel>Sub Screens</FormLabel>
+                    <FormControl className={styles.formControl}>
+                      <FormLabel className={styles.formLabels}>Sub Screens<span className={styles.requiredField}>*</span></FormLabel>
                       <CustomSelect
                         name="sub-screens"
                         isMulti={false}
@@ -84,7 +111,6 @@ const GroundingExercise: React.FC<IGroundingExerciseProps> = ({ handleSubmit, se
                         isAutoFocus={false}
                         isSearchable={false}
                         menuPlacement="bottom"
-                        hideSelectedOptions={true}
                         selectedOptions={selectedOptions}
                       />
                     </FormControl>

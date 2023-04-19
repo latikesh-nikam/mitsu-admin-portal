@@ -4,11 +4,12 @@ import styles from "./activity.module.scss";
 import ModuleList from '../../../../../component/modules-list';
 import { Button } from '@mui/joy';
 import { Add } from '@mui/icons-material';
-import { getAllModules, getProgramsByCategories, assignModuleToCategories } from '../../../../../services/service/module.service';
+import { getAllModules, getProgramsByCategories, assignModuleToCategories, deleteModules } from '../../../../../services/service/module.service';
 import ModuleAddModal from '../../../../../sharedComponent/modules/moduleModal';
 import { toast } from 'react-hot-toast';
 import Canvas from '../../../../../component/canvas';
 import Accordion from '../../../../../component/accordion';
+import DeleteModuleConfirmation from '../../../../../sharedComponent/postOnboarding/deleteModuleConfirmation';
 
 const Anxiety: React.FC = () => {
   const [showModal, setModal] = useState(false)
@@ -22,6 +23,8 @@ const Anxiety: React.FC = () => {
   const [activitiesData, setActivitiesData] = useState<any>([]);
   const [screensData, setScreensData] = useState<any>([]);
   const [modulesData, setModulesData] = useState<any>({});
+  const [showDelete, setDelete] = useState<boolean>(false)
+  const [deleteItem, setDeletedItem] = useState<any>("")
 
   const getModules = async () => {
     const res = await getProgramsByCategories(`Anxiety`)
@@ -82,6 +85,17 @@ const Anxiety: React.FC = () => {
     setScreensData(screensArray.flat());
   }
 
+  const handleDeleteModule = async() => {
+    const res = await deleteModules(deleteItem?.id)
+    if(res){
+      toast.success('Module deleted successfully!!!')
+      getModules()
+      setDelete(false)
+    } else {
+      toast.error('Something went wrong!!!')
+    }
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.btn}>
@@ -122,7 +136,14 @@ const Anxiety: React.FC = () => {
           }
         />
       )}
-      <ModuleList modulesList={modules ? modules[0] : []} setPreview={setPreview} previewData={(item) => sendPreviewData(item)} />
+      {showDelete && (
+        <DeleteModuleConfirmation
+          showDelete={showDelete}
+          setDelete={setDelete}
+          handleDeleteModule={handleDeleteModule}
+        />
+      )}
+      <ModuleList modulesList={modules ? modules[0] : []} setPreview={setPreview} previewData={(item) => sendPreviewData(item)} setDeletedItem={setDeletedItem} setDelete={setDelete} />
     </div>
   )
 };

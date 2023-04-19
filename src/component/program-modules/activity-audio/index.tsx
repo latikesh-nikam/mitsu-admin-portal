@@ -18,7 +18,7 @@ const ActivityAudio: React.FC<IActivityAudioProps> = ({ handleSubmit, setContent
     formState: { errors }
   } = useForm({
     defaultValues: {
-      audioHeading: "",
+      heading: "",
       activityAudio: "",
     },
     mode: 'all',
@@ -31,7 +31,7 @@ const ActivityAudio: React.FC<IActivityAudioProps> = ({ handleSubmit, setContent
 
         <FormControl className={styles.formControl}>
           <FormLabel className={styles.formLabels}>Heading<span className={styles.requiredField}>*</span></FormLabel>
-          <Input value={heading} autoFocus {...register("audioHeading", {
+          <Input value={heading} autoFocus {...register("heading", {
             required: {
               value: true,
               message: "Please enter Heading!"
@@ -44,7 +44,7 @@ const ActivityAudio: React.FC<IActivityAudioProps> = ({ handleSubmit, setContent
             validate: validateNameField("Heading")
           })}
           />
-          <span className={[styles.error, !errors?.audioHeading && styles.errorVisibility].join(" ")}>{errors?.audioHeading?.message || <>&nbsp;</>}</span>
+          <span className={[styles.error, !errors?.heading && styles.errorVisibility].join(" ")}>{errors?.heading?.message || <>&nbsp;</>}</span>
         </FormControl>
 
       </Stack>

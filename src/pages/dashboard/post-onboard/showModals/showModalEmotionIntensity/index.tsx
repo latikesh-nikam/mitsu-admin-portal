@@ -15,9 +15,8 @@ const ShowModalEmotionIntensity: React.FC<Props> = ({ open, setOpen, setEmotionI
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const formData = getFormData(event);
-    const postFormData = { name: formData.name, description: content.description }
-    setEmotionIntensityFormData(formData);
+    const postFormData = { pageHeading: heading, content: content }
+    setEmotionIntensityFormData(postFormData);
     toast.success("Emotion Intensity details submitted successfully")
     setOpen(false)
   };

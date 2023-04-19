@@ -9,6 +9,7 @@ import QuillComp from '../../quill';
 import { Input } from '@mui/joy';
 import { useForm } from 'react-hook-form';
 import { validateNameField } from '../../../utils/constants/validation';
+import QuillActivityInput from '../../activityQuillInput';
 
 const TextInput: React.FC<ITextInputProps> = ({ handleSubmit, setContent, setHeading, heading, content, setOpen }) => {
 
@@ -27,9 +28,9 @@ const TextInput: React.FC<ITextInputProps> = ({ handleSubmit, setContent, setHea
     <div className={styles.optionContainer}>
       <form onSubmit={handleSubmit}>
         <Stack spacing={2}>
-          <FormControl>
-            <FormLabel>Page Heading</FormLabel>
 
+          <FormControl className={styles.formControl}>
+            <FormLabel className={styles.formLabels}>Heading<span className={styles.requiredField}>*</span></FormLabel>
             <Input value={heading} autoFocus {...register("heading", {
               required: {
                 value: true,
@@ -44,14 +45,13 @@ const TextInput: React.FC<ITextInputProps> = ({ handleSubmit, setContent, setHea
             })}
             />
             <span className={[styles.error, !errors?.heading && styles.errorVisibility].join(" ")}>{errors?.heading?.message || <>&nbsp;</>}</span>
-
           </FormControl>
+
         </Stack>
-        <br />
         <Stack spacing={10}>
           <FormControl>
             <FormLabel>Content</FormLabel>
-            <QuillComp question={content} setQuestion={setContent} />
+            <QuillActivityInput value={content} setValue={setContent} />
           </FormControl>
           <Button type="submit" disabled={!heading || !content}>Submit</Button>
         </Stack>

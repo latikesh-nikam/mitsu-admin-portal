@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import BasicModalDialog from '../../../../../component/modal';
-import { getFormData } from '../../../../../utils/formData';
 import ThinkingTraps from '../../../../../component/program-modules/thinking-traps';
 
 interface Props {
@@ -17,7 +16,6 @@ const ShowModalThinkingTraps: React.FC<Props> = ({ open, setOpen, setThinkingTra
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const formData = getFormData(event);
     setThinkingTrapFormData({
       heading: heading,
       questionText: questionText,

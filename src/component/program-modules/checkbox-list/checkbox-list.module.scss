@@ -1,4 +1,7 @@
-.optionContainer {
+@import "../../../styles/variables";
+@import "../../../styles/mixins.scss";
+
+.container {
   overflow-y: scroll;
   padding: 0.5rem;
 
@@ -6,19 +9,70 @@
     margin: 0.5rem 0;
   }
 
-  .optionList {
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    align-self: center;
+  .formControl {
+    .formLabels {
+      font-family: $fontFamilySourceCode;
+      font-weight: 500;
+      font-size: toRem(15);
+      color: black !important;
 
-    .options {
-      flex: 1;
+      .requiredField {
+        color: red;
+        font-size: toRem(12);
+        margin-left: 0.1rem;
+        padding: 0.5rem 0;
+      }
     }
 
-    .deleteBtn {
-      margin-top: 1.5rem;
-      cursor: pointer;
+    .errorVisibility {
+      visibility: hidden;
+    }
+
+    .error {
+      font-family: $fontFamilySourceCode;
+      font-size: toRem(13);
+      color: #eb0000;
+      font-weight: 200;
+      line-height: 150%;
+      padding: 0.5rem 0;
+    }
+  }
+
+  .formControlQuill {
+    padding-bottom: 1rem;
+  }
+
+  .optionsContainer {
+    padding-top: 2rem;
+
+    .optionList {
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      align-self: center;
+
+      .options {
+        flex: 1;
+
+        .errorVisibility {
+          visibility: hidden;
+        }
+
+        .error {
+          font-family: $fontFamilySourceCode;
+          font-size: toRem(13);
+          color: #eb0000;
+          font-weight: 200;
+          line-height: 150%;
+          padding: 0.5rem 0;
+        }
+
+      }
+
+      .deleteBtn {
+        margin-top: 1.5rem;
+        cursor: pointer;
+      }
     }
   }
 }

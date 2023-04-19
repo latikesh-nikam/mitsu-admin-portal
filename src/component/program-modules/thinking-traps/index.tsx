@@ -9,6 +9,9 @@ import styles from "./thinking.module.scss";
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import { IThinkingTrapsProps } from './thinking.types';
 import { Textarea } from '@mui/joy';
+import { validateNameField } from '../../../utils/constants/validation';
+import { useForm } from 'react-hook-form';
+import QuillActivityInput from '../../activityQuillInput';
 
 const ThinkingTraps: React.FC<IThinkingTrapsProps> = ({ handleSubmit, setHeading, setQuestionText, questionText, heading, options, setOptions, handleInputChange, }) => {
 
@@ -23,6 +26,17 @@ const ThinkingTraps: React.FC<IThinkingTrapsProps> = ({ handleSubmit, setHeading
     values.splice(index, 1);
     setOptions(values);
   };
+
+  const {
+    register,
+    formState: { errors }
+  } = useForm({
+    defaultValues: {
+      heading: ""
+    },
+    mode: 'all',
+    reValidateMode: 'onChange',
+  });
 
   return (
     <div className={styles.optionContainer}>
@@ -39,14 +53,27 @@ const ThinkingTraps: React.FC<IThinkingTrapsProps> = ({ handleSubmit, setHeading
       <form onSubmit={handleSubmit}>
         <Stack spacing={2}>
 
-          <FormControl>
-            <FormLabel>Content Heading</FormLabel>
-            <Input name="page-heading" autoFocus required value={heading} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setHeading(e.target.value)} />
+          <FormControl className={styles.formControl}>
+            <FormLabel className={styles.formLabels}>Heading<span className={styles.requiredField}>*</span></FormLabel>
+            <Input value={heading} autoFocus {...register("heading", {
+              required: {
+                value: true,
+                message: "Please enter Heading!"
+              },
+              onChange: (e: React.ChangeEvent<HTMLInputElement>) => setHeading(e.target.value),
+              maxLength: {
+                value: 50,
+                message: "Maximum length exceeded"
+              },
+              validate: validateNameField("Heading")
+            })}
+            />
+            <span className={[styles.error, !errors?.heading && styles.errorVisibility].join(" ")}>{errors?.heading?.message || <>&nbsp;</>}</span>
           </FormControl>
 
-          <FormControl>
+          <FormControl className={styles.quillContainer}>
             <FormLabel>Content Text</FormLabel>
-            <Input name="questionText" required value={questionText} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuestionText(e.target.value)} />
+            <QuillActivityInput value={questionText} setValue={setQuestionText} />
           </FormControl>
 
           <div>
@@ -61,6 +88,7 @@ const ThinkingTraps: React.FC<IThinkingTrapsProps> = ({ handleSubmit, setHeading
                       }} className={styles.deleteBtn}>
                         <DeleteRoundedIcon /></div>
                     </div>
+
                     <FormControl>
                       <FormLabel>Name</FormLabel>
                       <Input name={`name${index + 1}`} autoFocus required value={val[`name${index + 1}`]} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange(e, index)} />
@@ -76,7 +104,7 @@ const ThinkingTraps: React.FC<IThinkingTrapsProps> = ({ handleSubmit, setHeading
               })
             }
           </div>
-          <Button type="submit">Submit</Button>
+          <Button type="submit" disabled={!heading || !questionText}>Submit</Button>
         </Stack>
       </form>
     </div>

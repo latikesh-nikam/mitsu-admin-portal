@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import BasicModalDialog from '../../../../../component/modal';
 import CheckboxList from '../../../../../component/program-modules/checkbox-list';
-import { getFormData } from '../../../../../utils/formData';
 
 interface Props {
   open: boolean
@@ -17,7 +16,6 @@ const ShowModalCheckboxList: React.FC<Props> = ({ open, setOpen, setSubjectiveQu
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const formData = getFormData(event);
     setSubjectiveQuizFormData({
       heading: pageHeading,
       contentText: content,
