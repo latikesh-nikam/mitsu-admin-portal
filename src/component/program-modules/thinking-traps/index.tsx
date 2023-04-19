@@ -8,23 +8,23 @@ import { Add } from '@mui/icons-material';
 import styles from "./thinking.module.scss";
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import { IThinkingTrapsProps } from './thinking.types';
-import { Textarea } from '@mui/joy';
 import { validateNameField } from '../../../utils/constants/validation';
 import { useForm } from 'react-hook-form';
 import QuillActivityInput from '../../activityQuillInput';
+import { v4 as uuidv4 } from 'uuid';
 
 const ThinkingTraps: React.FC<IThinkingTrapsProps> = ({ handleSubmit, setHeading, setQuestionText, questionText, heading, options, setOptions, handleInputChange, }) => {
 
   const handleAddOption = () => {
     const values = [...options];
-    values.push({});
+    values.push({ id: uuidv4(), label: `Selection-${options.length + 1}`, name: "", desc: "" });
     setOptions(values);
   };
 
-  const handleRemoveItems = (index: number) => {
+  const handleRemoveItems = (index: string) => {
     const values = [...options];
-    values.splice(index, 1);
-    setOptions(values);
+    const updatedOptions = values.filter((option) => option.id !== index);
+    setOptions(updatedOptions.map((e: any, index) => ({ ...e, label: `Selection-${index + 1}` })));
   };
 
   const {
@@ -51,8 +51,7 @@ const ThinkingTraps: React.FC<IThinkingTrapsProps> = ({ handleSubmit, setHeading
         Add option
       </Button>
       <form onSubmit={handleSubmit}>
-        <Stack spacing={2}>
-
+        <Stack>
           <FormControl className={styles.formControl}>
             <FormLabel className={styles.formLabels}>Heading<span className={styles.requiredField}>*</span></FormLabel>
             <Input value={heading} autoFocus {...register("heading", {
@@ -76,27 +75,28 @@ const ThinkingTraps: React.FC<IThinkingTrapsProps> = ({ handleSubmit, setHeading
             <QuillActivityInput value={questionText} setValue={setQuestionText} />
           </FormControl>
 
-          <div>
+          <div className={styles.carouselContainer}>
             {
               options.map((val: any, index: number) => {
                 return (
                   <div key={index} className={styles.carousel}>
+
                     <div className={styles.deleteContainer}>
-                      <FormLabel>Selection-{index + 1}</FormLabel>
+                      <FormLabel>{val.label}</FormLabel>
                       <div onClick={() => {
-                        handleRemoveItems(index);
+                        handleRemoveItems(val.id);
                       }} className={styles.deleteBtn}>
                         <DeleteRoundedIcon /></div>
                     </div>
 
                     <FormControl>
                       <FormLabel>Name</FormLabel>
-                      <Input name={`name${index + 1}`} autoFocus required value={val[`name${index + 1}`]} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange(e, index)} />
+                      <Input name="name" autoFocus required value={val.name} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange(e, index)} />
                     </FormControl>
 
-                    <FormControl>
+                    <FormControl className={styles.carouselQuill}>
                       <FormLabel>Description</FormLabel>
-                      <Textarea size="lg" variant="soft" name={`description${index + 1}`} required value={val[`description${index + 1}`]} onChange={(e: any) => handleInputChange(e, index)} />
+                      <QuillActivityInput value={val.desc} setValue={(e: any) => handleInputChange(e, index)} />
                     </FormControl>
 
                   </div>

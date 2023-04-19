@@ -6,7 +6,6 @@ import Input from '@mui/joy/Input';
 import Stack from '@mui/joy/Stack';
 import { IFearLadderProps } from './fear-ladder.types';
 import styles from "./fear-ladder.module.scss";
-import QuillComp from '../../quill';
 import { useForm } from 'react-hook-form';
 import { validateNameField } from '../../../utils/constants/validation';
 import QuillActivityInput from '../../activityQuillInput';
@@ -38,7 +37,7 @@ const FearLadder: React.FC<IFearLadderProps> = ({ handleSubmit, setContent, setH
 
   return (
     <form onSubmit={handleSubmit} className={styles.optionContainer}>
-      <Stack spacing={2}>
+      <Stack>
 
         <FormControl className={styles.formControl}>
           <FormLabel className={styles.formLabels}>Heading<span className={styles.requiredField}>*</span></FormLabel>
@@ -72,8 +71,7 @@ const FearLadder: React.FC<IFearLadderProps> = ({ handleSubmit, setContent, setH
           <FormLabel>Content</FormLabel>
           <QuillActivityInput value={content} setValue={setContent} />
         </FormControl>
-
-        <Button type="submit" disabled={!heading || !content}>Submit</Button>
+        <Button type="submit" disabled={!heading || !content || !!errors?.heading?.message}>Submit</Button>
       </Stack>
     </form >
   )

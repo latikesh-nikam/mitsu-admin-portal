@@ -26,7 +26,7 @@ const EmotionIntensity: React.FC<IEmotionIntensityProps> = ({ handleSubmit, setC
 
   return (
     <form onSubmit={handleSubmit} className={styles.optionContainer}>
-      <Stack spacing={2}>
+      <Stack>
 
         <FormControl className={styles.formControl}>
           <FormLabel className={styles.formLabels}>Heading<span className={styles.requiredField}>*</span></FormLabel>
@@ -46,13 +46,11 @@ const EmotionIntensity: React.FC<IEmotionIntensityProps> = ({ handleSubmit, setC
           <span className={[styles.error, !errors?.heading && styles.errorVisibility].join(" ")}>{errors?.heading?.message || <>&nbsp;</>}</span>
         </FormControl>
 
-        <Stack spacing={10}>
-          <FormControl>
-            <FormLabel>Content</FormLabel>
-            <QuillActivityInput value={content} setValue={setContent} />
-          </FormControl>
-          <Button type="submit" disabled={!heading || !content}>Submit</Button>
-        </Stack>
+        <FormControl className={styles.quillContainer}>
+          <FormLabel>Content</FormLabel>
+          <QuillActivityInput value={content} setValue={setContent} />
+        </FormControl>
+        <Button type="submit" disabled={!heading || !content || !!errors?.heading?.message}>Submit</Button>
       </Stack>
     </form >
   )

@@ -11,7 +11,7 @@ import { Button } from '@mui/joy';
 import { Add } from '@mui/icons-material';
 import { IActivityProps, IOptionProps } from '../../interface';
 
-const AddDays: React.FC<IAddDayProps> = ({ handleDateChange, selectDate, activityName, duration, handleChangeSelect, handleInputChange, selectedOptions, setActivityName, setDuration, setSelectedOptions, activitiesArr, setActivitiesArr, activityFieldCount, setActivityFieldCount }) => {
+const AddDays: React.FC<IAddDayProps> = ({ handleDateChange, selectDate, activityName, duration, handleChangeSelect, handleInputChange, selectedOptions, setActivityName, setDuration, setSelectedOptions, activitiesArr, setActivitiesArr, activityFieldCount, setActivityFieldCount, errorDuration, errorName, setErrorDuration, setErrorName }) => {
 
   const handleAddActivity = (option: any) => {
     const obj = { activityName: '', duration: 0, screens: [] }
@@ -126,6 +126,10 @@ const AddDays: React.FC<IAddDayProps> = ({ handleDateChange, selectDate, activit
                           activityFieldCount={activityFieldCount}
                           setActivityFieldCount={setActivityFieldCount}
                           dayCount={Number(option.value)}
+                          errorName={errorName}
+                          setErrorName={setErrorName}
+                          errorDuration={errorDuration}
+                          setErrorDuration={setErrorDuration}
                         />
                       </div>
                     )

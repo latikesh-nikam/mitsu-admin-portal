@@ -35,6 +35,7 @@ const AddScreens: React.FC<IAddScreenProps> = ({ activityFieldCount, dayCount, h
                 menuPlacement="bottom"
                 activityFieldCount={activityFieldCount}
                 dayCount={dayCount}
+                hideSelectedOptions={false}
               />
             </FormControl>
           </div>

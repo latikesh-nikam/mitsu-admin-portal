@@ -17,9 +17,11 @@ export interface ISelectProps {
   showFullWidth?: boolean;
   showMasterCheck?: boolean;
 
-  handleChangeSelect: (newValue: MultiValue<ISelectOptionsProps> | SingleValue<ISelectOptionsProps>, actionMeta: ActionMeta<ISelectOptionsProps>, activityFieldCount: number, dayCount: number) => void
+  handleChangeSelect: (newValue: MultiValue<ISelectOptionsProps> | SingleValue<ISelectOptionsProps>, actionMeta: ActionMeta<ISelectOptionsProps>, activityFieldCount: number, dayCount: number, index: number) => void
 
   menuPlacement: 'top' | 'bottom' | 'auto'
   activityFieldCount: number
   dayCount: number
+  hideSelectedOptions?: boolean
+  index: number
 }

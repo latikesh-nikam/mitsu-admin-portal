@@ -4,13 +4,15 @@
 .optionContainer {
   overflow-y: scroll;
   padding: 0.5rem;
+  -webkit-overflow-scrolling: auto;
+  scroll-behavior: smooth;
 
   .addBtn {
     margin: 0.5rem 0;
   }
 
   .quillContainer {
-    padding: 1rem 0 2rem 0;
+    padding: 0 0 2rem 0;
   }
 
   .formControl {
@@ -42,22 +44,31 @@
     }
   }
 
-  .carousel {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-self: center;
+  .carouselContainer {
+    padding: 1rem 0 1rem 0;
 
-    .deleteContainer {
+    .carousel {
+      width: 100%;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+      flex-direction: column;
+      justify-content: space-around;
+      align-self: center;
 
-    .deleteBtn {
-      margin-top: 1.5rem;
-      cursor: pointer;
+      .carouselQuill {
+        padding-top: 0.5rem;
+        padding-bottom: 3rem;
+      }
+
+      .deleteContainer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .deleteBtn {
+        margin-top: 1.5rem;
+        cursor: pointer;
+      }
     }
   }
 }

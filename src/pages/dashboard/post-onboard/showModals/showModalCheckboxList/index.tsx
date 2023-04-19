@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import BasicModalDialog from '../../../../../component/modal';
 import CheckboxList from '../../../../../component/program-modules/checkbox-list';
-
+import { v4 as uuidv4 } from "uuid";
 interface Props {
   open: boolean
   setOpen: (open: boolean) => void
@@ -12,7 +12,9 @@ interface Props {
 const ShowModalCheckboxList: React.FC<Props> = ({ open, setOpen, setSubjectiveQuizFormData }) => {
   const [pageHeading, setPageHeading] = useState("");
   const [content, setContent] = useState<any>("");
-  const [options, setOptions] = useState<any>([]);
+  const [options, setOptions] = useState<any>([
+    { id: uuidv4(), label: `Option-1`, value: '' }
+  ]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

@@ -7,23 +7,24 @@ import Stack from '@mui/joy/Stack';
 import { Add } from '@mui/icons-material';
 import styles from "./swipe-help.module.scss";
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
-import { Textarea } from '@mui/joy';
 import { ISwipeHelpProps } from './swipe-help.types';
 import { validateNameField } from '../../../utils/constants/validation';
 import { useForm } from 'react-hook-form';
+import { v4 as uuidv4 } from "uuid";
+import QuillActivityInput from '../../activityQuillInput';
 
 const SwipeHelp: React.FC<ISwipeHelpProps> = ({ handleSubmit, setOptions, options, handleInputChange, setOpen, pageHeading, setPageHeading }) => {
 
   const handleAddOption = () => {
     const values = [...options];
-    values.push({});
+    values.push({ id: uuidv4(), label: `Carousel-${options.length + 1}`, name: "", desc: "" });
     setOptions(values);
   };
 
-  const handleRemoveItems = (index: number) => {
+  const handleRemoveItems = (index: string) => {
     const values = [...options];
-    values.splice(index, 1);
-    setOptions(values);
+    const updatedOptions = values.filter((option) => option.id !== index);
+    setOptions(updatedOptions.map((e: any, index) => ({ ...e, label: `Carousel-${index + 1}` })));
   };
 
   const {
@@ -50,8 +51,7 @@ const SwipeHelp: React.FC<ISwipeHelpProps> = ({ handleSubmit, setOptions, option
         Add Carousel
       </Button>
       <form onSubmit={handleSubmit}>
-        <Stack spacing={2}>
-
+        <Stack>
           <FormControl className={styles.formControl}>
             <FormLabel className={styles.formLabels}>Heading<span className={styles.requiredField}>*</span></FormLabel>
             <Input value={pageHeading} autoFocus {...register("heading", {
@@ -70,34 +70,36 @@ const SwipeHelp: React.FC<ISwipeHelpProps> = ({ handleSubmit, setOptions, option
             <span className={[styles.error, !errors?.heading && styles.errorVisibility].join(" ")}>{errors?.heading?.message || <>&nbsp;</>}</span>
           </FormControl>
 
-          {
-            options.map((val: any, index: number) => {
-              return (
-                <div key={index} className={styles.carousel}>
-                  <div className={styles.deleteContainer}>
-                    <FormLabel>Carousel-{index + 1}</FormLabel>
-                    <div onClick={() => {
-                      handleRemoveItems(index);
-                    }} className={styles.deleteBtn}>
-                      <DeleteRoundedIcon /></div>
+          <div className={styles.carouselContainer}>
+            {
+              options.map((val: any, index: number) => {
+                return (
+                  <div key={index} className={styles.carousel}>
+                    <div className={styles.deleteContainer}>
+                      <FormLabel>{val.label}</FormLabel>
+                      <div onClick={() => {
+                        handleRemoveItems(val.id);
+                      }} className={styles.deleteBtn}>
+                        <DeleteRoundedIcon /></div>
+                    </div>
+
+                    <FormControl>
+                      <FormLabel>Carousel Heading</FormLabel>
+                      <Input name="name" autoFocus required value={val.name} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange(e, index)} />
+                    </FormControl>
+
+                    <FormControl className={styles.quillContainer}>
+                      <FormLabel>Content</FormLabel>
+                      <QuillActivityInput value={val.desc} setValue={(e: any) => handleInputChange(e, index)} />
+                    </FormControl>
+
                   </div>
+                )
+              })
+            }
+          </div>
 
-                  <FormControl>
-                    <FormLabel>Carousel Heading</FormLabel>
-                    <Input name={`carousel-heading${index + 1}`} autoFocus required value={val[`carousel${index + 1}`]} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange(e, index)} />
-                  </FormControl>
-
-                  <FormControl>
-                    <FormLabel>Content</FormLabel>
-                    <Textarea size="lg" variant="soft" name={`carousel-content${index + 1}`} required value={val[`carousel-content${index + 1}`]} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => handleInputChange(e, index)} />
-                  </FormControl>
-
-                </div>
-              )
-            })
-          }
-
-          <Button type="submit" disabled={!pageHeading}>Submit</Button>
+          <Button type="submit" disabled={!pageHeading || !!errors?.heading?.message}>Submit</Button>
         </Stack>
       </form>
     </div>
