@@ -18,11 +18,12 @@ const AddScreens: React.FC<IAddScreenProps> = ({ activityFieldCount, dayCount, h
         <div className={styles.screens}>
           <FormLabel className={styles.screenLabel}>Screen-{index + 1}</FormLabel>
           <div className={styles.screenSubWrapper}>
-            <div
-              onClick={handleDeleteScreen}
+            <span
               className={styles.deleteBtn}>
-              <DeleteRoundedIcon />
-            </div>
+              <div onClick={handleDeleteScreen} className={styles.btn}>
+                <DeleteRoundedIcon />
+              </div>
+            </span>
             <FormControl>
               <FormLabel className={styles.formLabels}>Select Screen</FormLabel>
               <CustomSelect

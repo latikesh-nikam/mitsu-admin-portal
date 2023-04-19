@@ -266,7 +266,7 @@ const AddModules: React.FC<IAddModuleProps> = () => {
         name: 'Quiz',
         type: singleScreen?.type,
         content_heading: quizFormData?.contentHeading,
-        question_ids: quizFormData?.questionIds
+        questionIds: quizFormData?.questionIds
       }
     } else if (singleScreen?.type === "Grounding_Exercise") {
       let val = [
