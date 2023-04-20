@@ -22,4 +22,6 @@ export interface IAddDayProps {
   setErrorName: (val: string) => void
   errorDuration: string
   setErrorDuration: (val: string) => void
+  completionArr: any
+  setCompletionArr: (e: any) => void
 }

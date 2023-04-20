@@ -16,7 +16,7 @@ const Therapist: React.FC = () => {
   const fetchDemoData = async () => {
     try {
       const res = await getTherapistDetails();
-      setData(res?.data?.data)
+      setData(res?.data?.data?.data[0])
     }
     catch (error) {
       throw error

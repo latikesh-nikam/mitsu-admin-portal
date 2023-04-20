@@ -8,8 +8,11 @@ import AddScreens from '../add-screens';
 import { Add } from '@mui/icons-material';
 import { Button } from '@mui/joy';
 import Input from '../input';
+import Checkbox from '@mui/material/Checkbox';
 
-const AddActivityForm: React.FC<IAddActivityProps> = ({ dayCount, handleChangeSelect, duration, setDuration, handleInputChange, activityName, setActivityName, screensData, handleAddScreen, handleDeleteScreen, activityFieldCount, errorDuration, errorName, setErrorDuration, setErrorName }) => {
+const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+
+const AddActivityForm: React.FC<IAddActivityProps> = ({ dayCount, handleChangeSelect, duration, setDuration, handleInputChange, activityName, setActivityName, screensData, handleAddScreen, handleDeleteScreen, activityFieldCount, errorDuration, errorName, setErrorDuration, setErrorName, checked, handleChange, activityIndex }) => {
 
   const [open, setOpen] = useState<boolean>(false);
 
@@ -40,7 +43,14 @@ const AddActivityForm: React.FC<IAddActivityProps> = ({ dayCount, handleChangeSe
   return (
     <div className={styles.container}>
       <Stack spacing={2}>
-
+        <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}}>
+          <FormLabel>Completion Approval</FormLabel>
+          <Checkbox
+            name={`activityName-${activityIndex}`}
+            onChange={() => handleChange(activityIndex + 1, dayCount)}
+            inputProps={{ 'aria-label': 'controlled' }}
+          />
+        </div>
         <FormControl>
           <FormLabel className={styles.formLabels}>Activity Name<span className={styles.requiredField}>*</span></FormLabel>
           <Input name={`activityName-${activityFieldCount}`} required onChange={(e: React.ChangeEvent<HTMLInputElement>) => {

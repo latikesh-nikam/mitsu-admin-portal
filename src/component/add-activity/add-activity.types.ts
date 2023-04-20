@@ -20,4 +20,7 @@ export interface IAddActivityProps {
   setErrorName: (val: string) => void
   errorDuration: string
   setErrorDuration: (val: string) => void
+  handleChange: (activityCount: number, dayCount: number) => void
+  checked: boolean
+  activityIndex: number
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from "./addDay.module.scss";
 import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
@@ -11,7 +11,7 @@ import { Button } from '@mui/joy';
 import { Add } from '@mui/icons-material';
 import { IActivityProps, IOptionProps } from '../../interface';
 
-const AddDays: React.FC<IAddDayProps> = ({ handleDateChange, selectDate, activityName, duration, handleChangeSelect, handleInputChange, selectedOptions, setActivityName, setDuration, setSelectedOptions, activitiesArr, setActivitiesArr, activityFieldCount, setActivityFieldCount, errorDuration, errorName, setErrorDuration, setErrorName }) => {
+const AddDays: React.FC<IAddDayProps> = ({ handleDateChange, selectDate, activityName, duration, handleChangeSelect, handleInputChange, selectedOptions, setActivityName, setDuration, setSelectedOptions, activitiesArr, setActivitiesArr, activityFieldCount, setActivityFieldCount, errorDuration, errorName, setErrorDuration, setErrorName, completionArr, setCompletionArr }) => {
 
   const handleAddActivity = (option: any) => {
     const obj = { activityName: '', duration: 0, screens: [] }
@@ -23,7 +23,19 @@ const AddDays: React.FC<IAddDayProps> = ({ handleDateChange, selectDate, activit
     })
     setSelectedOptions(values);
     setActivityFieldCount(activityFieldCount + 1)
+    setCompletionArr((completionArr: any) => [...completionArr, { activityCount: activityFieldCount + 1, isPrimary: false, dayCount: option.value}])
   };
+
+  const [checked, setChecked] = useState<boolean>(false);
+  const handleChange = (activityCount: number, dayCount: number) => {
+    const newCompletionArr=completionArr.map((element:any) => {
+      if (element.activityCount===activityCount && element.dayCount===dayCount){
+        element.isPrimary=!element.isPrimary
+      }
+      return element;
+    });
+    setCompletionArr([...newCompletionArr])
+  }
 
   const handleAddScreens = (currentOption: any, val: any) => {
     const obj = { name: '' }
@@ -130,6 +142,9 @@ const AddDays: React.FC<IAddDayProps> = ({ handleDateChange, selectDate, activit
                           setErrorName={setErrorName}
                           errorDuration={errorDuration}
                           setErrorDuration={setErrorDuration}
+                          handleChange={handleChange}
+                          checked={checked}
+                          activityIndex={activityIndex}
                         />
                       </div>
                     )

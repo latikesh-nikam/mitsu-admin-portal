@@ -33,7 +33,7 @@ const AddModules: React.FC<IAddModuleProps> = () => {
 
   const [modalData, setModalData] = useState<any>();
 
-  const [duration, setDuration] = useState<any>(0);
+  const [duration, setDuration] = useState<any>("");
   const [activityName, setActivityName] = useState("");
   const [moduleHeading, setModuleHeading] = useState("");
   const [moduleDesc, setModuleDesc] = useState("");
@@ -61,6 +61,7 @@ const AddModules: React.FC<IAddModuleProps> = () => {
   const [modulesData, setModulesData] = useState<any>([]);
   const [errorDuration, setErrorDuration] = useState<string>("Field can not be empty!");
   const [errorName, setErrorName] = useState<string>("Field can not be empty!");
+  const [completionArr, setCompletionArr] = useState<any>([])
 
   const postOnBoardingQuestions = async () => {
     let res = await getPostOnBoardingQuestions()
@@ -75,6 +76,7 @@ const AddModules: React.FC<IAddModuleProps> = () => {
     setSelectDate(e);
     setSelectedOptions(e);
     setActivityFieldCount(1)
+    setCompletionArr((completionArr: any) => [...completionArr, { activityCount: 1, isPrimary: false, dayCount: e[e.length-1].value}])
   };
 
   const handleWeekChange = (params: any) => {
@@ -143,7 +145,7 @@ const AddModules: React.FC<IAddModuleProps> = () => {
     setSelectedOptions([])
     setSelectWeek([])
     setModalData([])
-    setDuration(0)
+    setDuration("")
     setActivityName("")
     setModuleHeading("")
     setModuleDesc("")
@@ -329,9 +331,11 @@ const AddModules: React.FC<IAddModuleProps> = () => {
   const getActivitiesListAsPerDay = (day: number, activitiesList: any) => {
     let val = activitiesList.map((item: any, index: number) => {
       if (item.dayCount === day) {
+        const [{isPrimary} ] =completionArr.filter((element:any)=>{return element.dayCount===item.dayCount && element.activityCount===item.activityCount})
         return {
           name: item.name,
           durationMin: Number(item.durationMin),
+          isPrimary: isPrimary,
           screens: getScreenAsperActivitiesAndDay(item)
         }
       }
@@ -510,6 +514,8 @@ const AddModules: React.FC<IAddModuleProps> = () => {
                 setErrorName={setErrorName}
                 errorDuration={errorDuration}
                 setErrorDuration={setErrorDuration}
+                completionArr={completionArr}
+                setCompletionArr={setCompletionArr}
               />
             </div>
             <Button

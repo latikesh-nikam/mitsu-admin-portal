@@ -51,11 +51,12 @@ const ShowQuizQuesModal: React.FC<Props> = ({ open, setOpen, setQuizFormData, po
 
   return (
     <div className='overflow-y-scroll'>
-    <Modal open={open} onClose={() => setOpen(false)} className={styles.container}>
+    <Modal open={open} onClose={() => setOpen(false)} className={styles.container}
+   sx={{overflowY:"hidden"}} >
       <ModalDialog
         aria-labelledby="basic-modal-dialog-title"
         aria-describedby="basic-modal-dialog-description"
-        sx={{ width: 800, height: "fit-content" }}
+        sx={{ width: 800, height: "fit-content" ,overflowY:"scroll"}}
       >
         <Typography id="basic-modal-dialog-title" component="h2">
           Quiz
