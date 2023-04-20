@@ -25,9 +25,9 @@ export const addQuestionDetails = async (data: any) => {
   }
 };
 
-export const updateQuestionDetails = async (questionId: string, data: any) => {
+export const updateQuestionDetails = async (data: any) => {
   try {
-    const res = await axiosInstance.put(`${updateQuestion}/${questionId}`, data)
+    const res = await axiosInstance.put(`${updateQuestion}`, data)
     return res
   } catch (e) {
     console.error(e)

@@ -5,12 +5,15 @@ import { SelectChangeEvent } from '@mui/material/Select';
 import style from './questionForm.module.scss';
 import Button from "@mui/material/Button";
 import OptionsTable from "./optionsTable";
+import { updateQuestionDetails } from "../../services/service/user.service";
+import { toast } from "react-hot-toast";
+import { CButton } from "@coreui/react";
 
 type optionType = { text: string, score: string };
 
 const QuestionEditForm = (props: any) => {
-  const { editFormDetails, setEditFormDetails } = props;
-  const { register } = useForm();
+  const { editFormDetails, setEditFormDetails, setQuestionEdit, reloadQuestionDetails } = props;
+  const { register, handleSubmit, formState: { errors } } = useForm({ mode: "onChange" });
   const [question, setQuestion] = useState({
     heading: "",
     description: "",
@@ -45,9 +48,20 @@ const QuestionEditForm = (props: any) => {
     setOptionArr(optionArr)
   }
 
+  const onSubmit = async () => {
+    const res = await updateQuestionDetails(editFormDetails)
+    if(res) {
+      toast.success("Question Edited Successfully!!!")
+      setQuestionEdit(false)
+      reloadQuestionDetails()
+    } else {
+      toast.error('Something went wrong!!')
+    }
+  }
+
   return (
     <>
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className={style.fieldWrapper}>
           <InputLabel>Heading</InputLabel>
           <Input
@@ -161,7 +175,6 @@ const QuestionEditForm = (props: any) => {
             <option value={'Multiple'}>Multiple</option>
           </select>
         </div>
-      </form>
       <div>
         {((question.optionType !== 'text') && (question.optionType !== "")) && (
           <div>
@@ -199,6 +212,13 @@ const QuestionEditForm = (props: any) => {
           </div>
         )}
       </div>
+      <div className={style.buttons}>
+          <CButton color="dark" className="m-1" onClick={() => setQuestionEdit(false)}>
+            Close
+          </CButton>
+          <CButton color="primary" type="submit" className="m-1">Submit</CButton>
+      </div>
+      </form>
     </>
   )
 };

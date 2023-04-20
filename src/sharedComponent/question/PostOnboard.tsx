@@ -33,7 +33,6 @@ const PostQuestion = () => {
   };
 
   const handleEditIcon = (item: any, e: BaseSyntheticEvent) => {
-    e.stopPropagation();
     setQuestionEdit(!questionEdit)
     setEditFormDetails(item)
   };
@@ -52,6 +51,10 @@ const PostQuestion = () => {
     } else {
       toast.error("Failed to delete the question!!!")
     }
+  }
+
+  const reloadQuestionDetails = () => {
+    getQuestions('', 'PostOnboard')
   }
 
   useEffect(() => {
@@ -93,6 +96,7 @@ const PostQuestion = () => {
           setQuestionEdit={setQuestionEdit}
           editFormDetails={editFormDetails}
           setEditFormDetails={setEditFormDetails}
+          reloadQuestionDetails={reloadQuestionDetails}
         />
       )}
       <QuestionTable

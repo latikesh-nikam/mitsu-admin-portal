@@ -53,6 +53,10 @@ const PreQuestion = () => {
     }
   }
 
+  const reloadQuestionDetails = () => {
+    getQuestions('', 'PreOnboard')
+  }
+
   useEffect(() => {
     getQuestions('', 'PreOnboard')
   }, [])
@@ -92,6 +96,7 @@ const PreQuestion = () => {
           setQuestionEdit={setQuestionEdit}
           editFormDetails={editFormDetails}
           setEditFormDetails={setEditFormDetails}
+          reloadQuestionDetails={reloadQuestionDetails}
         />
       )}
       <QuestionTable

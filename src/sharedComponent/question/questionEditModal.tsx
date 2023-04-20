@@ -2,7 +2,7 @@ import { CButton, CModal, CModalHeader, CModalBody, CModalFooter, CModalTitle } 
 import QuestionEditForm from './questionEditForm';
 
 const QuestionEditModal = (props: any) => {
-  const { questionEdit, setQuestionEdit, editFormDetails, setEditFormDetails } = props;
+  const { questionEdit, setQuestionEdit, editFormDetails, setEditFormDetails, reloadQuestionDetails } = props;
   return (
     <>
       <CModal scrollable visible={questionEdit} onClose={() => setQuestionEdit(false)} size="lg">
@@ -10,14 +10,8 @@ const QuestionEditModal = (props: any) => {
           <CModalTitle>Edit Question</CModalTitle>
         </CModalHeader>
         <CModalBody>
-          <QuestionEditForm editFormDetails={editFormDetails} setEditFormDetails={setEditFormDetails}/>
+          <QuestionEditForm editFormDetails={editFormDetails} setEditFormDetails={setEditFormDetails} setQuestionEdit={setQuestionEdit} reloadQuestionDetails={reloadQuestionDetails} />
         </CModalBody>
-        <CModalFooter>
-          <CButton color="dark" onClick={() => setQuestionEdit(false)}>
-            Close
-          </CButton>
-          <CButton color="primary">Edit</CButton>
-        </CModalFooter>
       </CModal>
     </>
   )
