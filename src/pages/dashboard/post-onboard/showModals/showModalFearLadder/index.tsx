@@ -12,7 +12,7 @@ interface Props {
 const ShowModalFearLadder: React.FC<Props> = ({ open, setOpen, setFearLadderFormData }) => {
   const [heading, setHeading] = useState<any>("");
   const [content, setContent] = useState<any>("");
-  const [completionTime, setCompletionTime] = useState<number>(0);
+  const [completionTime, setCompletionTime] = useState<string>("");
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -21,7 +21,7 @@ const ShowModalFearLadder: React.FC<Props> = ({ open, setOpen, setFearLadderForm
     toast.success("Submitted Successfully!");
     setHeading("");
     setContent("");
-    setCompletionTime(0);
+    setCompletionTime("");
     setOpen(false);
   };
 

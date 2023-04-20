@@ -20,6 +20,7 @@ const FearLadder: React.FC<IFearLadderProps> = ({ handleSubmit, setContent, setH
   } = useForm({
     defaultValues: {
       heading: "",
+      completionTime: ""
     },
     mode: 'all',
     reValidateMode: 'onChange',
@@ -27,10 +28,10 @@ const FearLadder: React.FC<IFearLadderProps> = ({ handleSubmit, setContent, setH
 
   const handleNumberValidation = (value: string) => {
     if (Number(value) <= 0) {
-      setError("Completion Time can not be less than or equal to zero")
+      setError("Steps can not be less than or equal to zero")
     }
     else if (!new RegExp(/^[0-9\b]+$/).test(value)) {
-      setError("Duration Time can only be integer")
+      setError("Steps can only be integer")
     }
     else { setError("") }
   };
@@ -57,21 +58,25 @@ const FearLadder: React.FC<IFearLadderProps> = ({ handleSubmit, setContent, setH
           <span className={[styles.error, !errors?.heading && styles.errorVisibility].join(" ")}>{errors?.heading?.message || <>&nbsp;</>}</span>
         </FormControl>
 
-        <FormControl>
-          <FormLabel>Completion Steps</FormLabel>
-          <Input type="number" name="completionTime" required onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setCompletionTime(Number(e.target.value));
-            handleNumberValidation(e.target.value);
-          }} value={completionTime} />
+        <FormControl className={styles.formControl}>
+          <FormLabel className={styles.formLabels}>Completion Steps<span className={styles.requiredField}>*</span></FormLabel>
 
+          <Input
+            value={completionTime}
+            type='text'
+            name='completionTime'
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setCompletionTime(e.target.value);
+                handleNumberValidation(e.target.value);
+            }}
+          />
           <span className={[styles.error, !error && styles.errorVisibility].join(" ")}>{error || <>&nbsp;</>}</span>
         </FormControl>
-
         <FormControl className={styles.quillContainer}>
-          <FormLabel>Content</FormLabel>
+          <FormLabel className={styles.formLabels}>Content</FormLabel>
           <QuillActivityInput value={content} setValue={setContent} />
         </FormControl>
-        <Button type="submit" disabled={!heading || !content || !!errors?.heading?.message}>Submit</Button>
+        <Button type="submit" disabled={!heading || !content || !!errors?.heading?.message || !!error}>Submit</Button>
       </Stack>
     </form >
   )

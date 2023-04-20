@@ -5,6 +5,6 @@ export interface IFearLadderProps {
     heading: string
     content: string
     setOpen: (open: boolean) => void
-    completionTime: number
+    completionTime: string
     setCompletionTime: (event: any) => void
   }
