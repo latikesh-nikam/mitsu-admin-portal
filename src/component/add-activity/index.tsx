@@ -22,6 +22,8 @@ const AddActivityForm: React.FC<IAddActivityProps> = ({ dayCount, handleChangeSe
     }
     else if (!new RegExp(/^[0-9\b]+$/).test(value)) {
       setErrorDuration("Duration can only be integer")
+    } else if (value.match("00[^0]*")) {
+      setErrorDuration("Invalid duration")
     }
     else { setErrorDuration("") }
   };
