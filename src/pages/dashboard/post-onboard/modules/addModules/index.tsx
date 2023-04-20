@@ -166,8 +166,8 @@ const AddModules: React.FC<IAddModuleProps> = () => {
   const handleSelections = (options: any) => {
     let selectionOption = options?.map((item: any) => {
       return {
-        selection: Object.values(item)[3],
-        description: Object.values(item)[0]
+        selection: item.name,
+        description: item.desc
       }
     })
     return selectionOption;
@@ -176,7 +176,7 @@ const AddModules: React.FC<IAddModuleProps> = () => {
   const handleSubjectiveQuizSelections = (options: any) => {
     let selectionOption = options?.map((item: any) => {
       return {
-        selection: Object.values(item)[2]
+        selection: item.value
       }
     })
     return selectionOption;

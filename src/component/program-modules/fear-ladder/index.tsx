@@ -27,11 +27,13 @@ const FearLadder: React.FC<IFearLadderProps> = ({ handleSubmit, setContent, setH
   });
 
   const handleNumberValidation = (value: string) => {
-    if (Number(value) <= 0) {
-      setError("Steps can not be less than or equal to zero")
+    if (Number(value) <= 0 || Number(value) > 10) {
+      setError("Steps can not be less than 0 or greater than 10")
     }
     else if (!new RegExp(/^[0-9\b]+$/).test(value)) {
       setError("Steps can only be integer")
+    } else if (value.match("00[^0]*")) {
+      setError("Invalid steps count")
     }
     else { setError("") }
   };

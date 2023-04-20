@@ -29,7 +29,11 @@ const QuillActivityInput = (props: any) => {
   useEffect(() => {
     if (quill) {
       quill.on('text-change', (delta, oldDelta, source) => {
-        setValue(quill.root.innerHTML)
+        if(quill.root.innerHTML === '<p><br></p>'){
+          setValue("")
+        } else {
+          setValue(quill.root.innerHTML)
+        }
       });
     }
   }, [value, quill, setValue]);
