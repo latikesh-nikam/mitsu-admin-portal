@@ -186,8 +186,8 @@ const AddModules: React.FC<IAddModuleProps> = () => {
     let selectionOption = options?.map((item: any, index: number) => {
       return {
         index: index + 1,
-        title: Object.values(item)[3],
-        description: Object.values(item)[0]
+        title: item.name,
+        description: item.desc
       }
     })
     return selectionOption;
