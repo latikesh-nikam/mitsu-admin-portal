@@ -50,7 +50,7 @@ const TextInput: React.FC<ITextInputProps> = ({ handleSubmit, setContent, setHea
         </Stack>
         <Stack spacing={10}>
           <FormControl>
-            <FormLabel>Content</FormLabel>
+            <FormLabel className={styles.formLabels}>Content<span className={styles.requiredField}>*</span></FormLabel>
             <QuillActivityInput value={content} setValue={setContent} />
           </FormControl>
           <Button type="submit" disabled={!heading || !content || !!errors?.heading?.message}>Submit</Button>

@@ -68,18 +68,18 @@ const FearLadder: React.FC<IFearLadderProps> = ({ handleSubmit, setContent, setH
             type='text'
             name='completionTime'
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                setCompletionTime(e.target.value);
-                handleNumberValidation(e.target.value);
+              setCompletionTime(e.target.value);
+              handleNumberValidation(e.target.value);
             }}
           />
           <span className={[styles.error, !error && styles.errorVisibility].join(" ")}>{error || <>&nbsp;</>}</span>
         </FormControl>
         <FormControl className={styles.quillContainer}>
-          <FormLabel className={styles.formLabels}>Content</FormLabel>
+          <FormLabel className={styles.formLabels}>Content<span className={styles.requiredField}>*</span></FormLabel>
           <QuillActivityInput value={content} setValue={setContent} />
-        </FormControl>
+        </FormControl >
         <Button type="submit" disabled={!heading || !content || !!errors?.heading?.message || !!error}>Submit</Button>
-      </Stack>
+      </Stack >
     </form >
   )
 }

@@ -18,32 +18,32 @@ const AddActivityForm: React.FC<IAddActivityProps> = ({ dayCount, handleChangeSe
 
   const handleNumberValidation = (value: string) => {
     if (Number(value) <= 0) {
-      setErrorDuration("Duration can not be less than or equal to zero")
+      // setErrorDuration("Duration can not be less than or equal to zero")
     }
     else if (Number(value) > 5) {
-      setErrorDuration("Duration can not be bigger than 5")
+      // setErrorDuration("Duration can not be bigger than 5")
     }
     else if (!new RegExp(/^[0-9\b]+$/).test(value)) {
       setErrorDuration("Duration can only be integer")
     } else if (value.match("00[^0]*")) {
       setErrorDuration("Invalid duration")
     }
-    else { setErrorDuration("") }
+    // else { setErrorDuration("") }
   };
 
-  const handleNameValidation = (value: string) => {
-    if (value.trim() === "") {
-      setErrorName("Field can not be empty!");
-    }
-    else {
-      setErrorName("")
-    }
-  };
+  // const handleNameValidation = (event: React.ChangeEvent<HTMLInputElement>, index: number, key: string) => {
+
+  //   if (event.target.value.trim() === "") {
+  //     setErrorName({ ...errorName, [`${event.target.name}`]: "Field can not be empty!" })
+  //   } else {
+  //     delete errorName[`${event.target.name}${index}`]; setErrorName(errorName)
+  //   }
+  // };
 
   return (
     <div className={styles.container}>
       <Stack spacing={2}>
-        <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}}>
+        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
           <FormLabel>Completion Approval</FormLabel>
           <Checkbox
             name={`activityName-${activityIndex}`}
@@ -53,12 +53,15 @@ const AddActivityForm: React.FC<IAddActivityProps> = ({ dayCount, handleChangeSe
         </div>
         <FormControl>
           <FormLabel className={styles.formLabels}>Activity Name<span className={styles.requiredField}>*</span></FormLabel>
-          <Input name={`activityName-${activityFieldCount}`} required onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          <Input name={`activityName${activityFieldCount}`} required onChange={(e) => {
             setActivityName(e.target.value);
-            handleNameValidation(e.target.value);
+            // handleNameValidation(e, activityFieldCount, `activityName${activityFieldCount}`);
           }
-          } />
-          <span className={[styles.error, !errorName && styles.errorVisibility].join(" ")}>{errorName || <>&nbsp;</>}</span>
+          }
+          />
+
+          {/* <span className={[styles.error, !errorName[`activityName${activityFieldCount}`] && styles.errorVisibility].join(" ")}>{errorName[`activityName${activityFieldCount}`] || <>&nbsp;</>}</span> */}
+
         </FormControl>
 
         <FormControl>
@@ -70,7 +73,9 @@ const AddActivityForm: React.FC<IAddActivityProps> = ({ dayCount, handleChangeSe
           } placeholder="Enter duration in min" type="number" onKeyDown={(e) =>
             ["ArrowUp", "ArrowDown", "e", "E"].includes(e.key) && e.preventDefault()
           } step={1} />
-          <span className={[styles.error, !errorDuration && styles.errorVisibility].join(" ")}>{errorDuration || <>&nbsp;</>}</span>
+
+          {/* <span className={[styles.error, !errorDuration && styles.errorVisibility].join(" ")}>{errorDuration || <>&nbsp;</>}</span> */}
+
         </FormControl>
 
         <FormControl className={styles.subContainer}>

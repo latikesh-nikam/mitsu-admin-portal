@@ -15,6 +15,9 @@ const ShowModalCheckboxList: React.FC<Props> = ({ open, setOpen, setSubjectiveQu
   const [options, setOptions] = useState<any>([
     { id: uuidv4(), label: `Option-1`, value: '' }
   ]);
+  const [dynamicError, setDynamicError] = useState<{ [key: string]: string }>({
+    option0: "Field can not be empty!"
+  });
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -30,9 +33,20 @@ const ShowModalCheckboxList: React.FC<Props> = ({ open, setOpen, setSubjectiveQu
     setOptions([{}])
   };
 
+  const handleDynamicInputValidation = (event: React.ChangeEvent<HTMLInputElement>, index: number, key: string) => {
+
+    let data = [...options];
+    if (data[index][key].trim() === '') {
+      setDynamicError({ ...dynamicError, [`option${index}`]: "Field can not be empty!" })
+    } else {
+      delete dynamicError[`option${index}`]; setDynamicError(dynamicError)
+    }
+  };
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
     let data = [...options];
     data[index].value = event.target.value;
+    handleDynamicInputValidation(event, index, `value`);
     setOptions(data);
   };
 
@@ -50,6 +64,8 @@ const ShowModalCheckboxList: React.FC<Props> = ({ open, setOpen, setSubjectiveQu
             setOptions={setOptions}
             handleInputChange={handleInputChange}
             setOpen={setOpen}
+            handleDynamicValidation={handleDynamicInputValidation}
+            dynamicError={dynamicError}
           />
         }
         open={open}

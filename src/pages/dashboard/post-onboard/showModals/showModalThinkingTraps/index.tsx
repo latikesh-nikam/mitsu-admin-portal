@@ -13,6 +13,9 @@ interface Props {
 const ShowModalThinkingTraps: React.FC<Props> = ({ open, setOpen, setThinkingTrapFormData }) => {
   const [heading, setHeading] = useState<any>("");
   const [questionText, setQuestionText] = useState<any>("");
+  const [dynamicError, setDynamicError] = useState<{ [key: string]: string }>({
+    name0: "Field can not be empty!"
+  });
 
   const [options, setOptions] = useState<any>([{
     id: uuidv4(), label: "Selection-1", name: "", desc: ""
@@ -43,6 +46,14 @@ const ShowModalThinkingTraps: React.FC<Props> = ({ open, setOpen, setThinkingTra
     setOptions(data);
   };
 
+  const handleDynamicInputValidation = (event: React.ChangeEvent<HTMLInputElement>, index: number, key: string) => {
+
+    let data = [...options];
+    if (data[index][key].trim() === '') {
+      setDynamicError({ ...dynamicError, [`${event.target.name}${index}`]: "Field can not be empty!" })
+    } else { delete dynamicError[`${event.target.name}${index}`]; setDynamicError(dynamicError) }
+  }
+
   return (
     <>
       <BasicModalDialog
@@ -57,6 +68,8 @@ const ShowModalThinkingTraps: React.FC<Props> = ({ open, setOpen, setThinkingTra
             setOptions={setOptions}
             handleInputChange={handleInputChange}
             setOpen={setOpen}
+            handleDynamicValidation={handleDynamicInputValidation}
+            dynamicError={dynamicError}
           />
         }
         open={open}

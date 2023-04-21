@@ -8,7 +8,7 @@ import { IAddDayProps } from './addDay.types';
 import { dayData } from './addDay.data';
 import AddActivityForm from '../add-activity';
 import { Button } from '@mui/joy';
-import { Add } from '@mui/icons-material';
+import { Add, Delete } from '@mui/icons-material';
 import { IActivityProps, IOptionProps } from '../../interface';
 
 const AddDays: React.FC<IAddDayProps> = ({ handleDateChange, selectDate, activityName, duration, handleChangeSelect, handleInputChange, selectedOptions, setActivityName, setDuration, setSelectedOptions, activitiesArr, setActivitiesArr, activityFieldCount, setActivityFieldCount, errorDuration, errorName, setErrorDuration, setErrorName, completionArr, setCompletionArr }) => {
@@ -114,9 +114,9 @@ const AddDays: React.FC<IAddDayProps> = ({ handleDateChange, selectDate, activit
                       <div className={styles.activityWrapper} key={activityIndex}>
                         <div className={styles.delActivityBtn}>
                           <Button
-                            variant="outlined"
-                            color="neutral"
-                            startDecorator={<Add />}
+                            variant="solid"
+                            color="danger"
+                            startDecorator={<Delete />}
                             onClick={() => handleDeleteActivity(activityIndex, option)}
                             type="button"
                             className={styles.addBtn}

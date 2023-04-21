@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/joy/Button';
 import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
@@ -14,8 +14,13 @@ import { validateNameField } from '../../../utils/constants/validation';
 import { useForm } from 'react-hook-form';
 import QuillActivityInput from '../../activityQuillInput';
 import { v4 as uuidv4 } from "uuid";
+import { isEmpty } from 'lodash';
 
-const GroundingExercise: React.FC<IGroundingExerciseProps> = ({ handleSubmit, setHeading, setQuestionText, questionText, heading, options, setOptions, handleInputChange, handleChangeSelect }) => {
+const GroundingExercise: React.FC<IGroundingExerciseProps> = ({ handleSubmit, setHeading, setQuestionText, questionText, heading, options, setOptions, handleInputChange, handleChangeSelect, handleDynamicValidation, dynamicError }) => {
+
+  const [error, setError] = useState<any>({
+    subScreens0: ""
+  });
 
   const handleAddOption = () => {
     const values = [...options];
@@ -74,7 +79,7 @@ const GroundingExercise: React.FC<IGroundingExerciseProps> = ({ handleSubmit, se
           </FormControl>
 
           <FormControl className={styles.quillContainer}>
-            <FormLabel>Content Text</FormLabel>
+            <FormLabel className={styles.formLabels}>Content<span className={styles.requiredField}>*</span></FormLabel>
             <QuillActivityInput value={questionText} setValue={setQuestionText} />
           </FormControl>
 
@@ -94,11 +99,17 @@ const GroundingExercise: React.FC<IGroundingExerciseProps> = ({ handleSubmit, se
 
                     <FormControl>
                       <FormLabel className={styles.formLabels}>Name<span className={styles.requiredField}>*</span></FormLabel>
-                      <Input name="name" value={val.name} autoFocus onChange={(e) => handleInputChange(e, index)} />
-                    </FormControl>
+                      <Input name="name" value={val.name} autoFocus onChange={(e) => {
+                        handleInputChange(e, index);
+                        handleDynamicValidation(e, index, 'name');
+                      }}
+                      />
 
+                      <span className={[styles.error, !dynamicError[`name${[index]}`] && styles.errorVisibility].join(" ")}>{dynamicError[`name${[index]}`] || <>&nbsp;</>}</span>
+
+                    </FormControl>
                     <FormControl className={styles.carouselQuill}>
-                      <FormLabel className={styles.formLabels}>Description<span className={styles.requiredField}>*</span></FormLabel>
+                      <FormLabel className={styles.formLabels}>Description</FormLabel>
                       <QuillActivityInput value={val.desc} setValue={(e: any) => handleInputChange(e, index)} />
                     </FormControl>
 
@@ -116,13 +127,14 @@ const GroundingExercise: React.FC<IGroundingExerciseProps> = ({ handleSubmit, se
                         menuPlacement="bottom"
                         selectedOptions={val.subScreens}
                       />
+                      <span className={[styles.error, !isEmpty(val.subScreens) && styles.errorVisibility].join(" ")}>{`Field can not be empty!`}<>&nbsp;</></span>
                     </FormControl>
                   </div>
                 )
               })
             }
           </div>
-          <Button type="submit" disabled={!!errors?.heading?.message || !heading || !questionText}>Submit</Button>
+          <Button type="submit" disabled={!!errors?.heading?.message || !heading || !questionText || !(Object.keys(dynamicError).length === 0)}>Submit</Button>
         </Stack>
       </form>
     </div>

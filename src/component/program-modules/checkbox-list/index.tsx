@@ -12,8 +12,9 @@ import { v4 as uuidv4 } from 'uuid';
 import QuillActivityInput from '../../activityQuillInput';
 import { validateNameField } from '../../../utils/constants/validation';
 import { useForm } from 'react-hook-form';
+import { isEmpty } from 'lodash';
 
-const CheckboxList: React.FC<ICheckboxListProps> = ({ handleSubmit, setContent, content, pageHeading, setPageHeading, setOptions, options, handleInputChange }) => {
+const CheckboxList: React.FC<ICheckboxListProps> = ({ handleSubmit, setContent, content, pageHeading, setPageHeading, setOptions, options, handleInputChange, handleDynamicValidation, dynamicError }) => {
 
   const handleAddOption = () => {
     const values = [...options];
@@ -82,9 +83,15 @@ const CheckboxList: React.FC<ICheckboxListProps> = ({ handleSubmit, setContent, 
                 return (
                   <div className={styles.optionList} key={index}>
                     <FormControl className={styles.options}>
-                      <FormLabel>{val.label}</FormLabel>
-                      <Input name={`option${index}`} value={val.value} required onChange={e => handleInputChange(e, index)}
+
+                      <FormLabel className={styles.formLabels}>{val.label}<span className={styles.requiredField}>*</span></FormLabel>
+                      <Input name={`option${index}`} value={val.value} required onChange={e => {
+                        handleInputChange(e, index);
+                        handleDynamicValidation(e, index, `value`);
+                      }}
                       />
+
+                      <span className={[styles.error, !dynamicError[`option${[index]}`] && styles.errorVisibility].join(" ")}>{dynamicError[`option${[index]}`] || <>&nbsp;</>}</span>
                     </FormControl>
 
                     <div onClick={() => {
@@ -96,7 +103,7 @@ const CheckboxList: React.FC<ICheckboxListProps> = ({ handleSubmit, setContent, 
               })
             }
           </div>
-          <Button type="submit" disabled={!pageHeading || !content || !!errors?.heading?.message}>Submit</Button>
+          <Button type="submit" disabled={!pageHeading || !content || !!errors?.heading?.message || !isEmpty(dynamicError)}>Submit</Button>
         </Stack>
       </form>
     </div>

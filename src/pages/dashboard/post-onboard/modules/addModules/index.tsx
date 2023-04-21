@@ -7,8 +7,6 @@ import PostOnboardingScreen from '../..';
 import { uploadFilesToS3 } from '../../../../../utils/constants/urls';
 import { toast } from 'react-hot-toast';
 import axiosInstance from '../../../../../services/service/axiosfileUpload.instance';
-import CustomSelect from '../../../../../component/select';
-import { weekData } from './addModule.data';
 import Stack from '@mui/joy/Stack';
 import { addModules } from '../../../../../services/service/module.service';
 import { Add } from '@mui/icons-material';
@@ -59,6 +57,13 @@ const AddModules: React.FC<IAddModuleProps> = () => {
   const [audioArr, setAudioArr] = useState<any>([])
   const [videoArr, setVideoArr] = useState<any>([]);
   const [modulesData, setModulesData] = useState<any>([]);
+
+  // const [errorDuration, setErrorDuration] = useState<{ [key: string]: string }>({ activityDuration1: "Field can not be empty!" });
+
+  // const [errorName, setErrorName] = useState<{ [key: string]: string }>(
+  //   { activityName1: "Field can not be empty!" }
+  // );
+
   const [errorDuration, setErrorDuration] = useState<string>("Field can not be empty!");
   const [errorName, setErrorName] = useState<string>("Field can not be empty!");
   const [completionArr, setCompletionArr] = useState<any>([])
@@ -76,27 +81,28 @@ const AddModules: React.FC<IAddModuleProps> = () => {
     setSelectDate(e);
     setSelectedOptions(e);
     setActivityFieldCount(1)
-    setCompletionArr((completionArr: any) => [...completionArr, { activityCount: 1, isPrimary: false, dayCount: e[e.length-1].value}])
+    setCompletionArr((completionArr: any) => [...completionArr, { activityCount: 1, isPrimary: false, dayCount: e[e.length - 1].value }])
   };
 
-  const handleWeekChange = (params: any) => {
-    setSelectWeek(params);
-  }
+  // const handleSelectChange = (e: any, actionMeta: any, activityCount: number, dayCount: number,) => {
+  // const handleWeekChange = (params: any) => {
+  //   setSelectWeek(params);
+  // }
 
   const handleSelectChange = (e: any, actionMeta: any, activityCount: number, dayCount: number, screenIndex: number) => {
     let data = [...selectedOptions];
     setSelectedOptions(data);
-    const newScreenArray=[...screenArr]
-    const oldIndex = newScreenArray.findIndex((obj)=>{
-      const {dayCount:d,activityCount:a,screenIndex:s}=obj
-      return dayCount===d && activityCount==a && screenIndex==s;
+    const newScreenArray = [...screenArr]
+    const oldIndex = newScreenArray.findIndex((obj) => {
+      const { dayCount: d, activityCount: a, screenIndex: s } = obj
+      return dayCount === d && activityCount == a && screenIndex == s;
     })
-    if(oldIndex!==-1){
-      newScreenArray[oldIndex]={ dayCount: dayCount, activityCount: activityCount, type: e.value, name: 'Mood_Log', screenIndex: screenIndex };
-    }else{
+    if (oldIndex !== -1) {
+      newScreenArray[oldIndex] = { dayCount: dayCount, activityCount: activityCount, type: e.value, name: 'Mood_Log', screenIndex: screenIndex };
+    } else {
       newScreenArray.push({ dayCount: dayCount, activityCount: activityCount, type: e.value, name: 'Mood_Log', screenIndex: screenIndex });
     }
-    setScreenArray( [...newScreenArray])
+    setScreenArray([...newScreenArray])
     const modalComponent = e
     if (modalComponent) {
       actionMeta.action === "remove-value" ? setOpen(false) : setOpen(true)
@@ -138,7 +144,6 @@ const AddModules: React.FC<IAddModuleProps> = () => {
       toast.error(`${uploadData.statusText}`);
     }
   };
-
 
   const resetDetails = () => {
     setSelectDate([])
@@ -331,7 +336,7 @@ const AddModules: React.FC<IAddModuleProps> = () => {
   const getActivitiesListAsPerDay = (day: number, activitiesList: any) => {
     let val = activitiesList.map((item: any, index: number) => {
       if (item.dayCount === day) {
-        const [{isPrimary} ] =completionArr.filter((element:any)=>{return element.dayCount===item.dayCount && element.activityCount===item.activityCount})
+        const [{ isPrimary }] = completionArr.filter((element: any) => { return element.dayCount === item.dayCount && element.activityCount === item.activityCount })
         return {
           name: item.name,
           durationMin: Number(item.durationMin),
@@ -417,48 +422,34 @@ const AddModules: React.FC<IAddModuleProps> = () => {
           <div className={styles.formElements}>
             <div className={styles.inputContainer}>
               <div className={styles.specificElements}>
-                <Stack spacing={2}>
-                  <FormControl>
-                    <FormLabel className={styles.formLabels}>Module Name<span className={styles.requiredField}>*</span></FormLabel>
 
-                    <Input value={moduleHeading} autoFocus {...register("moduleheading", {
-                      required: {
-                        value: true,
-                        message: "Please enter Module Name!"
-                      },
-                      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setModuleHeading(e.target.value),
-                      maxLength: {
-                        value: 50,
-                        message: "Maximum length exceeded"
-                      },
-                      validate: validateNameField("Module Name")
-                    })}
-                    />
+                <FormControl className={styles.formControl}>
+                  <FormLabel className={styles.formLabels}>Module Name<span className={styles.requiredField}>*</span></FormLabel>
+                  <Input value={moduleHeading} autoFocus {...register("moduleheading", {
+                    required: {
+                      value: true,
+                      message: "Please enter Module Name!"
+                    },
+                    onChange: (e: React.ChangeEvent<HTMLInputElement>) => setModuleHeading(e.target.value),
+                    maxLength: {
+                      value: 50,
+                      message: "Maximum length exceeded"
+                    },
+                    validate: validateNameField("Module Name")
+                  })}
+                    variant="outlined"
+                  />
 
-                    <span className={[styles.error, !errors?.moduleheading && styles.errorVisibility].join(" ")}>{errors?.moduleheading?.message || <>&nbsp;</>}</span>
+                  <span className={[styles.error, !errors?.moduleheading && styles.errorVisibility].join(" ")}>{errors?.moduleheading?.message || <>&nbsp;</>}</span>
 
-                  </FormControl>
+                </FormControl>
 
-                  <FormControl>
-                    <FormLabel className={styles.formLabels}>Module Description<span className={styles.requiredField}>*</span></FormLabel>
-                    <QuillActivityInput value={moduleDesc} setValue={setModuleDesc} />
-                  </FormControl >
+                <FormControl className={styles.formControl}>
+                  <FormLabel className={styles.formLabels}>Module Description<span className={styles.requiredField}>*</span></FormLabel>
+                  <QuillActivityInput value={moduleDesc} setValue={setModuleDesc} />
+                </FormControl >
 
-                  <br /><br />
-                  {/* <FormControl>
-                    <FormLabel className={styles.formLabels}>Week<span className={styles.requiredField}>*</span></FormLabel>
-                    <CustomSelect
-                      name="select-weeks"
-                      isMulti={false}
-                      dropdownOptions={weekData}
-                      handleChangeSelect={handleWeekChange}
-                      isAutoFocus={false}
-                      isSearchable={false}
-                      selectedOptions={selectWeek}
-                      menuPlacement={"bottom"}
-                    />
-                  </FormControl> */}
-                </Stack>
+                <br />
 
                 <FormControl className={styles.fileUploadWrapper}>
                   <FormLabel className={styles.formLabels}>Image Link<span className={styles.requiredField}>*</span></FormLabel>
@@ -519,7 +510,7 @@ const AddModules: React.FC<IAddModuleProps> = () => {
               />
             </div>
             <Button
-              disabled={(selectedOptions.length === 0) || !moduleHeading || !moduleDesc || !!errorName || !!errorDuration}
+              disabled={(selectedOptions.length === 0) || !moduleHeading || !moduleDesc}
               onClick={() => submitModule()}
               startDecorator={<Add />}
             >Submit Module

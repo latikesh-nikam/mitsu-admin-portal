@@ -12,8 +12,9 @@ import { validateNameField } from '../../../utils/constants/validation';
 import { useForm } from 'react-hook-form';
 import QuillActivityInput from '../../activityQuillInput';
 import { v4 as uuidv4 } from 'uuid';
+import { isEmpty } from 'lodash';
 
-const ThinkingTraps: React.FC<IThinkingTrapsProps> = ({ handleSubmit, setHeading, setQuestionText, questionText, heading, options, setOptions, handleInputChange, }) => {
+const ThinkingTraps: React.FC<IThinkingTrapsProps> = ({ handleSubmit, setHeading, setQuestionText, questionText, heading, options, setOptions, handleInputChange, dynamicError, handleDynamicValidation }) => {
 
   const handleAddOption = () => {
     const values = [...options];
@@ -71,7 +72,7 @@ const ThinkingTraps: React.FC<IThinkingTrapsProps> = ({ handleSubmit, setHeading
           </FormControl>
 
           <FormControl className={styles.quillContainer}>
-            <FormLabel>Content Text</FormLabel>
+            <FormLabel className={styles.formLabels}>Content</FormLabel>
             <QuillActivityInput value={questionText} setValue={setQuestionText} />
           </FormControl>
 
@@ -90,12 +91,16 @@ const ThinkingTraps: React.FC<IThinkingTrapsProps> = ({ handleSubmit, setHeading
                     </div>
 
                     <FormControl>
-                      <FormLabel>Name</FormLabel>
-                      <Input name="name" autoFocus required value={val.name} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange(e, index)} />
+                      <FormLabel className={styles.formLabels}>Name<span className={styles.requiredField}>*</span></FormLabel>
+                      <Input name="name" autoFocus required value={val.name} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        handleInputChange(e, index);
+                        handleDynamicValidation(e, index, 'name');
+                      }} />
+                      <span className={[styles.error, !dynamicError[`name${[index]}`] && styles.errorVisibility].join(" ")}>{dynamicError[`name${[index]}`] || <>&nbsp;</>}</span>
                     </FormControl>
 
                     <FormControl className={styles.carouselQuill}>
-                      <FormLabel>Description</FormLabel>
+                      <FormLabel className={styles.formLabels}>Description<span className={styles.requiredField}>*</span></FormLabel>
                       <QuillActivityInput value={val.desc} setValue={(e: any) => handleInputChange(e, index)} />
                     </FormControl>
 
@@ -104,7 +109,7 @@ const ThinkingTraps: React.FC<IThinkingTrapsProps> = ({ handleSubmit, setHeading
               })
             }
           </div>
-          <Button type="submit" disabled={!heading || !questionText}>Submit</Button>
+          <Button type="submit" disabled={!heading || !questionText || !isEmpty(dynamicError)}>Submit</Button>
         </Stack>
       </form>
     </div>

@@ -16,6 +16,10 @@ export interface IAddActivityProps {
   activityFieldCount: number
   setActivityFieldCount: (e: number) => void
   dayCount: number
+  // errorName: { [key: string]: string }
+  // setErrorName: (val: { [key: string]: string }) => void
+  // errorDuration: { [key: string]: string }
+  // setErrorDuration: (val: { [key: string]: string }) => void
   errorName: string
   setErrorName: (val: string) => void
   errorDuration: string

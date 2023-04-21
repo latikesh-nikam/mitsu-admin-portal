@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import BasicModalDialog from '../../../../../component/modal';
-import { getFormData } from '../../../../../utils/formData';
 import GroundingExercise from '../../../../../component/program-modules/grounding-exercise';
 import ShowModalActivityAudio from '../showModalActivityAudio';
 import ShowModalActivityVideo from '../showModalActivityVideo';
 import ShowQuizQuesModal from '../showQuizQuesModal';
 import { v4 as uuidv4 } from "uuid";
+import _ from 'lodash';
+
+
 interface Props {
   open: boolean
   setOpen: (open: boolean) => void
@@ -33,9 +35,12 @@ const ShowModalGroundingExercise: React.FC<Props> = ({ open, setOpen, postOnboar
   const [audioData, setAudioData] = useState([]);
   const [videoData, setVideoData] = useState([]);
   const [quizData, setQuizData] = useState([]);
-  const [quizOpen, setQuizOpen] = useState(false)
-  const [videoOpen, setVideoOpen] = useState(false)
-  const [audioOpen, setAudioOpen] = useState(false)
+  const [quizOpen, setQuizOpen] = useState(false);
+  const [videoOpen, setVideoOpen] = useState(false);
+  const [audioOpen, setAudioOpen] = useState(false);
+  const [dynamicError, setDynamicError] = useState<{ [key: string]: string }>({
+    name0: "Field can not be empty!"
+  });
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -55,10 +60,24 @@ const ShowModalGroundingExercise: React.FC<Props> = ({ open, setOpen, postOnboar
     setQuestionText("")
   };
 
+  const handleDynamicInputValidation = (event: React.ChangeEvent<HTMLInputElement>, index: number, key: string) => {
+
+    let data = [...options];
+    if (data[index][key].trim() === '') {
+      setDynamicError({ ...dynamicError, [`${event.target.name}${index}`]: "Field can not be empty!" })
+    } else { delete dynamicError[`${event.target.name}${index}`]; setDynamicError(dynamicError) }
+  }
+  // if (event.target.name === "name") {
+  //   if (data[index].name.trim() === "") {
+  //     setDynamicError({ ...dynamicError, [`${event.target.name}${index}`]: "Field can not be empty!" })
+  //   } else { delete dynamicError[`${event.target.name}${index}`]; setDynamicError(dynamicError) }
+  // }
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
     let data = [...options];
     if ((!!event.target) && (event.target.name === "name")) {
       data[index].name = event.target.value;
+      handleDynamicInputValidation(event, index, 'name')
     }
     else {
       data[index].desc = event
@@ -66,10 +85,12 @@ const ShowModalGroundingExercise: React.FC<Props> = ({ open, setOpen, postOnboar
     setOptions([...data])
   };
 
-  const handleSubScreenSelect = (e: any, actionMeta: any, activityFieldCount: any, dayCount: number, index: number) => {
+
+  const handleSubScreenSelect = (e: any, actionMeta: any, activityFieldCount: number, dayCount: number, index: number) => {
     let data = [...options]
     data[index].subScreens = e
     setOptions([...data]);
+    // handleDynamicSelectValidation(e, index)
 
     if (e.label === 'Quiz') {
       setQuizOpen(true)
@@ -101,6 +122,8 @@ const ShowModalGroundingExercise: React.FC<Props> = ({ open, setOpen, postOnboar
             setOpen={setOpen}
             handleChangeSelect={handleSubScreenSelect}
             selectedOptions={subScreenData}
+            handleDynamicValidation={handleDynamicInputValidation}
+            dynamicError={dynamicError}
           />
         }
         open={open}

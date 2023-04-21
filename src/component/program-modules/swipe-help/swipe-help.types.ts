@@ -8,4 +8,6 @@ export interface ISwipeHelpProps {
   setOptions: (options: any) => void
   handleInputChange: (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, index: number) => void
   setOpen: (open: boolean) => void
+  handleDynamicValidation: (event: React.ChangeEvent<HTMLInputElement>, index: number, key: string) => void
+  dynamicError: any
 }

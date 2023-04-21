@@ -5,7 +5,6 @@ import { useEffect } from 'react';
 
 const QuillActivityInput = (props: any) => {
   const { value, setValue } = props;
-
   const theme = 'snow';
 
   const modules = {

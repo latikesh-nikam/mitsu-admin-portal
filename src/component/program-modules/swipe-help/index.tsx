@@ -12,8 +12,9 @@ import { validateNameField } from '../../../utils/constants/validation';
 import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from "uuid";
 import QuillActivityInput from '../../activityQuillInput';
+import { isEmpty } from 'lodash';
 
-const SwipeHelp: React.FC<ISwipeHelpProps> = ({ handleSubmit, setOptions, options, handleInputChange, setOpen, pageHeading, setPageHeading }) => {
+const SwipeHelp: React.FC<ISwipeHelpProps> = ({ handleSubmit, setOptions, options, handleInputChange, setOpen, pageHeading, setPageHeading, handleDynamicValidation, dynamicError }) => {
 
   const handleAddOption = () => {
     const values = [...options];
@@ -84,12 +85,17 @@ const SwipeHelp: React.FC<ISwipeHelpProps> = ({ handleSubmit, setOptions, option
                     </div>
 
                     <FormControl>
-                      <FormLabel>Carousel Heading</FormLabel>
-                      <Input name="name" autoFocus required value={val.name} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange(e, index)} />
+                      <FormLabel className={styles.formLabels}>Heading<span className={styles.requiredField}>*</span></FormLabel>
+                      <Input name="name" autoFocus required value={val.name} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        handleInputChange(e, index);
+                        handleDynamicValidation(e, index, 'name');
+                      }} />
+
+                      <span className={[styles.error, !dynamicError[`name${[index]}`] && styles.errorVisibility].join(" ")}>{dynamicError[`name${[index]}`] || <>&nbsp;</>}</span>
                     </FormControl>
 
                     <FormControl className={styles.quillContainer}>
-                      <FormLabel>Content</FormLabel>
+                      <FormLabel className={styles.formLabels}>Content<span className={styles.requiredField}>*</span></FormLabel>
                       <QuillActivityInput value={val.desc} setValue={(e: any) => handleInputChange(e, index)} />
                     </FormControl>
 
@@ -99,7 +105,7 @@ const SwipeHelp: React.FC<ISwipeHelpProps> = ({ handleSubmit, setOptions, option
             }
           </div>
 
-          <Button type="submit" disabled={!pageHeading || !!errors?.heading?.message}>Submit</Button>
+          <Button type="submit" disabled={!pageHeading || !!errors?.heading?.message || !isEmpty(dynamicError)}>Submit</Button>
         </Stack>
       </form>
     </div>

@@ -47,7 +47,7 @@ const EmotionIntensity: React.FC<IEmotionIntensityProps> = ({ handleSubmit, setC
         </FormControl>
 
         <FormControl className={styles.quillContainer}>
-          <FormLabel>Content</FormLabel>
+          <FormLabel className={styles.formLabels}>Content<span className={styles.requiredField}>*</span></FormLabel>
           <QuillActivityInput value={content} setValue={setContent} />
         </FormControl>
         <Button type="submit" disabled={!heading || !content || !!errors?.heading?.message}>Submit</Button>

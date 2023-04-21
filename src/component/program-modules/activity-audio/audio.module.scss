@@ -5,33 +5,31 @@
   overflow-y: scroll;
   padding: 0.5rem;
 
-  .formControl {
-    .formLabels {
-      font-family: $fontFamilySourceCode;
-      font-weight: 500;
-      font-size: toRem(15);
-      color: black !important;
+  .formLabels {
+    font-family: $fontFamilySourceCode;
+    font-weight: 500;
+    font-size: toRem(15);
+    color: black !important;
 
-      .requiredField {
-        color: red;
-        font-size: toRem(12);
-        margin-left: 0.1rem;
-        padding: 0.5rem 0;
-      }
-    }
-
-    .errorVisibility {
-      visibility: hidden;
-    }
-
-    .error {
-      font-family: $fontFamilySourceCode;
-      font-size: toRem(13);
-      color: #eb0000;
-      font-weight: 200;
-      line-height: 150%;
+    .requiredField {
+      color: red;
+      font-size: toRem(12);
+      margin-left: 0.1rem;
       padding: 0.5rem 0;
     }
+  }
+
+  .errorVisibility {
+    visibility: hidden;
+  }
+
+  .error {
+    font-family: $fontFamilySourceCode;
+    font-size: toRem(13);
+    color: #eb0000;
+    font-weight: 200;
+    line-height: 150%;
+    padding: 0.5rem 0;
   }
 
   .addBtn {
@@ -43,18 +41,6 @@
     flex-direction: column;
     grid-gap: 4px;
     margin: 1rem 0;
-
-    .errorVisibility {
-      visibility: hidden;
-    }
-
-    .error {
-      font-family: $fontFamilySourceCode;
-      font-size: toRem(13);
-      color: #eb0000;
-      font-weight: 200;
-      line-height: 150%;
-    }
 
     .fileUploadSubWrapper {
       display: flex;

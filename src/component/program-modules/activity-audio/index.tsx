@@ -52,7 +52,7 @@ const ActivityAudio: React.FC<IActivityAudioProps> = ({ handleSubmit, setContent
       <Stack spacing={10}>
 
         <FormControl>
-          <FormLabel>Content</FormLabel>
+          <FormLabel className={styles.formLabels}>Content<span className={styles.requiredField}>*</span></FormLabel>
           <QuillActivityInput value={content} setValue={setContent} />
         </FormControl>
 

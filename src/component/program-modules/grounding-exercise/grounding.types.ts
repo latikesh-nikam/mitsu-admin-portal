@@ -10,4 +10,7 @@ export interface IGroundingExerciseProps {
   setOpen: (open: boolean) => void
   handleChangeSelect: (params: any, actionMeta: any, activityFieldCount: number, dayCount: number, index: number) => void
   selectedOptions: any
+  handleDynamicValidation: (event: React.ChangeEvent<HTMLInputElement>, index: number, key: string) => void
+  dynamicError: any
+  // dynamicSelectError: any
 }
